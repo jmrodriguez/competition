@@ -1,4 +1,4 @@
-package competition
+package org.competition
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

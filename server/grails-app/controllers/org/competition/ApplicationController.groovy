@@ -1,4 +1,4 @@
-package competition
+package org.competition
 
 import grails.core.GrailsApplication
 import grails.util.Environment

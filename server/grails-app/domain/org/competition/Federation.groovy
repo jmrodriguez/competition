@@ -1,9 +1,5 @@
 package org.competition
 
-
-import grails.rest.*
-
-@Resource(readOnly = false, formats = ['json', 'xml'])
 class Federation {
     String name
     String description

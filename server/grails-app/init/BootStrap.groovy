@@ -1,5 +1,3 @@
-package competition
-
 import org.competition.Country
 
 class BootStrap {

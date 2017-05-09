@@ -2,7 +2,7 @@
 grails:
     profile: angular
     codegen:
-        defaultPackage: competition
+        defaultPackage: org.competition
     spring:
         transactionManagement:
             proxies: false
