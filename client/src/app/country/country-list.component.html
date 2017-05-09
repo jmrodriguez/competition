@@ -1,0 +1,31 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/country','create']" class="create">New Country</a></li>
+    </ul>
+</div>
+<div id="list-country" class="content scaffold-list" role="main">
+    <h1>Country List</h1>
+    <table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Iso Code</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let country of countryList; let e = even;">
+      <td>
+        <a [routerLink]="['/country','show',country.id]">{{country.id}}</a>
+      </td>
+      <td>
+        <span>{{country.isoCode}}</span>
+      </td>
+      <td>
+        <span>{{country.name}}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

@@ -1,0 +1,41 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/country','list']" class="list">Country List</a></li>
+    </ul>
+</div>
+<div id="persist-country" class="content scaffold-edit" role="main">
+    <h1>{{create ? "Create" : "Edit"}} Country</h1>
+    <ul class="errors" role="alert" *ngIf="errors">
+        <li *ngFor="let error of errors">{{error.message}}</li>
+    </ul>
+
+    <form #countryPersist="ngForm" (ngSubmit)="save()">
+        <fieldset class="form">
+            <div class="fieldcontain required">
+                <label for="isoCode">Iso Code
+                    <span class="required-indicator">*</span>
+                </label>
+                <input required name="isoCode" id="isoCode" [(ngModel)]="country.isoCode" type="text" #isoCode="ngModel"/>
+                <div [hidden]="isoCode.valid || isoCode.pristine"
+                     class="alert alert-danger">
+                    ISO Code is required
+                </div>
+            </div>
+
+            <div class="fieldcontain required">
+                <label for="name">Name
+                    <span class="required-indicator">*</span>
+                </label>
+                <input required name="name" id="name" [(ngModel)]="country.name" type="text" #name="ngModel"/>
+                <div [hidden]="name.valid || name.pristine"
+                     class="alert alert-danger">
+                    Name is required
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="buttons">
+            <input type="submit" [disabled]="!countryPersist.form.valid" class="save" [value]="create ? 'Save' : 'Update'"/>
+        </fieldset>
+    </form>
+</div>

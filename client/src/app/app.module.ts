@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { NavService } from './nav/nav.service';
 import { AppRoutingModule } from "./app-routing.module";
+import { CountryModule } from './country/country.module';
+
 
 @NgModule({
   declarations: [
@@ -21,8 +23,9 @@ import { AppRoutingModule } from "./app-routing.module";
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    NgbModule.forRoot()
-  ],
+    NgbModule.forRoot(),
+    CountryModule
+],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, NavService],
   bootstrap: [AppComponent]
 })

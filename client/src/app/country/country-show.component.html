@@ -1,0 +1,28 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a class="list" [routerLink]="['/country', 'list']" class="list">Country List</a></li>
+        <li><a class="create" [routerLink]="['/country', 'create']" class="create">New Country</a></li>
+    </ul>
+</div>
+<div id="show-part" class="content scaffold-show" role="main">
+    <h1>Show Country</h1>
+    <ol class="property-list country">
+  <li class="fieldcontain">
+    <span id="isoCode-label" class="property-label">Iso Code</span>
+    <div class="property-value" aria-labelledby="isoCode-label">
+      <span>{{country.isoCode}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="name-label" class="property-label">Name</span>
+    <div class="property-value" aria-labelledby="name-label">
+      <span>{{country.name}}</span>
+    </div>
+  </li>
+</ol>
+
+    <a class="edit" [routerLink]="['/country', 'edit', country.id]">Edit</a>
+    <button type="button" (click)="destroy()">Delete</button>
+
+</div>
