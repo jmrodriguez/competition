@@ -1,9 +1,11 @@
 package org.competition
 
 import grails.core.GrailsApplication
-import grails.util.Environment
-import grails.plugins.*
+import grails.plugin.springsecurity.annotation.Secured
+import grails.plugins.GrailsPluginManager
+import grails.plugins.PluginManagerAware
 
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class ApplicationController implements PluginManagerAware {
 
     GrailsApplication grailsApplication

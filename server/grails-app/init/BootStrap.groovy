@@ -1,16 +1,20 @@
 import org.competition.Country
+import org.competition.Role
+import org.competition.User
+import org.competition.UserRole
 
 class BootStrap {
+
+    Role rolSysadmin
 
     def init = { servletContext ->
 
         this.addCountries()
 
-        //this.addRoles()
-        /*if(!User.count()){
+        this.addRoles()
+        if(!User.count()){
             this.addUsers()
-        }*/
-    }
+        }    }
     def destroy = {
     }
 
@@ -21,6 +25,18 @@ class BootStrap {
             )
             country1.save(failOnError:true)
         }
+    }
+
+    private void addRoles() {
+        if(!Role.findByAuthority('ROLE_ADMIN')){
+            rolSysadmin = new Role(authority: 'ROLE_ADMIN', name:'System Administrator').save(failOnError:true)
+        }
+    }
+
+    private void addUsers() {
+        User sysadmin = new User(username:'juan.manuel.rodriguez@gmail.com', email:'juan.manuel.rodriguez@gmail.com', password:'password', name:'Juan Manuel', enabled:true).save(failOnError:true)
+
+        UserRole.create(sysadmin, rolSysadmin)
     }
 
 }

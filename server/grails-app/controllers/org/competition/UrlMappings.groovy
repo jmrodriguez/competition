@@ -3,6 +3,9 @@ package org.competition
 class UrlMappings {
 
     static mappings = {
+
+        "/api/federation"(resources:"federation")
+
         delete "/$controller/$id(.$format)?"(action:"delete")
         get "/$controller(.$format)?"(action:"index")
         get "/$controller/$id(.$format)?"(action:"show")
@@ -14,5 +17,6 @@ class UrlMappings {
 
         "500"(view: '/error')
         "404"(view: '/notFound')
+        //"401"(view: '/unauthorized')
     }
 }
