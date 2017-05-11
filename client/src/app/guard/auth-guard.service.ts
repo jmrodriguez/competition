@@ -5,7 +5,7 @@ import {
     RouterStateSnapshot,
     CanActivateChild
 }                           from '@angular/router';
-import { AuthService }      from '../login/auth.service';
+import { AuthService }      from '../services/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
@@ -22,11 +22,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     checkLogin(url: string): boolean {
-        if (this.authService.isLoggedIn) { return true; }
-        // Store the attempted URL for redirecting
-        this.authService.redirectUrl = url;
-        // Navigate to the login page
-        this.router.navigate(['/login']);
+        if (localStorage.getItem('currentUser')) {
+            // logged in so return true
+            return true;
+        }
+
+        // not logged in so redirect to login page with the return url
+        this.router.navigate(['/login'], { queryParams: { returnUrl: url }});
         return false;
     }
 

@@ -10,14 +10,12 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class TodoService {
 
-  private baseUrl = 'http://localhost:8080/';
-
   constructor(private http: Http) {
   }
 
   list(): Observable<Todo[]> {
     let subject = new Subject<Todo[]>();
-    this.http.get(this.baseUrl + 'todo')
+    this.http.get('todo')
       .map((r: Response) => r.json())
       .subscribe((json: any[]) => {
         subject.next(json.map((item: any) => new Todo(item)))
@@ -26,7 +24,7 @@ export class TodoService {
   }
 
   get(id: number): Observable<Todo> {
-    return this.http.get(this.baseUrl + 'todo/'+id)
+    return this.http.get('todo/'+id)
       .map((r: Response) => new Todo(r.json()));
   }
 
@@ -34,10 +32,10 @@ export class TodoService {
     const requestOptions = new RequestOptions();
     if (todo.id) {
       requestOptions.method = RequestMethod.Put;
-      requestOptions.url = this.baseUrl + 'todo/' + todo.id;
+      requestOptions.url = 'todo/' + todo.id;
     } else {
       requestOptions.method = RequestMethod.Post;
-      requestOptions.url = this.baseUrl + 'todo';
+      requestOptions.url = 'todo';
     }
     requestOptions.body = JSON.stringify(todo);
     requestOptions.headers = new Headers({"Content-Type": "application/json"});
@@ -47,7 +45,7 @@ export class TodoService {
   }
 
   destroy(todo: Todo): Observable<boolean> {
-    return this.http.delete(this.baseUrl + 'todo/' + todo.id).map((res: Response) => res.ok).catch(() => {
+    return this.http.delete('todo/' + todo.id).map((res: Response) => res.ok).catch(() => {
       return Observable.of(false);
     });
   }

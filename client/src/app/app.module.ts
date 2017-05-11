@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http, XHRBackend, RequestOptions} from '@angular/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { IndexComponent } from './index/index.component';
@@ -15,7 +15,9 @@ import { CountryModule } from './country/country.module';
 import { TodoModule } from './todo/todo.module';
 import { FederationModule } from './federation/federation.module';
 
-import { AuthService } from './login/auth.service';
+import { AuthService } from './services/auth.service';
+
+import {HttpFactory} from "./helpers/http.factory";
 
 @NgModule({
   declarations: [
@@ -39,7 +41,12 @@ import { AuthService } from './login/auth.service';
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     NavService,
     AuthGuard,
-    AuthService
+    AuthService,
+    {
+      provide: Http,
+      useFactory: HttpFactory,
+      deps: [XHRBackend, RequestOptions]
+    },
   ],
   bootstrap: [AppComponent]
 })

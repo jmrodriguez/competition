@@ -5,6 +5,7 @@ class UrlMappings {
     static mappings = {
 
         "/api/federation"(resources:"federation")
+        "/api/country"(resources:"country")
 
         delete "/$controller/$id(.$format)?"(action:"delete")
         get "/$controller(.$format)?"(action:"index")
