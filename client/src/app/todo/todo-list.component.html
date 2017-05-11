@@ -1,0 +1,31 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/todo','create']" class="create">New Todo</a></li>
+    </ul>
+</div>
+<div id="list-todo" class="content scaffold-list" role="main">
+    <h1>Todo List</h1>
+    <table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Iso Code</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let todo of todoList; let e = even;">
+      <td>
+        <a [routerLink]="['/todo','show',todo.id]">{{todo.id}}</a>
+      </td>
+      <td>
+        <span>{{todo.isoCode}}</span>
+      </td>
+      <td>
+        <span>{{todo.name}}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

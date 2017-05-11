@@ -1,0 +1,41 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/todo','list']" class="list">Todo List</a></li>
+    </ul>
+</div>
+<div id="persist-todo" class="content scaffold-edit" role="main">
+    <h1>{{create ? "Create" : "Edit"}} Todo</h1>
+    <ul class="errors" role="alert" *ngIf="errors">
+        <li *ngFor="let error of errors">{{error.message}}</li>
+    </ul>
+
+    <form #todoPersist="ngForm" (ngSubmit)="save()">
+        <fieldset class="form">
+            <div class="fieldcontain required">
+                <label for="isoCode">Iso Code
+                    <span class="required-indicator">*</span>
+                </label>
+                <input required name="isoCode" id="isoCode" [(ngModel)]="todo.isoCode" type="text" #isoCode="ngModel"/>
+                <div [hidden]="isoCode.valid || isoCode.pristine"
+                     class="alert alert-danger">
+                    ISO Code is required
+                </div>
+            </div>
+
+            <div class="fieldcontain required">
+                <label for="name">Name
+                    <span class="required-indicator">*</span>
+                </label>
+                <input required name="name" id="name" [(ngModel)]="todo.name" type="text" #name="ngModel"/>
+                <div [hidden]="name.valid || name.pristine"
+                     class="alert alert-danger">
+                    Name is required
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="buttons">
+            <input type="submit" [disabled]="!todoPersist.form.valid" class="save" [value]="create ? 'Save' : 'Update'"/>
+        </fieldset>
+    </form>
+</div>

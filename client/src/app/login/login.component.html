@@ -1,0 +1,26 @@
+<table>
+  <tbody>
+  <tr>
+    <td>
+      Username:
+    </td>
+    <td>
+      <input required name="username" id="username" [(ngModel)]="user.username" type="text" #username="ngModel"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Password:
+    </td>
+    <td>
+      <input required name="password" id="password" [(ngModel)]="user.password" type="password" #password="ngModel"/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <button type="button" (click)="login()">Login</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

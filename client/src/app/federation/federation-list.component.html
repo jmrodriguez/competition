@@ -1,0 +1,39 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/federation','create']" class="create">New Federation</a></li>
+    </ul>
+</div>
+<div id="list-federation" class="content scaffold-list" role="main">
+    <h1>Federation List</h1>
+    <table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Logo</th>
+      <th>Description</th>
+      <th>Country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let federation of federationList; let e = even;">
+      <td>
+        <a [routerLink]="['/federation','show',federation.id]">{{federation.id}}</a>
+      </td>
+      <td>
+        <span>{{federation.name}}</span>
+      </td>
+      <td>
+        <a *ngIf="federation.logo" [routerLink]="['/federation','show', federation.logo.id]">{{federation.logo.toString()}}</a>
+      </td>
+      <td>
+        <span>{{federation.description}}</span>
+      </td>
+      <td>
+        <a *ngIf="federation.country" [routerLink]="['/federation','show', federation.country.id]">{{federation.country.toString()}}</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

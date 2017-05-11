@@ -1,0 +1,40 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a class="list" [routerLink]="['/federation', 'list']" class="list">Federation List</a></li>
+        <li><a class="create" [routerLink]="['/federation', 'create']" class="create">New Federation</a></li>
+    </ul>
+</div>
+<div id="show-part" class="content scaffold-show" role="main">
+    <h1>Show Federation</h1>
+    <ol class="property-list federation">
+  <li class="fieldcontain">
+    <span id="name-label" class="property-label">Name</span>
+    <div class="property-value" aria-labelledby="name-label">
+      <span>{{federation.name}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="logo-label" class="property-label">Logo</span>
+    <div class="property-value" aria-labelledby="logo-label">
+      <a *ngIf="federation.logo" [routerLink]="['/federation','show', federation.logo.id]">{{federation.logo.toString()}}</a>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="description-label" class="property-label">Description</span>
+    <div class="property-value" aria-labelledby="description-label">
+      <span>{{federation.description}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="country-label" class="property-label">Country</span>
+    <div class="property-value" aria-labelledby="country-label">
+      <a *ngIf="federation.country" [routerLink]="['/federation','show', federation.country.id]">{{federation.country.toString()}}</a>
+    </div>
+  </li>
+</ol>
+
+    <a class="edit" [routerLink]="['/federation', 'edit', federation.id]">Edit</a>
+    <button type="button" (click)="destroy()">Delete</button>
+
+</div>
