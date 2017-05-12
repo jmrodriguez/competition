@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
+import {Http, Response} from '@angular/http';
+import {Router} from '@angular/router';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
@@ -9,13 +10,15 @@ import 'rxjs/add/operator/delay';
 @Injectable()
 export class AuthService {
 
-  private baseUrl = 'http://localhost:8080/api';
+  constructor(private http: Http, private router: Router) {
+  }
 
-  constructor(private http: Http) {
+  isAuthenticated() : boolean {
+    return localStorage.getItem("currentUser") != null;
   }
 
   login(username: string, password: string) {
-    return this.http.post(this.baseUrl + '/login', JSON.stringify({ username: username, password: password }))
+    return this.http.post('login', JSON.stringify({ username: username, password: password }))
         .map((response: Response) => {
           // login successful if there's a jwt token in the response
           let user = response.json();
@@ -29,6 +32,7 @@ export class AuthService {
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
+    this.router.navigate(["/"]);
   }
 
 }

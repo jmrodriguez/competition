@@ -38,10 +38,10 @@ import {HttpFactory} from "./helpers/http.factory";
 
   ],
   providers: [
+    AuthService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     NavService,
     AuthGuard,
-    AuthService,
     {
       provide: Http,
       useFactory: HttpFactory,

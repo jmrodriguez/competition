@@ -1,6 +1,10 @@
 import {Component} from '@angular/core';
 import {NavService} from './nav.service';
+import {Router} from '@angular/router';
 import {OnInit} from '@angular/core';
+
+import {AuthService} from '../services/auth.service';
+
 
 @Component({
   selector: 'app-navigation',
@@ -11,9 +15,13 @@ export class NavComponent implements OnInit {
 
   applicationData: any;
 
-  constructor(private navService: NavService) { }
+  constructor(private navService: NavService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.navService.getNavData().subscribe(res => this.applicationData = res);
+  }
+
+  login() {
+    this.router.navigate(["/login"]);
   }
 }

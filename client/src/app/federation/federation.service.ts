@@ -39,8 +39,6 @@ export class FederationService {
     }
     requestOptions.body = JSON.stringify(federation);
     requestOptions.headers = new Headers({"Content-Type": "application/json"});
-    console.log("hola");
-    console.log(requestOptions);
 
     return this.http.request(new Request(requestOptions))
       .map((r: Response) => new Federation(r.json()));

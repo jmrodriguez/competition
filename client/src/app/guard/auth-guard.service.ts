@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     checkLogin(url: string): boolean {
-        if (localStorage.getItem('currentUser')) {
+        if (this.authService.isAuthenticated()) {
             // logged in so return true
             return true;
         }
