@@ -14,6 +14,8 @@ import { LoginModule } from './login/login.module';
 import { CountryModule } from './country/country.module';
 import { TodoModule } from './todo/todo.module';
 import { FederationModule } from './federation/federation.module';
+import { BracketDirective } from './directives/bracket.directive';
+
 
 import { AuthService } from './services/auth.service';
 
@@ -24,6 +26,7 @@ import {HttpFactory} from "./helpers/http.factory";
     AppComponent,
     NavComponent,
     IndexComponent,
+    BracketDirective,
   ],
   imports: [
     BrowserModule,
