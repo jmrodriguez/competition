@@ -7,6 +7,7 @@ class UrlMappings {
         "/api/federation"(resources:"federation")
         "/api/country"(resources:"country")
         "/api/tournament"(resources:"tournament")
+        "/api/user"(resources:"user")
         "/api/application"(controller: 'application', action:'index')
 
         delete "/$controller/$id(.$format)?"(action:"delete")

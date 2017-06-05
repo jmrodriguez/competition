@@ -5,7 +5,7 @@ import org.competition.UserRole
 
 class BootStrap {
 
-    Role rolSysadmin
+    Role rolSysadmin, rolFederacionAdmin
 
     def init = { servletContext ->
 
@@ -20,9 +20,7 @@ class BootStrap {
 
     private void addCountries() {
         if(!Country.count()) {
-            Country country1 = new Country(name:'Costa Rica',
-                    isoCode: 'CRC'
-            )
+            Country country1 = new Country(name:'Costa Rica', isoCode: 'CRC')
             country1.save(failOnError:true)
         }
     }
@@ -30,6 +28,9 @@ class BootStrap {
     private void addRoles() {
         if(!Role.findByAuthority('ROLE_ADMIN')){
             rolSysadmin = new Role(authority: 'ROLE_ADMIN', name:'System Administrator').save(failOnError:true)
+        }
+        if(!Role.findByAuthority('ROLE_FEDERATION_ADMIN')){
+            rolFederacionAdmin = new Role(authority: 'ROLE_FEDERATION_ADMIN', name:'Federation Admin').save(failOnError:true)
         }
     }
 
