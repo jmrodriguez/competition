@@ -1,0 +1,27 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/tournament','create']" class="create">New Tournament</a></li>
+    </ul>
+</div>
+<div id="list-tournament" class="content scaffold-list" role="main">
+    <h1>Tournament List</h1>
+    <table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let tournament of tournamentList; let e = even;">
+      <td>
+        <a [routerLink]="['/tournament','show',tournament.id]">{{tournament.id}}</a>
+      </td>
+      <td>
+        <span>{{tournament.name}}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

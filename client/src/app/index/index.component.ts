@@ -45,6 +45,12 @@ export class IndexComponent implements OnInit {
     this.initData = {
       teams : [
         [{name: "A 1", flag: 'fi'}, null],
+        [{name: "B 3", flag: 'se'}, {name: "C 4", flag: 'us'}],
+        [{name: "A 1", flag: 'fi'}, null],
+        [{name: "B 3", flag: 'se'}, {name: "C 4", flag: 'us'}],
+        [{name: "A 1", flag: 'fi'}, null],
+        [{name: "B 3", flag: 'se'}, {name: "C 4", flag: 'us'}],
+        [{name: "A 1", flag: 'fi'}, null],
         [{name: "B 3", flag: 'se'}, {name: "C 4", flag: 'us'}]
       ],
       results : []
