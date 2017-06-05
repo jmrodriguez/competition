@@ -34,7 +34,7 @@
       <span class="required-indicator">*</span>
     </label>
     <select required="" name="country" id="country" [(ngModel)]="federation.country">
-      <option *ngFor="let country of countryList" [value]="country.id" [selected]="federation.country?.id == country.id">{{country.toString()}}</option>
+      <option *ngFor="let country of countryList" [value]="country.id" [selected]="federation.country?.id == country.id">{{country.name}}</option>
     </select>
   </div>
 </fieldset>

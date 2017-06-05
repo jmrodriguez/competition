@@ -15,13 +15,13 @@ import { CountryModule } from './country/country.module';
 import { TodoModule } from './todo/todo.module';
 import { FederationModule } from './federation/federation.module';
 import { TournamentModule } from './tournament/tournament.module';
+import { UserModule } from './user/user.module';
 import { BracketDirective } from './directives/bracket.directive';
 
 
 import { AuthService } from './services/auth.service';
 
 import {HttpFactory} from "./helpers/http.factory";
-
 
 @NgModule({
   declarations: [
@@ -39,8 +39,9 @@ import {HttpFactory} from "./helpers/http.factory";
     TodoModule,
     FederationModule,
     TournamentModule,
+    UserModule,
     NgbModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
 ],
   providers: [
     AuthService,

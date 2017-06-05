@@ -1,9 +1,16 @@
+import {Federation} from "../federation/federation";
+
 export class User {
     id: number;
     username: string;
     password: string;
     firstName: string;
     lastName: string;
+    accountLocked: boolean;
+    accountExpired: boolean;
+    passwordExpired: boolean;
+    enabled: boolean;
+    federation: Federation;
 
     constructor (object?: any) {
         if (object) {

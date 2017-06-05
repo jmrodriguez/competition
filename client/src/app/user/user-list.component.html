@@ -1,0 +1,47 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/user','create']" class="create">New User</a></li>
+    </ul>
+</div>
+<div id="list-user" class="content scaffold-list" role="main">
+    <h1>User List</h1>
+    <table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Account Locked</th>
+      <th>Account Expired</th>
+      <th>Password Expired</th>
+      <th>Enabled</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let user of userList; let e = even;">
+      <td>
+        <a [routerLink]="['/user','show',user.id]">{{user.id}}</a>
+      </td>
+      <td>
+        <span>{{user.username}}</span>
+      </td>
+      <td>
+        <span>{{user.password}}</span>
+      </td>
+      <td>
+        <span>{{user.accountLocked}}</span>
+      </td>
+      <td>
+        <span>{{user.accountExpired}}</span>
+      </td>
+      <td>
+        <span>{{user.passwordExpired}}</span>
+      </td>
+      <td>
+        <span>{{user.enabled}}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

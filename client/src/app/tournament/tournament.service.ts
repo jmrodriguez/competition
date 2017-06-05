@@ -10,14 +10,12 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class TournamentService {
 
-  private baseUrl = 'http://localhost:8080/';
-
   constructor(private http: Http) {
   }
 
   list(): Observable<Tournament[]> {
     let subject = new Subject<Tournament[]>();
-    this.http.get(this.baseUrl + 'api/tournament')
+    this.http.get('tournament')
       .map((r: Response) => r.json())
       .subscribe((json: any[]) => {
         subject.next(json.map((item: any) => new Tournament(item)))
@@ -26,7 +24,7 @@ export class TournamentService {
   }
 
   get(id: number): Observable<Tournament> {
-    return this.http.get(this.baseUrl + 'api/tournament/'+id)
+    return this.http.get('tournament/'+id)
       .map((r: Response) => new Tournament(r.json()));
   }
 
@@ -34,10 +32,10 @@ export class TournamentService {
     const requestOptions = new RequestOptions();
     if (tournament.id) {
       requestOptions.method = RequestMethod.Put;
-      requestOptions.url = this.baseUrl + 'api/tournament/' + tournament.id;
+      requestOptions.url = 'tournament/' + tournament.id;
     } else {
       requestOptions.method = RequestMethod.Post;
-      requestOptions.url = this.baseUrl + 'api/tournament';
+      requestOptions.url = 'tournament';
     }
     requestOptions.body = JSON.stringify(tournament);
     requestOptions.headers = new Headers({"Content-Type": "application/json"});
@@ -47,7 +45,7 @@ export class TournamentService {
   }
 
   destroy(tournament: Tournament): Observable<boolean> {
-    return this.http.delete(this.baseUrl + 'api/tournament/' + tournament.id).map((res: Response) => res.ok).catch(() => {
+    return this.http.delete('tournament/' + tournament.id).map((res: Response) => res.ok).catch(() => {
       return Observable.of(false);
     });
   }
