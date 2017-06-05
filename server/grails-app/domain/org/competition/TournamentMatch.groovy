@@ -4,7 +4,7 @@ package org.competition
 import grails.rest.*
 
 @Resource(readOnly = false, formats = ['json', 'xml'])
-class Match {
+class TournamentMatch {
 
     Player player1
     Player player2
@@ -14,4 +14,11 @@ class Match {
 
     static belongsTo = [tournament:Tournament]
 
+    static constraints = {
+        player1 blank:false, nullable:false
+        player2 blank:false, nullable:false
+        result blank:false, nullable:false
+        setResults blank:true, nullable:true
+
+    }
 }

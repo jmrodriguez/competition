@@ -12,7 +12,7 @@ class Tournament {
     String draw
 
     static belongsTo = [federation:Federation]
-    static hasMany = [players:Player, matches:Match]
+    static hasMany = [players:Player, matches:TournamentMatch]
 
     static constraints = {
         name nullable:false, blank: false

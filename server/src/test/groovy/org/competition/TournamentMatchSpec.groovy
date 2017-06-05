@@ -7,8 +7,8 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(Match)
-class MatchSpec extends Specification {
+@TestFor(TournamentMatch)
+class TournamentMatchSpec extends Specification {
 
     def setup() {
     }
