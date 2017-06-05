@@ -3,26 +3,27 @@ package org.competition
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
-@EqualsAndHashCode(includes='username')
-@ToString(includes='username', includeNames=true, includePackage=false)
+@EqualsAndHashCode(includes='email')
+@ToString(includes='email', includeNames=true, includePackage=false)
 class User implements Serializable {
 
 	private static final long serialVersionUID = 1
 
 	transient springSecurityService
 
-	String username
+	String email
 	String password = "tempPassword"
 	boolean enabled = true
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
 	Date lastLoginDate
-	String name
+	String firstName
+	String lastName
 
-	User(String username, String password) {
+	User(String email, String password) {
 		this()
-		this.username = username
+		this.email = email
 		this.password = password
 	}
 
@@ -52,12 +53,11 @@ class User implements Serializable {
 
 	static constraints = {
 		lastLoginDate nullable:true
-		username blank: false, unique: true
 		password blank: false
 		email blank:false, email: true, unique: true
 	}
 
 	String getFullName(){
-		"${name}"
+		"${firstName} ${lastName}"
 	}
 }

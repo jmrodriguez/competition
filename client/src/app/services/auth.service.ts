@@ -17,8 +17,8 @@ export class AuthService {
     return localStorage.getItem("currentUser") != null;
   }
 
-  login(username: string, password: string) {
-    return this.http.post('login', JSON.stringify({ username: username, password: password }))
+  login(email: string, password: string) {
+    return this.http.post('login', JSON.stringify({ email: email, password: password }))
         .map((response: Response) => {
           // login successful if there's a jwt token in the response
           let user = response.json();

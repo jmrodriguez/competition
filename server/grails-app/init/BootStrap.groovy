@@ -35,7 +35,7 @@ class BootStrap {
     }
 
     private void addUsers() {
-        User sysadmin = new User(username:'juan.manuel.rodriguez@gmail.com', email:'juan.manuel.rodriguez@gmail.com', password:'password', name:'Juan Manuel', enabled:true).save(failOnError:true)
+        User sysadmin = new User(email:'juan.manuel.rodriguez@gmail.com', password:'password', firstName:'Juan Manuel', lastName:'Rodriguez', enabled:true).save(failOnError:true)
 
         UserRole.create(sysadmin, rolSysadmin)
     }

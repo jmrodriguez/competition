@@ -1,28 +1,32 @@
+
+
 import {Federation} from "../federation/federation";
-
 export class User {
-    id: number;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    accountLocked: boolean;
-    accountExpired: boolean;
-    passwordExpired: boolean;
-    enabled: boolean;
-    federation: Federation;
+  id: number;
 
-    constructor (object?: any) {
-        if (object) {
+  lastLoginDate: any;
+  password: string;
+  email: string;
+  accountLocked: boolean;
+  name: string;
+  accountExpired: boolean;
+  passwordExpired: boolean;
+  enabled: boolean;
+  firstName: string;
+  lastName: string;
+  federation: Federation;
 
-            for (var prop in object) {
-                this[prop] = object[prop];
-            }
-        }
-
+  constructor (object?: any) {
+    if (object) {
+      
+      for (var prop in object) {
+        this[prop] = object[prop];
+      }
     }
 
-    toString(): string {
-        return 'org.competition.User : ' + (this.id ? this.id : '(unsaved)');
-    }
+  }
+
+  toString(): string {
+    return 'org.competition.User : ' + (this.id ? this.id : '(unsaved)');
+  }
 }

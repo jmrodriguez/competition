@@ -12,12 +12,43 @@
 
     <form name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
+          <!--<div class="fieldcontain">-->
+            <!--<label for="lastLoginDate">Last Login Date</label>-->
+            <!--<input name="lastLoginDate" id="lastLoginDate" type="date" placeholder="YYYY-MM-DD" [value]="user.lastLoginDate | date:'y-MM-dd'" (change)="user.lastLoginDate = $event.target.valueAsDate" />-->
+          <!--</div>-->
           <div class="fieldcontain required">
-            <label for="username">Username
+            <label for="email">Email
               <span class="required-indicator">*</span>
             </label>
-            <input required="" name="username" id="username" [(ngModel)]="user.username" type="text" />
+            <input required="" name="email" id="email" [(ngModel)]="user.email" type="email" />
           </div>
+          <!--<div class="fieldcontain required">-->
+            <!--<label for="password">Password-->
+              <!--<span class="required-indicator">*</span>-->
+            <!--</label>-->
+            <!--<input required="" name="password" id="password" [(ngModel)]="user.password" type="text" />-->
+          <!--</div>-->
+          <div class="fieldcontain required">
+            <label for="firstName">First Name
+              <span class="required-indicator">*</span>
+            </label>
+            <input required="" name="firstName" id="firstName" [(ngModel)]="user.firstName" type="text" />
+          </div>
+          <div class="fieldcontain required">
+            <label for="lastName">Last Name
+              <span class="required-indicator">*</span>
+            </label>
+            <input required="" name="lastName" id="lastName" [(ngModel)]="user.lastName" type="text" />
+          </div>
+          <div class="fieldcontain required">
+            <label for="federation">Federation
+              <span class="required-indicator">*</span>
+            </label>
+            <select required="" name="federation" id="federation" [(ngModel)]="user.federation">
+              <option *ngFor="let federation of federationList" [value]="federation.id" [selected]="user.federation?.id == federation.id">{{federation.name}}</option>
+            </select>
+          </div>
+
           <div class="fieldcontain">
             <label for="accountLocked">Account Locked</label>
             <input name="accountLocked" id="accountLocked" [(ngModel)]="user.accountLocked" type="checkbox" />
@@ -33,14 +64,6 @@
           <div class="fieldcontain">
             <label for="enabled">Enabled</label>
             <input name="enabled" id="enabled" [(ngModel)]="user.enabled" type="checkbox" />
-          </div>
-          <div class="fieldcontain required">
-            <label for="federation">Federation
-                <span class="required-indicator">*</span>
-            </label>
-            <select required="" name="federation" id="federation" [(ngModel)]="user.federation">
-                <option *ngFor="let federation of federationList" [value]="federation.id" [selected]="user.federation?.id == federation.id">{{federation.name}}</option>
-            </select>
           </div>
         </fieldset>
         <fieldset class="buttons">

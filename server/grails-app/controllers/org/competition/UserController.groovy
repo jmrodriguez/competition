@@ -31,7 +31,8 @@ class UserController extends RestfulController {
 
         Object[] results = userService.listUsers(federation, params.textFilter, params)
 
-        respond results[0] - [springSecurityService.currentUser], model:[userCount: results[1], textFilter:params.textFilter]
+        //respond results[0] - [springSecurityService.currentUser], model:[userCount: results[1], textFilter:params.textFilter]
+        respond results[0], model:[userCount: results[1], textFilter:params.textFilter]
     }
 
     def show(User userInstance) {

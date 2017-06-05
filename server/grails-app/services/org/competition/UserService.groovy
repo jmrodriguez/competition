@@ -11,7 +11,7 @@ class UserService {
      * @return
      */
     Object[] listUsers(Federation federation, String textFilter, Map metaParams) {
-        Set users = []
+        ArrayList users
         Map parameters = [:]
         long usersCount
         String selectQuery

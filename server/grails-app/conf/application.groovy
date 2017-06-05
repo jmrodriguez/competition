@@ -6,6 +6,7 @@ grails.plugin.springsecurity.password.bcrypt.logrounds = 15
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.competition.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.competition.UserRole'
+grails.plugin.springsecurity.userLookup.usernamePropertyName = 'email'
 grails.plugin.springsecurity.authority.className = 'org.competition.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/',               access: ['permitAll']],
@@ -39,7 +40,7 @@ grails.plugin.springsecurity.rest.login.active=true
 grails.plugin.springsecurity.rest.login.endpointUrl='/api/login'
 grails.plugin.springsecurity.rest.login.failureStatusCode=401
 grails.plugin.springsecurity.rest.login.useJsonCredentials=true
-grails.plugin.springsecurity.rest.login.usernamePropertyName='username'
+grails.plugin.springsecurity.rest.login.usernamePropertyName='email'
 grails.plugin.springsecurity.rest.login.passwordPropertyName='password'
 grails.plugin.springsecurity.rest.logout.endpointUrl='/api/logout'
 grails.plugin.springsecurity.rest.token.generation.useSecureRandom=true
