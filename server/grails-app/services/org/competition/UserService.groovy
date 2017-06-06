@@ -28,7 +28,6 @@ class UserService {
                 parameters.put("textFilter", "%${textFilter}%")
             }
 
-
         } else {
             selectQuery = "from User u"
             countQuery = "select count(u) from User u"
