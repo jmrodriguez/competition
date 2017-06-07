@@ -20,6 +20,7 @@ class User implements Serializable {
 	Date lastLoginDate
 	String firstName
 	String lastName
+	Federation federation
 
 	User(String email, String password) {
 		this()
@@ -55,6 +56,7 @@ class User implements Serializable {
 		lastLoginDate nullable:true
 		password blank: false
 		email blank:false, email: true, unique: true
+		federation nullable:true
 	}
 
 	String getFullName(){

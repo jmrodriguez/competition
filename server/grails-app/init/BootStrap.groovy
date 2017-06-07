@@ -1,4 +1,5 @@
 import org.competition.Country
+import org.competition.Federation
 import org.competition.Role
 import org.competition.User
 import org.competition.UserRole
@@ -10,6 +11,7 @@ class BootStrap {
     def init = { servletContext ->
 
         this.addCountries()
+        this.addFederations()
 
         this.addRoles()
         if(!User.count()){
@@ -38,6 +40,13 @@ class BootStrap {
         User sysadmin = new User(email:'juan.manuel.rodriguez@gmail.com', password:'password', firstName:'Juan Manuel', lastName:'Rodriguez', enabled:true).save(failOnError:true)
 
         UserRole.create(sysadmin, rolSysadmin)
+    }
+
+    private void addFederations() {
+        if(!Federation.count()) {
+            Federation fecoteme = new Federation(name: "FECOTEME", description: "Descripcion FECOTEME", country: Country.findById(1))
+            fecoteme.save(failOnError:true)
+        }
     }
 
 }

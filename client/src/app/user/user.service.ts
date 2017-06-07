@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, RequestMethod, Request, Headers} from '@angular/http';
+import {Http, Response, RequestOptions, RequestMethod, Request, Headers, URLSearchParams} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {User} from './user';
-import {Subject} from 'rxjs/Subject';
+import { ListResult } from '../helpers/list-result.interface'
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
@@ -13,14 +13,27 @@ export class UserService {
   constructor(private http: Http) {
   }
 
-  list(): Observable<User[]> {
-    let subject = new Subject<User[]>();
+  list(textFilter: string = null, page: number = 1, max: number = 5): Observable<ListResult<User>> {
+    let params = new URLSearchParams();
+    if (textFilter) {
+      params.set('textFilter', textFilter)
+    }
+    if (page) {
+      params.set('page', String(page))
+    }
+    if (max) {
+      params.set('max', String(max))
+    }
+
+    return this.http.get('user', { search: params }).map(res => res.json())
+
+    /*let subject = new Subject<User[]>();
     this.http.get('user')
       .map((r: Response) => r.json())
       .subscribe((json: any[]) => {
         subject.next(json.map((item: any) => new User(item)))
       });
-    return subject.asObservable();
+    return subject.asObservable();*/
   }
 
   get(id: number): Observable<User> {

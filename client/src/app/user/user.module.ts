@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {PaginationComponent} from "../pagination/pagination.component";
 
 import {UserService} from './user.service';
 
@@ -14,7 +15,8 @@ import {UserPersistComponent} from './user-persist.component';
   declarations: [
     UserListComponent,
     UserPersistComponent,
-    UserShowComponent
+    UserShowComponent,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
@@ -23,6 +25,7 @@ import {UserPersistComponent} from './user-persist.component';
   ],
   providers: [
     UserService
-  ]
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class UserModule {}

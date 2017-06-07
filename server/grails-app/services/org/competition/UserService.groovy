@@ -23,8 +23,8 @@ class UserService {
             parameters = [federation: federation]
 
             if (textFilter) {
-                selectQuery = selectQuery + " and (uf.user.name like :textFilter)"
-                countQuery = countQuery + " and (uf.user.name like :textFilter)"
+                selectQuery = selectQuery + " and (uf.user.firstName like :textFilter)"
+                countQuery = countQuery + " and (uf.user.firstName like :textFilter)"
                 parameters.put("textFilter", "%${textFilter}%")
             }
 
@@ -33,8 +33,8 @@ class UserService {
             countQuery = "select count(u) from User u"
 
             if (textFilter) {
-                selectQuery = selectQuery + " where (u.name like :textFilter)"
-                countQuery = countQuery + " where (u.name like :textFilter)"
+                selectQuery = selectQuery + " where (u.firstName like :textFilter)"
+                countQuery = countQuery + " where (u.firstName like :textFilter)"
                 parameters = ["textFilter": "%${textFilter}%"]
             }
         }

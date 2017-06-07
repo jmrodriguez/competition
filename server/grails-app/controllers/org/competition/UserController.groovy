@@ -21,18 +21,32 @@ class UserController extends RestfulController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 50, 100)
+    def index(Integer max, Integer page) {
+        params.max = Math.min(max ?: 5, 10)
+        if (page == null) {
+            page = 1
+        }
+
+        int offset = page == 1 ? 0 : (page.intValue() - 1) * max
+        params.offset = offset
         Federation federation = null
 
         if(SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN")){
-            federation = UserFederation.findByUser(springSecurityService.currentUser)?.federation
+            federation = springSecurityService.currentUser.federation
         }
 
         Object[] results = userService.listUsers(federation, params.textFilter, params)
 
         //respond results[0] - [springSecurityService.currentUser], model:[userCount: results[1], textFilter:params.textFilter]
-        respond results[0], model:[userCount: results[1], textFilter:params.textFilter]
+        //respond results[0], model:[userCount: results[1], textFilter:params.textFilter]
+
+        //respond result
+        Map result = new HashMap()
+        result.put("userList", results[0])
+        result.put("total", results[1])
+
+        respond result
+        //render view: 'index', model: [userList: results[0], totalUsers: results[1]]
     }
 
     def show(User userInstance) {
@@ -41,11 +55,15 @@ class UserController extends RestfulController {
             userRole.role
         }
 
-        respond userInstance, model:[roles:roles, federationInstance:UserFederation.findByUser(userInstance)?.federation]
+        //userInstance.roles = roles
+        //userInstance.federation = UserFederation.findByUser(userInstance)?.federation
+
+        respond userInstance
     }
 
     @Transactional
-    def save(User userInstance, Long federationId) {
+    def save(User userInstance) {
+        //def userInstance = SpringSecurityUtils.securityConfig.get()lookupUserClass().newInstance(params)
         if (userInstance == null) {
             notFound()
             return
@@ -62,12 +80,8 @@ class UserController extends RestfulController {
         userInstance.save flush:true
 
         // Assign role
-        Role roleInstance = Role.get(params.role)
+        Role roleInstance = Role.findByAuthority('ROLE_FEDERATION_ADMIN')
         UserRole.create(userInstance, roleInstance, true)
-
-        // Assign federation
-        Federation federationInstance = Federation.get(federationId)
-        UserFederation.create(userInstance, federationInstance, true)
 
         // activation email
         /*RegistrationCode registrationCode = new RegistrationCode(username:userInstance?.email).save(flush:true)
@@ -107,13 +121,8 @@ class UserController extends RestfulController {
 
         // Assign role
         UserRole.removeAll(userInstance, true)
-        Role roleInstance = Role.get(params.role)
+        Role roleInstance = Role.findByAuthority('ROLE_FEDERATION_ADMIN')
         UserRole.create(userInstance, roleInstance, true)
-
-        // Assign Federation
-        UserFederation.removeAll(userInstance, true)
-        Federation federationInstance = Federation.get(federationId)
-        UserFederation.create(userInstance, federationInstance, true)
 
         respond userInstance, [status: OK]
     }
@@ -146,7 +155,6 @@ class UserController extends RestfulController {
             return
         }
 
-        UserFederation.removeAll(userInstance)
         UserRole.removeAll(userInstance)
 
         userInstance.delete flush:true

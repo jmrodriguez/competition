@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions} from '@angular/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
@@ -18,20 +19,21 @@ import { TournamentModule } from './tournament/tournament.module';
 import { UserModule } from './user/user.module';
 import { BracketDirective } from './directives/bracket.directive';
 
-
 import { AuthService } from './services/auth.service';
 
 import {HttpFactory} from "./helpers/http.factory";
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     IndexComponent,
-    BracketDirective,
+    BracketDirective
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     FormsModule,
     HttpModule,
     LoginModule,
@@ -42,7 +44,7 @@ import {HttpFactory} from "./helpers/http.factory";
     UserModule,
     NgbModule.forRoot(),
     AppRoutingModule,
-],
+  ],
   providers: [
     AuthService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
@@ -54,6 +56,7 @@ import {HttpFactory} from "./helpers/http.factory";
       deps: [XHRBackend, RequestOptions]
     },
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
