@@ -11,6 +11,11 @@
     <tr>
       <th>Id</th>
       <th>Name</th>
+      <th>Date</th>
+      <th>Weight</th>
+      <th>Gender Restricted</th>
+      <th>Gender</th>
+      <th>Federation</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +25,21 @@
       </td>
       <td>
         <span>{{tournament.name}}</span>
+      </td>
+      <td>
+        <span>{{tournament.date | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+      </td>
+      <td>
+        <span *ngIf="tournament.weight">{{tournament.weight.name}}</span>
+      </td>
+      <td>
+        <span>{{tournament.genderRestricted}}</span>
+      </td>
+      <td>
+        <span>{{tournament.gender}}</span>
+      </td>
+      <td>
+        <a *ngIf="tournament.federation" [routerLink]="['/tournament','show', tournament.federation.id]">{{tournament.federation.name}}</a>
       </td>
     </tr>
   </tbody>

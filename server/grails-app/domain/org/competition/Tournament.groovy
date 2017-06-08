@@ -17,6 +17,7 @@ class Tournament {
         weight nullable:false, blank: false
         genderRestricted nullable:false, blank: false
         gender nullable:true, blank: true, inList: ["M", "F"]
+        draw nullable:true, blank: true
     }
 
 }

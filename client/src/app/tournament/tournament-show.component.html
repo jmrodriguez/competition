@@ -14,6 +14,62 @@
       <span>{{tournament.name}}</span>
     </div>
   </li>
+  <li class="fieldcontain">
+    <span id="date-label" class="property-label">Date</span>
+    <div class="property-value" aria-labelledby="date-label">
+      <span>{{tournament.date | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="weight-label" class="property-label">Weight</span>
+    <div class="property-value" aria-labelledby="weight-label">
+      <a *ngIf="tournament.weight" [routerLink]="['/tournament','show', tournament.weight.id]">{{tournament.weight.toString()}}</a>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="genderRestricted-label" class="property-label">Gender Restricted</span>
+    <div class="property-value" aria-labelledby="genderRestricted-label">
+      <span>{{tournament.genderRestricted}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="gender-label" class="property-label">Gender</span>
+    <div class="property-value" aria-labelledby="gender-label">
+      <span>{{tournament.gender}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="federation-label" class="property-label">Federation</span>
+    <div class="property-value" aria-labelledby="federation-label">
+      <a *ngIf="tournament.federation" [routerLink]="['/tournament','show', tournament.federation.id]">{{tournament.federation.toString()}}</a>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="players-label" class="property-label">Players</span>
+    <div class="property-value" aria-labelledby="players-label">
+      <ul>
+        <li *ngFor="let player of tournament.players">
+          <a [routerLink]="['/player', 'show', player.id]">{{player.toString()}}</a>
+        </li>
+      </ul>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="draw-label" class="property-label">Draw</span>
+    <div class="property-value" aria-labelledby="draw-label">
+      <span>{{tournament.draw}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="matches-label" class="property-label">Matches</span>
+    <div class="property-value" aria-labelledby="matches-label">
+      <ul>
+        <li *ngFor="let tournamentMatch of tournament.matches">
+          <a [routerLink]="['/tournamentMatch', 'show', tournamentMatch.id]">{{tournamentMatch.toString()}}</a>
+        </li>
+      </ul>
+    </div>
+  </li>
 </ol>
 
     <a class="edit" [routerLink]="['/tournament', 'edit', tournament.id]">Edit</a>
