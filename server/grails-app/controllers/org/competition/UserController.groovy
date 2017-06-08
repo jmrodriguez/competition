@@ -8,7 +8,7 @@ import grails.transaction.Transactional
 import static org.springframework.http.HttpStatus.*
 
 @Transactional(readOnly = true)
-@Secured(['ROLE_ADMIN','ROLE_FEDERATION_ADMIN'])
+@Secured(['ROLE_SUPER_ADMIN', 'ROLE_GENERAL_ADMIN','ROLE_FEDERATION_ADMIN'])
 class UserController extends RestfulController {
     static responseFormats = ['json', 'xml']
     UserController() {

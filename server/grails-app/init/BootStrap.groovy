@@ -6,7 +6,7 @@ import org.competition.UserRole
 
 class BootStrap {
 
-    Role rolSysadmin, rolFederacionAdmin
+    Role rolSysadmin, rolFederacionAdmin, rolGeneralAdmin
 
     def init = { servletContext ->
 
@@ -28,11 +28,15 @@ class BootStrap {
     }
 
     private void addRoles() {
-        if(!Role.findByAuthority('ROLE_ADMIN')){
-            rolSysadmin = new Role(authority: 'ROLE_ADMIN', name:'System Administrator').save(failOnError:true)
+        if(!Role.findByAuthority('ROLE_SUPER_ADMIN')){
+            rolSysadmin = new Role(authority: 'ROLE_SUPER_ADMIN', name:'System Administrator').save(failOnError:true)
         }
         if(!Role.findByAuthority('ROLE_FEDERATION_ADMIN')){
             rolFederacionAdmin = new Role(authority: 'ROLE_FEDERATION_ADMIN', name:'Federation Admin').save(failOnError:true)
+        }
+
+        if(!Role.findByAuthority('ROLE_GENERAL_ADMIN')){
+            rolGeneralAdmin = new Role(authority: 'ROLE_GENERAL_ADMIN', name:'General Admin').save(failOnError:true)
         }
     }
 
