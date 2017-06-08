@@ -22,6 +22,8 @@ import { BracketDirective } from './directives/bracket.directive';
 import { AuthService } from './services/auth.service';
 
 import {HttpFactory} from "./helpers/http.factory";
+import { WeightModule } from './weight/weight.module';
+import { CategoryModule } from './category/category.module';
 
 
 @NgModule({
@@ -42,9 +44,11 @@ import {HttpFactory} from "./helpers/http.factory";
     FederationModule,
     TournamentModule,
     UserModule,
+    WeightModule,
+    CategoryModule,
     NgbModule.forRoot(),
     AppRoutingModule,
-  ],
+],
   providers: [
     AuthService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},

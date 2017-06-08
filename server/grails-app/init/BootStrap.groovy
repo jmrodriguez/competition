@@ -3,6 +3,8 @@ import org.competition.Federation
 import org.competition.Role
 import org.competition.User
 import org.competition.UserRole
+import org.competition.Weight
+import org.competition.Category
 
 class BootStrap {
 
@@ -16,7 +18,11 @@ class BootStrap {
         this.addRoles()
         if(!User.count()){
             this.addUsers()
-        }    }
+        }
+
+        this.addWeights()
+        this.addCategories()
+    }
     def destroy = {
     }
 
@@ -50,6 +56,20 @@ class BootStrap {
         if(!Federation.count()) {
             Federation fecoteme = new Federation(name: "FECOTEME", description: "Descripcion FECOTEME", country: Country.findById(1))
             fecoteme.save(failOnError:true)
+        }
+    }
+
+    private void addWeights() {
+        if(!Weight.count()) {
+            Weight defaultWeight = new Weight(name:'Default Weight', factor: 1)
+            defaultWeight.save(failOnError:true)
+        }
+    }
+
+    private void addCategories() {
+        if(!Category.count()) {
+            Category open = new Category(name:"Open")
+            open.save(failOnError:true)
         }
     }
 

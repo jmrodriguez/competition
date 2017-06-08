@@ -1,0 +1,34 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a class="list" [routerLink]="['/category', 'list']" class="list">Category List</a></li>
+        <li><a class="create" [routerLink]="['/category', 'create']" class="create">New Category</a></li>
+    </ul>
+</div>
+<div id="show-part" class="content scaffold-show" role="main">
+    <h1>Show Category</h1>
+    <ol class="property-list category">
+  <li class="fieldcontain">
+    <span id="name-label" class="property-label">Name</span>
+    <div class="property-value" aria-labelledby="name-label">
+      <span>{{category.name}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="minAge-label" class="property-label">Min Age</span>
+    <div class="property-value" aria-labelledby="minAge-label">
+      <span>{{category.minAge}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="maxAge-label" class="property-label">Max Age</span>
+    <div class="property-value" aria-labelledby="maxAge-label">
+      <span>{{category.maxAge}}</span>
+    </div>
+  </li>
+</ol>
+
+    <a class="edit" [routerLink]="['/category', 'edit', category.id]">Edit</a>
+    <button type="button" (click)="destroy()">Delete</button>
+
+</div>

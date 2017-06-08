@@ -1,0 +1,31 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/weight','create']" class="create">New Weight</a></li>
+    </ul>
+</div>
+<div id="list-weight" class="content scaffold-list" role="main">
+    <h1>Weight List</h1>
+    <table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Factor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let weight of weightList; let e = even;">
+      <td>
+        <a [routerLink]="['/weight','show',weight.id]">{{weight.id}}</a>
+      </td>
+      <td>
+        <span>{{weight.name}}</span>
+      </td>
+      <td>
+        <span>{{weight.factor}}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

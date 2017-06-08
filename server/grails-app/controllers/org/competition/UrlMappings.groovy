@@ -8,6 +8,8 @@ class UrlMappings {
         "/api/country"(resources:"country")
         "/api/tournament"(resources:"tournament")
         "/api/user"(resources:"user")
+        "/api/weight"(resources:"weight")
+        "/api/category"(resources:"category")
         "/api/application"(controller: 'application', action:'index')
 
         delete "/$controller/$id(.$format)?"(action:"delete")
