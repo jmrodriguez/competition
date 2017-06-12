@@ -1,5 +1,13 @@
 {
   "index": {
     "title": "Hello Angular with ngx-translate!"
+  },
+  "user": {
+    "edit" : {
+      "title": "Edit User"
+    },
+    "create" : {
+      "title": "Create User"
+    }
   }
 }

@@ -12,18 +12,27 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        let url: string = state.url;
-
-        return this.checkLogin(url);
+        return this.checkLogin(route, state);
     }
 
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         return this.canActivate(route, state);
     }
 
-    checkLogin(url: string): boolean {
+    checkLogin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+        let url: string = state.url;
         if (this.authService.isAuthenticated()) {
-            // logged in so return true
+            // logged in, now check roles if any
+            let routeData = route.data;
+            if (routeData && routeData.roles) {
+                if (this.authService.hasRole(routeData.roles)) {
+                    return true;
+                } else {
+                    // user does not have the required role, direct to index
+                    this.router.navigate(['/index']);
+                    return false;
+                }
+            }
             return true;
         }
 

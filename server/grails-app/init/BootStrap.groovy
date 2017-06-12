@@ -50,6 +50,14 @@ class BootStrap {
         User sysadmin = new User(email:'juan.manuel.rodriguez@gmail.com', password:'password', firstName:'Juan Manuel', lastName:'Rodriguez', enabled:true).save(failOnError:true)
 
         UserRole.create(sysadmin, rolSysadmin)
+
+        User fedAdmin = new User(email:'fedAdmin@gmail.com', password:'password', firstName:'Federation', lastName:'Admin', enabled:true).save(failOnError:true)
+
+        UserRole.create(fedAdmin, rolFederacionAdmin)
+
+        User generalAdmin = new User(email:'genAdmin@gmail.com', password:'password', firstName:'General', lastName:'Admin', enabled:true).save(failOnError:true)
+
+        UserRole.create(generalAdmin, rolGeneralAdmin)
     }
 
     private void addFederations() {
