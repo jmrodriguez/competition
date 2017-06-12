@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions} from '@angular/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IndexComponent } from './index/index.component';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -21,10 +23,15 @@ import { BracketDirective } from './directives/bracket.directive';
 
 import { AuthService } from './services/auth.service';
 
-import {HttpFactory} from "./helpers/http.factory";
+import { HttpFactory } from "./helpers/http.factory";
 import { WeightModule } from './weight/weight.module';
 import { CategoryModule } from './category/category.module';
 
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: Http) {
+  return new TranslateHttpLoader(http, "/assets/i18n/", ".json");
+}
 
 @NgModule({
   declarations: [
@@ -47,6 +54,13 @@ import { CategoryModule } from './category/category.module';
     WeightModule,
     CategoryModule,
     NgbModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [Http]
+      }
+    }),
     AppRoutingModule,
 ],
   providers: [

@@ -39,6 +39,10 @@ export class InterceptedHttp extends Http {
     }
 
     private updateUrl(req: string) {
+        // for i18n requests, we use the client server, not the api one
+        if (req.indexOf("/assets/i18n") != -1) {
+            return environment.clientUrl + req;
+        }
         return  environment.serverUrl + req;
     }
 
