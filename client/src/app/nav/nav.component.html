@@ -38,9 +38,9 @@
         </div>
       </li>
       <li class="nav-item" ngbDropdown>
-        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{translateService.currentLang}} <span class="caret"></span></a>
-        <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" *ngFor="let lang of translateService.getLangs()" (click)="translateService.use(lang)">{{ lang }}</a>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-{{ translateService.currentLang == 'en' ? 'us' : translateService.currentLang }}"></span><span class="caret"></span></a>
+        <div class="dropdown-menu dropdown-menu-right country-selector">
+          <a class="dropdown-item" *ngFor="let lang of translateService.getLangs()" (click)="translateService.use(lang)"><span class="flag-icon flag-icon-{{ lang == 'en' ? 'us' : lang }}"></span></a>
         </div>
       </li>
       <li>

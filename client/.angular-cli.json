@@ -22,7 +22,8 @@
       "styles": [
         "styles.css",
         "../node_modules/bootstrap/dist/css/bootstrap.css",
-        "../node_modules/jquery-bracket/dist/jquery.bracket.min.css"
+        "../node_modules/jquery-bracket/dist/jquery.bracket.min.css",
+        "../node_modules/flag-icon-css/css/flag-icon.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
