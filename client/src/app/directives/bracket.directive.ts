@@ -4,8 +4,8 @@
 
 import {Directive, ElementRef, Input} from '@angular/core';
 import {Response} from '@angular/http';
-import {CountryService} from '../country/country.service';
-import {Country} from '../country/country';
+import {Tournament} from "../tournament/tournament";
+import {TournamentService} from "../tournament/tournament.service";
 
 declare var $: any;
 
@@ -16,14 +16,12 @@ declare var $: any;
 export class BracketDirective {
 
     @Input() initData:any;
-    @Input() tournament:Country;
+    @Input() tournament:Tournament;
 
-    constructor(private el: ElementRef, private countryService: CountryService) {
-        // we are using country and countryService for now for PoC purposes
-        // this will have to change to use tournament and tournamentService once it exists
+    constructor(private el: ElementRef, private tournamentService: TournamentService) {
         // initData parameter will become tournament and the tournament object will be passed by a controller, just like
         // we currently do with the indexComponent
-        this.tournament = new Country();
+        this.tournament = new Tournament();
         this.tournament.name = "HOLA";
     }
 
@@ -66,7 +64,7 @@ export class BracketDirective {
 
         return userData.http.request(new Request(requestOptions))
             .map((r: Response) => new Country(r.json()));*/
-        userData.countryService.save(userData.tournament).subscribe((country: Country) => {
+        userData.tournamentService.save(userData.tournament).subscribe((tournament: Tournament) => {
             console.log("hola");
         }, (res: Response) => {
             const json = res.json();
