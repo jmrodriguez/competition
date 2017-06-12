@@ -5,7 +5,7 @@
     </ul>
 </div>
 <div id="persist-user" class="content scaffold-edit" role="main">
-    <h1>{{create ? "Create" : "Edit"}} User</h1>
+    <h1 translate>{{create ? 'user.create.title' : 'user.edit.title'}}</h1>
     <ul class="errors" role="alert" *ngIf="errors">
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>

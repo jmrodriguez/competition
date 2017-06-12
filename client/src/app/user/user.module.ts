@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {PaginationComponent} from "../pagination/pagination.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 import {UserService} from './user.service';
 
@@ -21,6 +22,7 @@ import {UserPersistComponent} from './user-persist.component';
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule,
     UserRoutingModule
   ],
   providers: [
