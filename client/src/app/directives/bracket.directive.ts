@@ -105,7 +105,7 @@ export class BracketDirective {
             case "entry-no-score":
             case "entry-default-win":
             case "entry-complete":
-                container.append('<img src="site/png/'+data.flag+'.png" /> ').append(data.name)
+                container.append('<span class="flag-icon flag-icon-' + data.flag + '"></span> ').append(data.name)
                 return;
         }
     }
