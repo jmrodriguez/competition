@@ -1,0 +1,182 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a class="list" [routerLink]="['/player', 'list']" class="list">Player List</a></li>
+        <li><a class="create" [routerLink]="['/player', 'create']" class="create">New Player</a></li>
+    </ul>
+</div>
+<div id="show-part" class="content scaffold-show" role="main">
+    <h1>Show Player</h1>
+    <ol class="property-list player">
+  <li class="fieldcontain">
+    <span id="firstName-label" class="property-label">First Name</span>
+    <div class="property-value" aria-labelledby="firstName-label">
+      <span>{{player.firstName}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="lastName-label" class="property-label">Last Name</span>
+    <div class="property-value" aria-labelledby="lastName-label">
+      <span>{{player.lastName}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="email-label" class="property-label">Email</span>
+    <div class="property-value" aria-labelledby="email-label">
+      <span>{{player.email}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="dni-label" class="property-label">Dni</span>
+    <div class="property-value" aria-labelledby="dni-label">
+      <span>{{player.dni}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="club-label" class="property-label">Club</span>
+    <div class="property-value" aria-labelledby="club-label">
+      <span>{{player.club}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="birth-label" class="property-label">Birth</span>
+    <div class="property-value" aria-labelledby="birth-label">
+      <span>{{player.birth | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="points-label" class="property-label">Points</span>
+    <div class="property-value" aria-labelledby="points-label">
+      <span>{{player.points}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="pointsFed-label" class="property-label">Points Fed</span>
+    <div class="property-value" aria-labelledby="pointsFed-label">
+      <span>{{player.pointsFed}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="ranking-label" class="property-label">Ranking</span>
+    <div class="property-value" aria-labelledby="ranking-label">
+      <span>{{player.ranking}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="rankingFed-label" class="property-label">Ranking Fed</span>
+    <div class="property-value" aria-labelledby="rankingFed-label">
+      <span>{{player.rankingFed}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="pointsLm-label" class="property-label">Points Lm</span>
+    <div class="property-value" aria-labelledby="pointsLm-label">
+      <span>{{player.pointsLm}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="pointsLmFed-label" class="property-label">Points Lm Fed</span>
+    <div class="property-value" aria-labelledby="pointsLmFed-label">
+      <span>{{player.pointsLmFed}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="rankingLm-label" class="property-label">Ranking Lm</span>
+    <div class="property-value" aria-labelledby="rankingLm-label">
+      <span>{{player.rankingLm}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="rankingLmFed-label" class="property-label">Ranking Lm Fed</span>
+    <div class="property-value" aria-labelledby="rankingLmFed-label">
+      <span>{{player.rankingLmFed}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="pointsFem-label" class="property-label">Points Fem</span>
+    <div class="property-value" aria-labelledby="pointsFem-label">
+      <span>{{player.pointsFem}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="pointsFemFed-label" class="property-label">Points Fem Fed</span>
+    <div class="property-value" aria-labelledby="pointsFemFed-label">
+      <span>{{player.pointsFemFed}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="rankingFem-label" class="property-label">Ranking Fem</span>
+    <div class="property-value" aria-labelledby="rankingFem-label">
+      <span>{{player.rankingFem}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="rankingFemFed-label" class="property-label">Ranking Fem Fed</span>
+    <div class="property-value" aria-labelledby="rankingFemFed-label">
+      <span>{{player.rankingFemFed}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="gender-label" class="property-label">Gender</span>
+    <div class="property-value" aria-labelledby="gender-label">
+      <span>{{player.gender}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="fixedPointsFed-label" class="property-label">Fixed Points Fed</span>
+    <div class="property-value" aria-labelledby="fixedPointsFed-label">
+      <span>{{player.fixedPointsFed}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="tournaments-label" class="property-label">Tournaments</span>
+    <div class="property-value" aria-labelledby="tournaments-label">
+      <ul>
+        <li *ngFor="let tournament of player.tournaments">
+          <a [routerLink]="['/tournament', 'show', tournament.id]">{{tournament.toString()}}</a>
+        </li>
+      </ul>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="fixedPointsLm-label" class="property-label">Fixed Points Lm</span>
+    <div class="property-value" aria-labelledby="fixedPointsLm-label">
+      <span>{{player.fixedPointsLm}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="fixedPointsFemFed-label" class="property-label">Fixed Points Fem Fed</span>
+    <div class="property-value" aria-labelledby="fixedPointsFemFed-label">
+      <span>{{player.fixedPointsFemFed}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="fixedPointsFem-label" class="property-label">Fixed Points Fem</span>
+    <div class="property-value" aria-labelledby="fixedPointsFem-label">
+      <span>{{player.fixedPointsFem}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="fixedPoints-label" class="property-label">Fixed Points</span>
+    <div class="property-value" aria-labelledby="fixedPoints-label">
+      <span>{{player.fixedPoints}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="federation-label" class="property-label">Federation</span>
+    <div class="property-value" aria-labelledby="federation-label">
+      <a *ngIf="player.federation" [routerLink]="['/player','show', player.federation.id]">{{player.federation.toString()}}</a>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="fixedPointsLmFed-label" class="property-label">Fixed Points Lm Fed</span>
+    <div class="property-value" aria-labelledby="fixedPointsLmFed-label">
+      <span>{{player.fixedPointsLmFed}}</span>
+    </div>
+  </li>
+</ol>
+
+    <a class="edit" [routerLink]="['/player', 'edit', player.id]">Edit</a>
+    <button type="button" (click)="destroy()">Delete</button>
+
+</div>

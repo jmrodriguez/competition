@@ -1,0 +1,61 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/player','list']" class="list">Player List</a></li>
+    </ul>
+</div>
+<div id="persist-player" class="content scaffold-edit" role="main">
+    <h1>{{create ? "Create" : "Edit"}} Player</h1>
+    <ul class="errors" role="alert" *ngIf="errors">
+        <li *ngFor="let error of errors">{{error.message}}</li>
+    </ul>
+
+    <form name="save{className}" (ngSubmit)="save()">
+        <fieldset class="form">
+            <div class="fieldcontain required">
+              <label for="firstName">First Name
+                <span class="required-indicator">*</span>
+              </label>
+              <input required="" name="firstName" id="firstName" [(ngModel)]="player.firstName" type="text" />
+            </div>
+            <div class="fieldcontain required">
+              <label for="lastName">Last Name
+                <span class="required-indicator">*</span>
+              </label>
+              <input required="" name="lastName" id="lastName" [(ngModel)]="player.lastName" type="text" />
+            </div>
+            <div class="fieldcontain required">
+              <label for="email">Email
+                <span class="required-indicator">*</span>
+              </label>
+              <input required="" name="email" id="email" [(ngModel)]="player.email" type="text" />
+            </div>
+            <div class="fieldcontain">
+              <label for="dni">Dni</label>
+              <input name="dni" id="dni" [(ngModel)]="player.dni" type="text" />
+            </div>
+            <div class="fieldcontain">
+              <label for="club">Club</label>
+              <input name="club" id="club" [(ngModel)]="player.club" type="text" />
+            </div>
+            <div class="fieldcontain required">
+              <label for="birth">Birth
+                <span class="required-indicator">*</span>
+              </label>
+              <input required="" name="birth" id="birth" type="date" placeholder="YYYY-MM-DD" [ngModel]="player.birth | date:'y-MM-dd'" (ngModelChange)="player.birth = $event" />
+            </div>
+            <div class="fieldcontain required">
+              <label for="gender">Gender
+                <span class="required-indicator">*</span>
+              </label>
+              <select required="" name="gender" id="gender" [(ngModel)]="player.gender">
+                <option value="M">M</option>
+                <option value="F">F</option>
+              </select>
+            </div>
+        </fieldset>
+        <fieldset class="buttons">
+            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
+        </fieldset>
+    </form>
+</div>

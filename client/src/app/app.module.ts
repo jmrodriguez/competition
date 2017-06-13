@@ -26,6 +26,7 @@ import { AuthService } from './services/auth.service';
 import { HttpFactory } from "./helpers/http.factory";
 import { WeightModule } from './weight/weight.module';
 import { CategoryModule } from './category/category.module';
+import { PlayerModule } from './player/player.module';
 
 
 // AoT requires an exported function for factories
@@ -53,6 +54,7 @@ export function HttpLoaderFactory(http: Http) {
     UserModule,
     WeightModule,
     CategoryModule,
+    PlayerModule,
     NgbModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

@@ -1,32 +1,28 @@
 package org.competition
 
-
-import grails.rest.*
-
-@Resource(readOnly = false, formats = ['json', 'xml'])
 class Player {
 
     String firstName
     String lastName
     String dni
-    int points
-    int fixedPoints
-    int ranking
-    int pointsFed
-    int fixedPointsFed
-    int rankingFed
-    int pointsLm
-    int fixedPointsLm
-    int rankingLm
-    int pointsLmFed
-    int fixedPointsLmFed
-    int rankingLmFed
-    int pointsFem
-    int fixedPointsFem
-    int rankingFem
-    int pointsFemFed
-    int fixedPointsFemFed
-    int rankingFemFed
+    int points = 1000
+    int fixedPoints = 0
+    int ranking = 0
+    int pointsFed = 1000
+    int fixedPointsFed = 0
+    int rankingFed = 0
+    int pointsLm = 500
+    int fixedPointsLm = 0
+    int rankingLm = 0
+    int pointsLmFed = 500
+    int fixedPointsLmFed = 0
+    int rankingLmFed = 0
+    int pointsFem = 500
+    int fixedPointsFem = 0
+    int rankingFem = 0
+    int pointsFemFed = 500
+    int fixedPointsFemFed = 0
+    int rankingFemFed = 0
     Date birth
     String club
     String email
@@ -42,20 +38,20 @@ class Player {
         lastName blank:false, nullable:false
         email blank:false, nullable:false
         dni blank:true, nullable:true
-        club blank:true, nullable:true
+        club blank:false, nullable:false
         birth blank:false, nullable:false
-        points nullable:true, min:1000
-        pointsFed nullable:true, min:1000
-        ranking nullable:true, min:0
-        rankingFed nullable:true, min:0
-        pointsLm nullable:true, min:500
-        pointsLmFed nullable:true, min:500
-        rankingLm nullable:true, min:0
-        rankingLmFed nullable:true, min:0
-        pointsFem nullable:true, min:500
-        pointsFemFed nullable:true, min:500
-        rankingFem nullable:true, min:0
-        rankingFemFed nullable:true, min:0
+        points blank:true, nullable:true, min:1000
+        pointsFed blank:true, nullable:true, min:1000
+        ranking blank:true, nullable:true, min:0
+        rankingFed blank:true, nullable:true, min:0
+        pointsLm blank:true, nullable:true, min:500
+        pointsLmFed blank:true, nullable:true, min:500
+        rankingLm blank:true, nullable:true, min:0
+        rankingLmFed blank:true, nullable:true, min:0
+        pointsFem blank:true, nullable:true, min:500
+        pointsFemFed blank:true, nullable:true, min:500
+        rankingFem blank:true, nullable:true, min:0
+        rankingFemFed blank:true, nullable:true, min:0
         gender nullable:false, blank: false, inList: ["M", "F"]
 
     }

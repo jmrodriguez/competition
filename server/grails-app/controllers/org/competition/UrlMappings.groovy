@@ -10,6 +10,7 @@ class UrlMappings {
         "/api/user"(resources:"user")
         "/api/weight"(resources:"weight")
         "/api/category"(resources:"category")
+        "/api/player"(resources:"player")
         "/api/application"(controller: 'application', action:'index')
 
         delete "/$controller/$id(.$format)?"(action:"delete")
