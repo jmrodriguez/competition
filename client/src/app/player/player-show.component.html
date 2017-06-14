@@ -165,7 +165,7 @@
   <li class="fieldcontain">
     <span id="federation-label" class="property-label">Federation</span>
     <div class="property-value" aria-labelledby="federation-label">
-      <a *ngIf="player.federation" [routerLink]="['/player','show', player.federation.id]">{{player.federation.toString()}}</a>
+      <span>{{player.federation?.name}}</span>
     </div>
   </li>
   <li class="fieldcontain">

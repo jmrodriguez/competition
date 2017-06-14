@@ -1,0 +1,7 @@
+import org.competition.Player
+
+model {
+	Player player
+}
+
+json g.render(player, [expand: ['federation']])

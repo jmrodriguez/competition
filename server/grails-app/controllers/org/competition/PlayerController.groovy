@@ -10,6 +10,8 @@ import static org.springframework.http.HttpStatus.CREATED
 class PlayerController extends RestfulController {
     static responseFormats = ['json', 'xml']
 
+    def springSecurityService
+
     PlayerController() {
         super(Player)
     }
@@ -20,6 +22,9 @@ class PlayerController extends RestfulController {
             notFound()
             return
         }
+
+        User currentUser = springSecurityService.currentUser
+        playerInstance.federation = currentUser.federation
 
         playerInstance.clearErrors()
         playerInstance.validate()

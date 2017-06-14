@@ -69,7 +69,7 @@ export class AuthService {
           }
           return this.currentUser;
         }).flatMap((user) => {
-            return this.http.get('user/currenta').map((r: Response) => {
+            return this.http.get('user/current').map((r: Response) => {
               let userDetails = new User(r.json())
               this.currentUser.userDetails = userDetails;
               localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
