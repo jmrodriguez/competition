@@ -65,7 +65,7 @@
          (fileOver)="fileOverBase($event)"
          (click)=fileInput.click()>
       <div>Drop or Click to select file</div>
-      <input #fileInput type="file" ng2FileSelect [uploader]="uploader">
+      <input #fileInput type="file" ng2FileSelect [uploader]="uploader" [accept]="allowedMimeType.toString()">
     </div>
     <div *ngFor="let item of uploader.queue">
       <strong>{{ item?.file?.name }}</strong>

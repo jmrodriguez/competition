@@ -13,7 +13,8 @@ import {environment} from "../../environments/environment";
 export class PlayerListComponent implements OnInit {
 
   private uploadEndpoint:string = "/user/upload"
-  public uploader:FileUploader = new FileUploader({url: environment.serverUrl + this.uploadEndpoint});
+  public allowedMimeType:string[] = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
+  public uploader:FileUploader = new FileUploader({url: environment.serverUrl + this.uploadEndpoint, allowedMimeType: this.allowedMimeType});
   public hasBaseDropZoneOver:boolean = false;
 
   playerList: Player[] = [];
