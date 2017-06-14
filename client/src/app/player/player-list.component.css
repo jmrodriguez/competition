@@ -1,0 +1,13 @@
+.dropzone {
+    cursor: pointer;
+    background: #f8f8f8;
+    height: 50px;
+    margin: 5px;
+}
+.dropzone:hover {
+    border: dashed 1px green;
+}
+
+.dropzone input {
+    display: none;
+}

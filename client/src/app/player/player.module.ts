@@ -2,6 +2,8 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+
 import {PlayerService} from './player.service';
 
 
@@ -16,7 +18,9 @@ import { FederationModule } from '../federation/federation.module';
   declarations: [
     PlayerListComponent,
     PlayerPersistComponent,
-    PlayerShowComponent
+    PlayerShowComponent,
+    FileSelectDirective,
+    FileDropDirective
   ],
   imports: [
     CommonModule,
