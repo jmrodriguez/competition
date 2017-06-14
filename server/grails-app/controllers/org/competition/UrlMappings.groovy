@@ -8,6 +8,7 @@ class UrlMappings {
         "/api/country"(resources:"country")
         "/api/tournament"(resources:"tournament")
         "/api/user"(resources:"user")
+        "/api/user/current" (controller: "user", action: "current", method: "GET")
         "/api/weight"(resources:"weight")
         "/api/category"(resources:"category")
         "/api/player"(resources:"player")

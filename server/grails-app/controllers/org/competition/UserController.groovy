@@ -49,6 +49,13 @@ class UserController extends RestfulController {
         //render view: 'index', model: [userList: results[0], totalUsers: results[1]]
     }
 
+    def current() {
+
+        User user = springSecurityService.currentUser
+
+        respond user
+    }
+
     def show(User userInstance) {
 
         Set roles = UserRole.findAllByUser(userInstance).collect { userRole ->
