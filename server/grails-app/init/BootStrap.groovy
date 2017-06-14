@@ -9,6 +9,7 @@ import org.competition.Category
 class BootStrap {
 
     Role rolSysadmin, rolFederacionAdmin, rolGeneralAdmin
+    Federation fecoteme
 
     def init = { servletContext ->
 
@@ -51,7 +52,7 @@ class BootStrap {
 
         UserRole.create(sysadmin, rolSysadmin)
 
-        User fedAdmin = new User(email:'fedAdmin@gmail.com', password:'password', firstName:'Federation', lastName:'Admin', enabled:true).save(failOnError:true)
+        User fedAdmin = new User(email:'fedAdmin@gmail.com', password:'password', firstName:'Federation', lastName:'Admin', enabled:true, federation: fecoteme).save(failOnError:true)
 
         UserRole.create(fedAdmin, rolFederacionAdmin)
 
@@ -62,7 +63,7 @@ class BootStrap {
 
     private void addFederations() {
         if(!Federation.count()) {
-            Federation fecoteme = new Federation(name: "FECOTEME", description: "Descripcion FECOTEME", country: Country.findById(1))
+            fecoteme = new Federation(name: "FECOTEME", description: "Descripcion FECOTEME", country: Country.findById(1))
             fecoteme.save(failOnError:true)
         }
     }
