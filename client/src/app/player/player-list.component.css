@@ -3,9 +3,10 @@
     background: #f8f8f8;
     height: 50px;
     margin: 5px;
+    border: dotted 3px lightgray;
 }
 .dropzone:hover {
-    border: dashed 1px green;
+    border: dotted 3px green;
 }
 
 .dropzone input {
