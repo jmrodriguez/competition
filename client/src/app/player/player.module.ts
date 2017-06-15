@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+import { TranslateModule } from '@ngx-translate/core';
 
 import {PlayerService} from './player.service';
 
@@ -25,6 +26,7 @@ import { FederationModule } from '../federation/federation.module';
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule,
     PlayerRoutingModule,
     TournamentModule,
     FederationModule

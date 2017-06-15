@@ -12,6 +12,7 @@ class UrlMappings {
         "/api/weight"(resources:"weight")
         "/api/category"(resources:"category")
         "/api/player"(resources:"player")
+        "/api/player/upload" (controller: "player", action: "loadPlayersFile", method: "POST")
         "/api/application"(controller: 'application', action:'index')
 
         delete "/$controller/$id(.$format)?"(action:"delete")

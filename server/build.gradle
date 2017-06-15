@@ -50,6 +50,8 @@ dependencies {
     compile "org.grails.plugins:angular-scaffolding:2.0.0.RC1"
     compile "org.grails.plugins:spring-security-rest:2.0.0.M2"
     console "org.grails:grails-console"
+    compile 'org.apache.poi:poi:3.16'
+    compile 'org.apache.poi:poi-ooxml:3.16'
     profile "org.grails.profiles:angular"
     runtime 'mysql:mysql-connector-java:5.1.37'
     testCompile "org.grails:grails-plugin-testing"

@@ -36,7 +36,7 @@ class Player {
     static constraints = {
         firstName blank:false, nullable:false
         lastName blank:false, nullable:false
-        email blank:false, nullable:false
+        email blank:false, nullable:false, unique: true
         dni blank:true, nullable:true
         club blank:false, nullable:false
         birth blank:false, nullable:false
@@ -53,7 +53,7 @@ class Player {
         rankingFem blank:true, nullable:true, min:0
         rankingFemFed blank:true, nullable:true, min:0
         gender nullable:false, blank: false, inList: ["M", "F"]
-
+        federation blank:false, nullable:false
     }
 
 }

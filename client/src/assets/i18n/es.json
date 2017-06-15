@@ -9,5 +9,13 @@
     "create" : {
       "title": "Crear Usuario"
     }
+  },
+  "player" : {
+    "import" : {
+      "create" : {
+        "success" : "{{value}} jugadores creados con exito",
+        "error" : "Hubo un error procesando el archivo de jugadores"
+      }
+    }
   }
 }

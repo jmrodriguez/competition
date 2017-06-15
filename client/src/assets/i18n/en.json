@@ -9,5 +9,13 @@
     "create" : {
       "title": "Create User"
     }
+  },
+  "player" : {
+    "import" : {
+      "create" : {
+        "success" : "Successfully created {{value}} players",
+        "error" : "There was an error processing the players file"
+      }
+    }
   }
 }

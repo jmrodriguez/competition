@@ -71,9 +71,13 @@
       <strong>{{ item?.file?.name }}</strong>
     </div>
 
+    <div class="progress" style="">
+      <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+    </div>
+
     <button type="button" class="btn btn-success btn-s"
             (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-      <span class="glyphicon glyphicon-upload"></span> Upload all
+      <span class="fa fa-upload"></span> Upload
     </button>
   </div>
 
