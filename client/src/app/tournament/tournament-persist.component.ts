@@ -7,6 +7,7 @@ import { WeightService } from '../weight/weight.service';
 import { Weight } from '../weight/weight';
 import { FederationService } from '../federation/federation.service';
 import { Federation } from '../federation/federation';
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'tournament-persist',
@@ -20,7 +21,12 @@ export class TournamentPersistComponent implements OnInit {
   weightList: Weight[];
   federationList: Federation[];
 
-  constructor(private route: ActivatedRoute, private tournamentService: TournamentService, private router: Router, private weightService: WeightService, private federationService: FederationService) {}
+  constructor(private route: ActivatedRoute,
+              private tournamentService: TournamentService,
+              private router: Router,
+              private weightService: WeightService,
+              private federationService: FederationService,
+              private authService: AuthService) {}
 
   ngOnInit() {
     this.tournament.genderRestricted = false;
@@ -60,7 +66,9 @@ export class TournamentPersistComponent implements OnInit {
 
         this.federationService.list().subscribe((federationList: Federation[]) => {
           this.federationList = federationList;
-          this.tournament.federation = this.federationList[0];
+          if (this.authService.hasRole(["ROLE_FEDERATION_ADMIN"])) {
+            this.tournament.federation = this.federationList[0];
+          }
         });
       }
     });
