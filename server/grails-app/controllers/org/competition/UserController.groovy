@@ -83,8 +83,13 @@ class UserController extends RestfulController {
         userInstance.save flush:true
 
         // Assign role
-        Role roleInstance = Role.findByAuthority('ROLE_FEDERATION_ADMIN')
-        UserRole.create(userInstance, roleInstance, true)
+        if (userInstance.federation != null) {
+            Role roleInstance = Role.findByAuthority('ROLE_FEDERATION_ADMIN')
+            UserRole.create(userInstance, roleInstance, true)
+        } else {
+            Role roleInstance = Role.findByAuthority('ROLE_GENERAL_ADMIN')
+            UserRole.create(userInstance, roleInstance, true)
+        }
 
         // activation email
         /*RegistrationCode registrationCode = new RegistrationCode(username:userInstance?.email).save(flush:true)
@@ -109,7 +114,7 @@ class UserController extends RestfulController {
     }
 
     @Transactional
-    def update(User userInstance, Long federationId) {
+    def update(User userInstance) {
         if (userInstance == null) {
             notFound()
             return
@@ -121,11 +126,6 @@ class UserController extends RestfulController {
         }
 
         userInstance.save flush:true
-
-        // Assign role
-        UserRole.removeAll(userInstance, true)
-        Role roleInstance = Role.findByAuthority('ROLE_FEDERATION_ADMIN')
-        UserRole.create(userInstance, roleInstance, true)
 
         respond userInstance, [status: OK]
     }

@@ -2,6 +2,9 @@
   "index": {
     "title": "Hola angular con ngx-translate!"
   },
+  "login": {
+    "failed": "Autenticacion fallida"
+  },
   "user": {
     "edit" : {
       "title": "Editar Usuario"

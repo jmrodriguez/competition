@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AuthService} from '../services/auth.service';
+import {FlashMessagesService} from 'ngx-flash-messages';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'login',
@@ -12,7 +14,11 @@ export class LoginComponent implements OnInit {
   loading = false;
   returnUrl: string;
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private flashMessagesService: FlashMessagesService,
+              private translateService: TranslateService,) {
   }
 
   ngOnInit() {
@@ -28,8 +34,10 @@ export class LoginComponent implements OnInit {
               this.router.navigate([this.returnUrl]);
             },
             error => {
-              //this.alertService.error(error);
               this.loading = false;
+              this.translateService.get('login.failed', {}).subscribe((res: string) => {
+                this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
+              });
             });
   }
 
