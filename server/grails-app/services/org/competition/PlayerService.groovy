@@ -23,8 +23,20 @@ class PlayerService {
             parameters = [federation: federation]
 
             if (textFilter) {
-                selectQuery = selectQuery + " and (p.firstName like :textFilter)"
-                countQuery = countQuery + " and (p.firstName like :textFilter)"
+                selectQuery = selectQuery +
+                        " and (" +
+                        "p.firstName like :textFilter or " +
+                        "p.lastName like :textFilter or " +
+                        "p.email like :textFilter or " +
+                        "p.club like :textFilter" +
+                        ")"
+                countQuery = countQuery +
+                        " and (" +
+                        "p.firstName like :textFilter or " +
+                        "p.lastName like :textFilter or " +
+                        "p.email like :textFilter or " +
+                        "p.club like :textFilter" +
+                        ")"
                 parameters.put("textFilter", "%${textFilter}%")
             }
 
@@ -33,14 +45,26 @@ class PlayerService {
             countQuery = "select count(p) from Player p"
 
             if (textFilter) {
-                selectQuery = selectQuery + " where (p.firstName like :textFilter)"
-                countQuery = countQuery + " where (p.firstName like :textFilter)"
+                selectQuery = selectQuery +
+                        " and (" +
+                        "p.firstName like :textFilter or " +
+                        "p.lastName like :textFilter or " +
+                        "p.email like :textFilter or " +
+                        "p.club like :textFilter" +
+                        ")"
+                countQuery = countQuery +
+                        " and (" +
+                        "p.firstName like :textFilter or " +
+                        "p.lastName like :textFilter or " +
+                        "p.email like :textFilter or " +
+                        "p.club like :textFilter" +
+                        ")"
                 parameters = ["textFilter": "%${textFilter}%"]
             }
         }
 
-        players = User.executeQuery(selectQuery, parameters, metaParams)
-        playersCount = User.executeQuery(countQuery, parameters)[0].toString() as Long
+        players = Player.executeQuery(selectQuery, parameters, metaParams)
+        playersCount = Player.executeQuery(countQuery, parameters)[0].toString() as Long
 
         return [players, playersCount]
     }
