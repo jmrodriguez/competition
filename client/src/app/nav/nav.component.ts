@@ -16,10 +16,14 @@ export class NavComponent implements OnInit {
 
   applicationData: any;
 
-  constructor(private navService: NavService, private authService: AuthService, private router: Router, private translateService: TranslateService) { }
+  constructor(private navService: NavService,
+              private authService: AuthService,
+              private router: Router,
+              private translateService: TranslateService) { }
 
   ngOnInit(): void {
     this.navService.getNavData().subscribe(res => this.applicationData = res);
+
   }
 
   login() {

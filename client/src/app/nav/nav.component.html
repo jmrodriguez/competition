@@ -43,11 +43,14 @@
           <a class="dropdown-item" *ngFor="let lang of translateService.getLangs()" (click)="translateService.use(lang)"><span class="flag-icon flag-icon-{{ lang == 'en' ? 'us' : lang }}"></span></a>
         </div>
       </li>
-      <li>
-        <a class="nav-link" *ngIf="!authService.isAuthenticated()" (click)="login()">Log In</a>
+      <li *ngIf="!authService.isAuthenticated()">
+        <a class="nav-link" (click)="login()">Log In</a>
       </li>
-      <li>
-        <a class="nav-link" *ngIf="authService.isAuthenticated()" (click)="authService.logout()">Log Out</a>
+      <li *ngIf="authService.isAuthenticated()">
+        <a class="nav-link" [routerLink]="['/user','edit']">{{authService.currentUser.username}}</a>
+      </li>
+      <li *ngIf="authService.isAuthenticated()">
+        <a class="nav-link" (click)="authService.logout()">Log Out</a>
       </li>
     </ul>
   </div>
