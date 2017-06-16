@@ -25,13 +25,23 @@ export class UserPersistComponent implements OnInit {
     this.user.accountExpired = false;
     this.user.passwordExpired = false;
     this.user.enabled = false;
-    this.federationService.list().subscribe((federationList: Federation[]) => { this.federationList = federationList; });
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.userService.get(+params['id']).subscribe((user: User) => {
           this.create = false;
           this.user = user;
+          this.federationService.list().subscribe((federationList: Federation[]) => {
+            this.federationList = federationList;
+            for (var i = 0; i < this.federationList.length; i++) {
+              if (this.federationList[i].id == this.user.federation.id) {
+                this.user.federation = this.federationList[i];
+                break;
+              }
+            }
+          });
         });
+      } else {
+        this.federationService.list().subscribe((federationList: Federation[]) => { this.federationList = federationList; });
       }
     });
   }

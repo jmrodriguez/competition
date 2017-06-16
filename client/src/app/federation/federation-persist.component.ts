@@ -20,15 +20,28 @@ export class FederationPersistComponent implements OnInit {
   constructor(private route: ActivatedRoute, private federationService: FederationService, private router: Router, private countryService: CountryService) {}
 
   ngOnInit() {
-    this.countryService.list().subscribe((countryList: Country[]) => { this.countryList = countryList; });
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.federationService.get(+params['id']).subscribe((federation: Federation) => {
           this.create = false;
           this.federation = federation;
+          this.countryService.list().subscribe((countryList: Country[]) => {
+            this.countryList = countryList;
+            for (var i = 0; i < this.countryList.length; i++) {
+              if (this.countryList[i].id == this.federation.country.id) {
+                this.federation.country = this.countryList[i];
+              }
+            }
+          });
+        });
+      } else {
+        this.countryService.list().subscribe((countryList: Country[]) => {
+          this.countryList = countryList;
+          this.federation.country = this.countryList[0];
         });
       }
     });
+
   }
 
   save() {

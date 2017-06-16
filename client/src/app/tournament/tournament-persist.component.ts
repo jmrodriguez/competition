@@ -23,14 +23,44 @@ export class TournamentPersistComponent implements OnInit {
   constructor(private route: ActivatedRoute, private tournamentService: TournamentService, private router: Router, private weightService: WeightService, private federationService: FederationService) {}
 
   ngOnInit() {
-    this.weightService.list().subscribe((weightList: Weight[]) => { this.weightList = weightList; });
     this.tournament.genderRestricted = false;
-    this.federationService.list().subscribe((federationList: Federation[]) => { this.federationList = federationList; });
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
           this.create = false;
           this.tournament = tournament;
+          // change the tournament weight and federation to use LITERALLY the exact object from the respective list,
+          // otherwise the value in the select box is selected but not visible
+          this.weightService.list().subscribe((weightList: Weight[]) => {
+            this.weightList = weightList;
+            for (var i = 0; i < this.weightList.length; i++) {
+              if (this.weightList[i].id == this.tournament.weight.id) {
+                  this.tournament.weight = this.weightList[i];
+                  break;
+              }
+            }
+          });
+
+          this.federationService.list().subscribe((federationList: Federation[]) => {
+            this.federationList = federationList;
+            for (var i = 0; i < this.federationList.length; i++) {
+              if (this.federationList[i].id == this.tournament.federation.id) {
+                this.tournament.federation = this.federationList[i];
+                break;
+              }
+            }
+          });
+        });
+      } else {
+        // load the list and set default values
+        this.weightService.list().subscribe((weightList: Weight[]) => {
+          this.weightList = weightList;
+          this.tournament.weight = this.weightList[0];
+        });
+
+        this.federationService.list().subscribe((federationList: Federation[]) => {
+          this.federationList = federationList;
+          this.tournament.federation = this.federationList[0];
         });
       }
     });

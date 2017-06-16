@@ -45,7 +45,7 @@
               <span class="required-indicator">*</span>
             </label>
             <select required="" name="federation" id="federation" [(ngModel)]="user.federation">
-              <option *ngFor="let federation of federationList" [value]="federation.id" [selected]="user.federation?.id == federation.id">{{federation.name}}</option>
+              <option *ngFor="let federation of federationList" [ngValue]="federation" [selected]="user.federation?.id == federation.id">{{federation.name}}</option>
             </select>
           </div>
 

@@ -29,7 +29,7 @@
               <span class="required-indicator">*</span>
             </label>
             <select required="" name="weight" id="weight" [(ngModel)]="tournament.weight">
-              <option *ngFor="let weight of weightList" [value]="weight.id" [selected]="tournament.weight?.id == weight.id">{{weight.name}} ({{weight.factor}})</option>
+              <option *ngFor="let weight of weightList" [ngValue]="weight" [selected]="tournament.weight?.id == weight.id">{{weight.name}} ({{weight.factor}})</option>
             </select>
           </div>
           <div class="fieldcontain">
@@ -48,7 +48,7 @@
               <span class="required-indicator">*</span>
             </label>
             <select required="" name="federation" id="federation" [(ngModel)]="tournament.federation">
-              <option *ngFor="let federation of federationList" [value]="federation.id" [selected]="tournament.federation?.id == federation.id">{{federation.name}}</option>
+              <option *ngFor="let federation of federationList" [ngValue]="federation" [selected]="tournament.federation?.id == federation.id">{{federation.name}}</option>
             </select>
           </div>
         </fieldset>
