@@ -13,14 +13,12 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/pluck';
 
-
 @Component({
   selector: 'user-list',
   templateUrl: './user-list.component.html'
 })
 export class UserListComponent implements OnInit {
 
-  //userList: User[] = [];
   private sub: any;
   total: Observable<number>;
   users: Observable<User[]>;
@@ -31,7 +29,8 @@ export class UserListComponent implements OnInit {
   private searchTermStream = new Subject<string>();
   private pageStream = new Subject<number>();
 
-  constructor(private route: ActivatedRoute, private userService: UserService) {
+  constructor(private route: ActivatedRoute,
+              private userService: UserService) {
     this.sub = this.route.params.subscribe(params => {
       let page = params['page'];
       if (page != null) {
@@ -46,6 +45,10 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._loadData()
+  }
+
+  private _loadData():void {
     const pageSource = this.pageStream.map(pageNumber => {
       this.page = pageNumber;
       return {search: this.terms, page: pageNumber}

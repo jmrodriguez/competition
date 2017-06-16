@@ -1,10 +1,7 @@
-import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-
+import { SharedModule } from '../shared/shared.module';
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { TranslateModule } from '@ngx-translate/core';
-
 import {PlayerService} from './player.service';
 
 
@@ -24,8 +21,7 @@ import { FederationModule } from '../federation/federation.module';
     FileDropDirective
   ],
   imports: [
-    CommonModule,
-    FormsModule,
+    SharedModule,
     TranslateModule,
     PlayerRoutingModule,
     TournamentModule,

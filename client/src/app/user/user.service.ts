@@ -26,14 +26,6 @@ export class UserService {
     }
 
     return this.http.get('user', { search: params }).map(res => res.json())
-
-    /*let subject = new Subject<User[]>();
-    this.http.get('user')
-      .map((r: Response) => r.json())
-      .subscribe((json: any[]) => {
-        subject.next(json.map((item: any) => new User(item)))
-      });
-    return subject.asObservable();*/
   }
 
   get(id: number): Observable<User> {

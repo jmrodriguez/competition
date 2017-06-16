@@ -6,6 +6,7 @@ import {Subject} from 'rxjs/Subject';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import {ListResult} from "../helpers/list-result.interface";
 
 @Injectable()
 export class PlayerService {
@@ -13,14 +14,19 @@ export class PlayerService {
   constructor(private http: Http) {
   }
 
-  list(): Observable<Player[]> {
-    let subject = new Subject<Player[]>();
-    this.http.get('player')
-      .map((r: Response) => r.json())
-      .subscribe((json: any[]) => {
-        subject.next(json.map((item: any) => new Player(item)))
-      });
-    return subject.asObservable();
+  list(textFilter: string = null, page: number = 1, max: number = 5): Observable<ListResult<Player>> {
+    let params = new URLSearchParams();
+    if (textFilter) {
+      params.set('textFilter', textFilter)
+    }
+    if (page) {
+      params.set('page', String(page))
+    }
+    if (max) {
+      params.set('max', String(max))
+    }
+
+    return this.http.get('player', { search: params }).map(res => res.json())
   }
 
   get(id: number): Observable<Player> {

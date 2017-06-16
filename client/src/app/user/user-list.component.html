@@ -6,55 +6,56 @@
 </div>
 <div id="list-user" class="content scaffold-list" role="main">
     <form (submit)="search(term.value)">
-      <div class="input-group input-group-sm" style="margin-bottom: 10px;">
-        <input #term (keyup)="search(term.value)" [value]="terms" class="form-control" placeholder="Search" autofocus>
-        <div class="input-group-btn">
-          <button type="submit" class="btn btn btn-default btn-flat"><i class="fa fa-search"></i></button>
+        <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <input #term (keyup)="search(term.value)" [value]="terms" class="form-control" placeholder="Search"
+                   autofocus>
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn btn-default btn-flat"><i class="fa fa-search"></i></button>
+            </div>
         </div>
-      </div>
     </form>
     <h1>User List</h1>
     <table>
-      <thead>
+        <thead>
         <tr>
-          <th>Id</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <!--<th>Password</th>-->
-          <th>Last Login Date</th>
-          <th>Account Locked</th>
-          <th>Account Expired</th>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <!--<th>Password</th>-->
+            <th>Last Login Date</th>
+            <th>Account Locked</th>
+            <th>Account Expired</th>
         </tr>
-      </thead>
-      <tbody>
+        </thead>
+        <tbody>
         <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let user of users | async; let e = even;">
-          <td>
-            <a [routerLink]="['/user','show',user.id]">{{user.id}}</a>
-          </td>
-          <td>
-            <span>{{user.firstName}}</span>
-          </td>
-          <td>
-            <span>{{user.lastName}}</span>
-          </td>
-          <td>
-            <span>{{user.email}}</span>
-          </td>
-          <!--<td>-->
+            <td>
+                <a [routerLink]="['/user','show',user.id]">{{user.id}}</a>
+            </td>
+            <td>
+                <span>{{user.firstName}}</span>
+            </td>
+            <td>
+                <span>{{user.lastName}}</span>
+            </td>
+            <td>
+                <span>{{user.email}}</span>
+            </td>
+            <!--<td>-->
             <!--<span>{{user.password}}</span>-->
-          <!--</td>-->
-          <td>
-            <span>{{user.lastLoginDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
-          </td>
-          <td>
-            <span>{{user.accountLocked}}</span>
-          </td>
-          <td>
-            <span>{{user.accountExpired}}</span>
-          </td>
+            <!--</td>-->
+            <td>
+                <span>{{user.lastLoginDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+            </td>
+            <td>
+                <span>{{user.accountLocked}}</span>
+            </td>
+            <td>
+                <span>{{user.accountExpired}}</span>
+            </td>
         </tr>
-      </tbody>
+        </tbody>
     </table>
-  <pagination [total]="total | async" [page]="page" (goTo)="goToPage($event)"></pagination>
+    <pagination [total]="total | async" [page]="page" (goTo)="goToPage($event)"></pagination>
 </div>
