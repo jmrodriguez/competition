@@ -5,43 +5,53 @@
     </ul>
 </div>
 <div id="list-tournament" class="content scaffold-list" role="main">
+    <form (submit)="search(term.value)">
+        <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <input #term (keyup)="search(term.value)" [value]="terms" class="form-control" placeholder="Search"
+                   autofocus>
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn btn-default btn-flat"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </form>
     <h1>Tournament List</h1>
     <table>
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Date</th>
-      <th>Weight</th>
-      <th>Gender Restricted</th>
-      <th>Gender</th>
-      <th>Federation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let tournament of tournamentList; let e = even;">
-      <td>
-        <a [routerLink]="['/tournament','show',tournament.id]">{{tournament.id}}</a>
-      </td>
-      <td>
-        <span>{{tournament.name}}</span>
-      </td>
-      <td>
-        <span>{{tournament.date | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
-      </td>
-      <td>
-        <span *ngIf="tournament.weight">{{tournament.weight.name}}</span>
-      </td>
-      <td>
-        <span>{{tournament.genderRestricted}}</span>
-      </td>
-      <td>
-        <span>{{tournament.gender}}</span>
-      </td>
-      <td>
-        <a *ngIf="tournament.federation" [routerLink]="['/tournament','show', tournament.federation.id]">{{tournament.federation.name}}</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Weight</th>
+            <th>Gender Restricted</th>
+            <th>Gender</th>
+            <th>Federation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let tournament of tournaments | async; let e = even;">
+            <td>
+                <a [routerLink]="['/tournament','show',tournament.id]">{{tournament.id}}</a>
+            </td>
+            <td>
+                <span>{{tournament.name}}</span>
+            </td>
+            <td>
+                <span>{{tournament.date | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+            </td>
+            <td>
+                <span *ngIf="tournament.weight">{{tournament.weight.name}}</span>
+            </td>
+            <td>
+                <span>{{tournament.genderRestricted}}</span>
+            </td>
+            <td>
+                <span>{{tournament.gender}}</span>
+            </td>
+            <td>
+                <a *ngIf="tournament.federation" [routerLink]="['/tournament','show', tournament.federation.id]">{{tournament.federation.name}}</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <pagination [total]="total | async" [page]="page" (goTo)="goToPage($event)"></pagination>
 </div>

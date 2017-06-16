@@ -20,6 +20,7 @@ export class TournamentPersistComponent implements OnInit {
   errors: any[];
   weightList: Weight[];
   federationList: Federation[];
+  showFederationSelect:boolean;
 
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
@@ -29,6 +30,7 @@ export class TournamentPersistComponent implements OnInit {
               private authService: AuthService) {}
 
   ngOnInit() {
+    this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
     this.tournament.genderRestricted = false;
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
@@ -47,15 +49,17 @@ export class TournamentPersistComponent implements OnInit {
             }
           });
 
-          this.federationService.list().subscribe((federationList: Federation[]) => {
-            this.federationList = federationList;
-            for (var i = 0; i < this.federationList.length; i++) {
-              if (this.federationList[i].id == this.tournament.federation.id) {
-                this.tournament.federation = this.federationList[i];
-                break;
+          if (this.showFederationSelect) {
+            this.federationService.list().subscribe((federationList: Federation[]) => {
+              this.federationList = federationList;
+              for (var i = 0; i < this.federationList.length; i++) {
+                if (this.federationList[i].id == this.tournament.federation.id) {
+                  this.tournament.federation = this.federationList[i];
+                  break;
+                }
               }
-            }
-          });
+            });
+          }
         });
       } else {
         // load the list and set default values
@@ -64,12 +68,12 @@ export class TournamentPersistComponent implements OnInit {
           this.tournament.weight = this.weightList[0];
         });
 
-        this.federationService.list().subscribe((federationList: Federation[]) => {
-          this.federationList = federationList;
-          if (this.authService.hasRole(["ROLE_FEDERATION_ADMIN"])) {
-            this.tournament.federation = this.federationList[0];
-          }
-        });
+        if (this.showFederationSelect) {
+          this.federationService.list().subscribe((federationList: Federation[]) => {
+            this.federationList = federationList;
+          });
+        }
+
       }
     });
   }

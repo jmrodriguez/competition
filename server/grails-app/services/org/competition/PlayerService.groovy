@@ -6,7 +6,7 @@ import grails.transaction.Transactional
 class PlayerService {
 
     /**
-     * Gets the users related to a given federation (if any)
+     * Gets the players related to a given federation (if any)
      * @param federation
      * @return
      */
@@ -46,14 +46,14 @@ class PlayerService {
 
             if (textFilter) {
                 selectQuery = selectQuery +
-                        " and (" +
+                        " where (" +
                         "p.firstName like :textFilter or " +
                         "p.lastName like :textFilter or " +
                         "p.email like :textFilter or " +
                         "p.club like :textFilter" +
                         ")"
                 countQuery = countQuery +
-                        " and (" +
+                        " where (" +
                         "p.firstName like :textFilter or " +
                         "p.lastName like :textFilter or " +
                         "p.email like :textFilter or " +

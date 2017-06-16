@@ -1,9 +1,6 @@
-import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-
+import {SharedModule} from "../shared/shared.module";
 import {TournamentService} from './tournament.service';
-
 
 import {TournamentRoutingModule} from './tournament-routing.module';
 import {TournamentShowComponent} from './tournament-show.component';
@@ -19,8 +16,7 @@ import { FederationModule } from '../federation/federation.module';
     TournamentShowComponent
   ],
   imports: [
-    CommonModule,
-    FormsModule,
+    SharedModule,
     TournamentRoutingModule,
     WeightModule,
     FederationModule

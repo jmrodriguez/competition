@@ -71,7 +71,7 @@ export class UserListComponent implements OnInit {
         .share();
 
     this.total = source.pluck('total');
-    this.users = source.pluck('userList');
+    this.users = source.pluck('list');
   }
 
   search(terms: string) {

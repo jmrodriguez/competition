@@ -37,16 +37,12 @@ class UserController extends RestfulController {
 
         Object[] results = userService.listUsers(federation, params.textFilter, params)
 
-        //respond results[0] - [springSecurityService.currentUser], model:[userCount: results[1], textFilter:params.textFilter]
-        //respond results[0], model:[userCount: results[1], textFilter:params.textFilter]
-
         //respond result
         Map result = new HashMap()
-        result.put("userList", results[0])
+        result.put("list", results[0])
         result.put("total", results[1])
 
         respond result
-        //render view: 'index', model: [userList: results[0], totalUsers: results[1]]
     }
 
     def current() {

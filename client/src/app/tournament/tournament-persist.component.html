@@ -43,7 +43,7 @@
               <option value="F">F</option>
             </select>
           </div>
-          <div class="fieldcontain required">
+          <div *ngIf="showFederationSelect" class="fieldcontain required">
             <label for="federation">Federation
               <span class="required-indicator">*</span>
             </label>

@@ -112,7 +112,7 @@ export class PlayerListComponent implements OnInit {
         .share();
 
     this.total = source.pluck('total');
-    this.players = source.pluck('playerList');
+    this.players = source.pluck('list');
   }
 
   search(terms: string) {

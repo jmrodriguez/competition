@@ -42,7 +42,7 @@ class PlayerController extends RestfulController {
 
         //respond result
         Map result = new HashMap()
-        result.put("playerList", results[0])
+        result.put("list", results[0])
         result.put("total", results[1])
 
         respond result
