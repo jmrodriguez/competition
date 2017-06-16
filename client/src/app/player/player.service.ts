@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, RequestMethod, Request, Headers} from '@angular/http';
+import {Http, Response, RequestOptions, RequestMethod, Request, Headers, URLSearchParams} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Player} from './player';
-import {Subject} from 'rxjs/Subject';
+import {ListResult} from "../helpers/list-result.interface";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
-import {ListResult} from "../helpers/list-result.interface";
 
 @Injectable()
 export class PlayerService {
