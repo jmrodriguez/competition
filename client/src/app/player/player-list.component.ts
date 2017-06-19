@@ -107,7 +107,7 @@ export class PlayerListComponent implements OnInit {
         .merge(searchSource)
         .startWith({search: this.terms, page: this.page})
         .mergeMap((params: {search: string, page: number}) => {
-          return this.playerService.list(params.search, params.page)
+          return this.playerService.list(null, params.search, params.page)
         })
         .share();
 

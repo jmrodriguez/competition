@@ -20,5 +20,16 @@
         "error" : "Hubo un error procesando el archivo de jugadores"
       }
     }
+  },
+  "tournament": {
+    "show": {
+      "title": "Informacion de Torneo",
+      "players": {
+        "title": {
+          "signed": "Signed",
+          "unsigned": "Unsigned"
+        }
+      }
+    }
   }
 }

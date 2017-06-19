@@ -8,6 +8,8 @@ class Federation {
 
     static hasOne = [logo:FederationLogo]
 
+    static hasMany = [players:Player]
+
     static constraints = {
         name nullable: false
         logo nullable:true

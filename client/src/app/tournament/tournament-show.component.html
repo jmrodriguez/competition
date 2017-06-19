@@ -6,73 +6,103 @@
     </ul>
 </div>
 <div id="show-part" class="content scaffold-show" role="main">
-    <h1>Show Tournament</h1>
-    <ol class="property-list tournament">
-  <li class="fieldcontain">
-    <span id="name-label" class="property-label">Name</span>
-    <div class="property-value" aria-labelledby="name-label">
-      <span>{{tournament.name}}</span>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="date-label" class="property-label">Date</span>
-    <div class="property-value" aria-labelledby="date-label">
-      <span>{{tournament.date | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="weight-label" class="property-label">Weight</span>
-    <div class="property-value" aria-labelledby="weight-label">
-      <a *ngIf="tournament.weight" [routerLink]="['/tournament','show', tournament.weight.id]">{{tournament.weight.toString()}}</a>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="genderRestricted-label" class="property-label">Gender Restricted</span>
-    <div class="property-value" aria-labelledby="genderRestricted-label">
-      <span>{{tournament.genderRestricted}}</span>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="gender-label" class="property-label">Gender</span>
-    <div class="property-value" aria-labelledby="gender-label">
-      <span>{{tournament.gender}}</span>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="federation-label" class="property-label">Federation</span>
-    <div class="property-value" aria-labelledby="federation-label">
-      <a *ngIf="tournament.federation" [routerLink]="['/tournament','show', tournament.federation.id]">{{tournament.federation.toString()}}</a>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="players-label" class="property-label">Players</span>
-    <div class="property-value" aria-labelledby="players-label">
-      <ul>
-        <li *ngFor="let player of tournament.players">
-          <a [routerLink]="['/player', 'show', player.id]">{{player.toString()}}</a>
-        </li>
-      </ul>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="draw-label" class="property-label">Draw</span>
-    <div class="property-value" aria-labelledby="draw-label">
-      <span>{{tournament.draw}}</span>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="matches-label" class="property-label">Matches</span>
-    <div class="property-value" aria-labelledby="matches-label">
-      <ul>
-        <li *ngFor="let tournamentMatch of tournament.matches">
-          <a [routerLink]="['/tournamentMatch', 'show', tournamentMatch.id]">{{tournamentMatch.toString()}}</a>
-        </li>
-      </ul>
-    </div>
-  </li>
-</ol>
-
+    <h1>{{ 'tournament.show.title' | translate}}</h1>
     <a class="edit" [routerLink]="['/tournament', 'edit', tournament.id]">Edit</a>
     <button type="button" (click)="destroy()">Delete</button>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Weight</th>
+            <th>Gender Restricted</th>
+            <th>Gender</th>
+            <th>Federation</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <span>{{tournament.id}}</span>
+                </td>
+                <td>
+                    <span>{{tournament.name}}</span>
+                </td>
+                <td>
+                    <span>{{tournament.date | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+                </td>
+                <td>
+                    <span *ngIf="tournament.weight">{{tournament.weight.name}}</span>
+                </td>
+                <td>
+                    <span>{{tournament.genderRestricted}}</span>
+                </td>
+                <td>
+                    <span>{{tournament.gender}}</span>
+                </td>
+                <td>
+                    <a *ngIf="tournament.federation">{{tournament.federation.name}}</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
+<div id="list-player" class="content scaffold-list" role="main">
+
+    <md-tab-group (selectChange)="viewPlayerType($event)">
+        <md-tab label="{{ 'tournament.show.players.title.signed' | translate}}"></md-tab>
+        <md-tab label="{{ 'tournament.show.players.title.unsigned' | translate}}"></md-tab>
+    </md-tab-group>
+
+    <form (submit)="search(term.value)">
+        <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <input #term (keyup)="search(term.value)" [value]="terms" class="form-control" placeholder="Search"
+                   autofocus>
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn btn-default btn-flat"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+    <h1>Player List</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Dni</th>
+            <th>Club</th>
+            <th>Birth</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let player of players | async; let e = even;">
+            <td>
+                <a [routerLink]="['/player','show',player.id]">{{player.id}}</a>
+            </td>
+            <td>
+                <span>{{player.firstName}}</span>
+            </td>
+            <td>
+                <span>{{player.lastName}}</span>
+            </td>
+            <td>
+                <span>{{player.email}}</span>
+            </td>
+            <td>
+                <span>{{player.dni}}</span>
+            </td>
+            <td>
+                <span>{{player.club}}</span>
+            </td>
+            <td>
+                <span>{{player.birth | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <pagination [total]="total | async" [page]="page" (goTo)="goToPage($event)"></pagination>
 </div>

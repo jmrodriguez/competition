@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from "../shared/shared.module";
+import { TranslateModule } from '@ngx-translate/core';
 import {TournamentService} from './tournament.service';
 
 import {TournamentRoutingModule} from './tournament-routing.module';
@@ -8,6 +9,8 @@ import {TournamentListComponent} from './tournament-list.component';
 import {TournamentPersistComponent} from './tournament-persist.component';
 import { WeightModule } from '../weight/weight.module';
 import { FederationModule } from '../federation/federation.module';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MdTabsModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -17,6 +20,9 @@ import { FederationModule } from '../federation/federation.module';
   ],
   imports: [
     SharedModule,
+    BrowserAnimationsModule,
+    MdTabsModule,
+    TranslateModule,
     TournamentRoutingModule,
     WeightModule,
     FederationModule

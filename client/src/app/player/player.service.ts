@@ -6,6 +6,7 @@ import {ListResult} from "../helpers/list-result.interface";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import {Tournament} from "../tournament/tournament";
 
 @Injectable()
 export class PlayerService {
@@ -13,13 +14,19 @@ export class PlayerService {
   constructor(private http: Http) {
   }
 
-  list(textFilter: string = null, page: number = 1, max: number = 5): Observable<ListResult<Player>> {
+  list(tournament: Tournament = null, textFilter: string = null, page: number = 1, playerType: number = 0, max: number = 5): Observable<ListResult<Player>> {
     let params = new URLSearchParams();
+    if (tournament) {
+      params.set('tournamentId', String(tournament.id))
+    }
     if (textFilter) {
       params.set('textFilter', textFilter)
     }
     if (page) {
       params.set('page', String(page))
+    }
+    if (playerType) {
+      params.set('playerType', String(playerType))
     }
     if (max) {
       params.set('max', String(max))

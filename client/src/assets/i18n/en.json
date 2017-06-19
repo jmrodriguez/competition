@@ -20,5 +20,16 @@
         "error" : "There was an error processing the players file"
       }
     }
+  },
+  "tournament": {
+    "show" : {
+      "title": "Tournament Info",
+      "players": {
+        "title" : {
+          "signed": "Signed",
+          "unsigned": "Unsigned"
+        }
+      }
+    }
   }
 }

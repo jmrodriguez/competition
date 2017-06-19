@@ -10,8 +10,82 @@ class PlayerService {
      * @param federation
      * @return
      */
-    Object[] listPlayers(Federation federation, String textFilter, Map metaParams) {
-        ArrayList players
+    Object[] listPlayers(Federation federation, Tournament tournament, Category category, String textFilter, Integer playerType, Map metaParams) {
+
+        def currentYear = Calendar.instance.get(Calendar.YEAR)
+        Integer lowerLimit
+        Integer upperLimit
+        if (category) {
+            lowerLimit = currentYear - category.maxAge
+            upperLimit = currentYear - category.minAge
+        }
+
+        ArrayList<Player> players
+        if (tournament != null) {
+            players = tournament.players
+        } else {
+            players = federation.players
+        }
+
+        // retrieve unsigned players
+        if (playerType != null && playerType.intValue() == 1) {
+
+            Set<Player> unsignedPlayers = federation.players.findAll {
+
+                Calendar cal = Calendar.getInstance()
+                cal.setTime(it.birth)
+                int year = cal.get(Calendar.YEAR)
+
+                if (tournament.genderRestricted) {
+                    if (lowerLimit && upperLimit) {
+                        year >= lowerLimit && year <= upperLimit && it.gender == tournament.gender && !(it in players)
+                    } else {
+                        it.gender == tournament.gender && !(it in players)
+                    }
+                } else {
+                    if (lowerLimit && upperLimit) {
+                        year >= lowerLimit && year <= upperLimit && !(it in players)
+                    } else {
+                        !(it in players)
+                    }
+                }
+            }
+
+            if (textFilter != null && !textFilter.isEmpty()) {
+                unsignedPlayers = unsignedPlayers.findAll {
+                    it.firstName.toLowerCase().contains(textFilter) ||
+                            it.lastName.toLowerCase().contains(textFilter) ||
+                            it.email.toLowerCase().contains(textFilter) ||
+                            it.club.toLowerCase().contains(textFilter)
+                }
+            }
+            players = unsignedPlayers.toList()
+        }
+
+        int total = players.size()
+
+        if (metaParams.sort) {
+            String sort = metaParams.sort
+            String order = metaParams.order
+            players.sort{
+                it.getProperty(sort)
+            }
+            if (order != null && order == "desc") {
+                players.reverse(true)
+            }
+        } else {
+            players.sort{
+                it.id
+            }
+        }
+
+        int to = metaParams.offset + metaParams.max
+        to = to > total ? total : to
+        players = players.subList(metaParams.offset, to)
+
+        return [players, total]
+
+        /*ArrayList players
         Map parameters = [:]
         long playersCount
         String selectQuery
@@ -66,6 +140,6 @@ class PlayerService {
         players = Player.executeQuery(selectQuery, parameters, metaParams)
         playersCount = Player.executeQuery(countQuery, parameters)[0].toString() as Long
 
-        return [players, playersCount]
+        return [players, playersCount]*/
     }
 }
