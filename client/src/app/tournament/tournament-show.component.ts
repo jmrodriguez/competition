@@ -9,6 +9,7 @@ import {Subject} from "rxjs/Subject";
 import {PlayerService} from "../player/player.service";
 import {CategoryService} from "../category/category.service";
 import {Category} from "../category/category";
+import { FlashMessagesService } from 'ngx-flash-messages';
 
 @Component({
   selector: 'tournament-persist',
@@ -38,7 +39,8 @@ export class TournamentShowComponent implements OnInit {
               private playerService: PlayerService,
               private categoryService: CategoryService,
               private router: Router,
-              private translateService:TranslateService) {
+              private translateService:TranslateService,
+              private flashMessagesService: FlashMessagesService) {
     this.sub = this.route.params.subscribe(params => {
       let page = params['page'];
       if (page != null) {
@@ -127,6 +129,36 @@ export class TournamentShowComponent implements OnInit {
 
   viewPlayerType(event: any) {
     this.playerTypeStream.next(event.index);
+  }
+
+  signUpPlayer(player: Player) {
+    this.tournamentService.signUpPlayer(this.tournament, player).subscribe(success => {
+      if (success) {
+        this.translateService.get('tournament.show.players.signup.success', {}).subscribe((res: string) => {
+          this.flashMessagesService.show(res, { classes: ['alert-success'], timeout: 5000 });
+          this._loadPlayers()
+        });
+      } else {
+        this.translateService.get('tournament.show.players.signup.failure', {}).subscribe((res: string) => {
+          this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
+        });
+      }
+    })
+  }
+
+  signOffPlayer(player: Player) {
+    this.tournamentService.signOffPlayer(this.tournament, player).subscribe(success => {
+      if (success) {
+        this.translateService.get('tournament.show.players.signoff.success', {}).subscribe((res: string) => {
+          this.flashMessagesService.show(res, { classes: ['alert-success'], timeout: 5000 });
+          this._loadPlayers()
+        });
+      } else {
+        this.translateService.get('tournament.show.players.signoff.failure', {}).subscribe((res: string) => {
+          this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
+        });
+      }
+    })
   }
 
   ngOnDestroy() {

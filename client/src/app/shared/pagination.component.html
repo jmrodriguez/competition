@@ -1,4 +1,4 @@
-<ul *ngIf="totalPages() > 1" class="pagination pagination-sm no-margin pull-right">
+<ul *ngIf="totalPages() > 1" class="pagination pagination-sm no-margin pull-left">
   <li *ngIf="page != 1"><a (click)="pageClicked(prevPage())">«</a></li>
   <li *ngFor="let p of pagesRange()"><a (click)="pageClicked(p)">{{p}}</a></li>
   <li *ngIf="totalPages() > page"><a (click)="pageClicked(nextPage())">»</a></li>

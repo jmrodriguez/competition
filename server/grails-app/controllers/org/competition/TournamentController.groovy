@@ -66,4 +66,36 @@ class TournamentController extends RestfulController {
 
         respond tournamentInstance, [status: CREATED]
     }
+
+    @Transactional
+    def signUp(Tournament tournamentInstance, Integer playerId) {
+        if (tournamentInstance == null || playerId == null) {
+            notFound()
+            return
+        }
+
+        Player player = Player.findById(playerId)
+
+        tournamentInstance.addToPlayers(player)
+
+        tournamentInstance.save flush:true
+
+        render status: CREATED
+    }
+
+    @Transactional
+    def signOff(Tournament tournamentInstance, Integer playerId) {
+        if (tournamentInstance == null || playerId == null) {
+            notFound()
+            return
+        }
+
+        Player player = Player.findById(playerId)
+
+        tournamentInstance.removeFromPlayers(player)
+
+        tournamentInstance.save flush:true
+
+        render status: CREATED
+    }
 }

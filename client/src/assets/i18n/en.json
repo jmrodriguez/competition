@@ -28,6 +28,16 @@
         "title" : {
           "signed": "Signed",
           "unsigned": "Unsigned"
+        },
+        "signup": {
+          "button": "Sign Up",
+          "success": "Player signed up successfully",
+          "failure": "There's been an error signing up the player"
+        },
+        "signoff": {
+          "button": "Sign off",
+          "success": "Player removed successfully",
+          "failure": "There's been an error removing the player"
         }
       }
     }

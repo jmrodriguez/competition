@@ -60,6 +60,37 @@ class PlayerService {
                 }
             }
             players = unsignedPlayers.toList()
+        } else {
+            Set<Player> tempPlayers = players.findAll {
+
+                Calendar cal = Calendar.getInstance()
+                cal.setTime(it.birth)
+                int year = cal.get(Calendar.YEAR)
+
+                if (tournament != null && tournament.genderRestricted) {
+                    if (lowerLimit && upperLimit) {
+                        year >= lowerLimit && year <= upperLimit && it.gender == tournament.gender
+                    } else {
+                        it.gender == tournament.gender
+                    }
+                } else {
+                    if (lowerLimit && upperLimit) {
+                        year >= lowerLimit && year <= upperLimit
+                    } else {
+                        !(it in players)
+                    }
+                }
+            }
+
+            if (textFilter != null && !textFilter.isEmpty()) {
+                tempPlayers = tempPlayers.findAll {
+                    it.firstName.toLowerCase().contains(textFilter) ||
+                            it.lastName.toLowerCase().contains(textFilter) ||
+                            it.email.toLowerCase().contains(textFilter) ||
+                            it.club.toLowerCase().contains(textFilter)
+                }
+            }
+            players = tempPlayers.toList()
         }
 
         int total = players.size()

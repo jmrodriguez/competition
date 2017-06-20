@@ -6,6 +6,7 @@ import {Tournament} from './tournament';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import {ListResult} from "../helpers/list-result.interface";
+import {Player} from "../player/player";
 
 @Injectable()
 export class TournamentService {
@@ -53,5 +54,35 @@ export class TournamentService {
     return this.http.delete('tournament/' + tournament.id).map((res: Response) => res.ok).catch(() => {
       return Observable.of(false);
     });
+  }
+
+  signUpPlayer(tournament: Tournament, player: Player): Observable<boolean> {
+    const requestOptions = new RequestOptions();
+
+    requestOptions.method = RequestMethod.Post;
+    requestOptions.url = 'tournament/signUp/' + String(player.id);
+
+    requestOptions.body = JSON.stringify(tournament);
+    requestOptions.headers = new Headers({"Content-Type": "application/json"});
+
+    return this.http.request(new Request(requestOptions))
+        .map((res: Response) => res.ok).catch(() => {
+          return Observable.of(false);
+        });
+  }
+
+  signOffPlayer(tournament: Tournament, player: Player): Observable<boolean> {
+    const requestOptions = new RequestOptions();
+
+    requestOptions.method = RequestMethod.Post;
+    requestOptions.url = 'tournament/signOff/' + String(player.id);
+
+    requestOptions.body = JSON.stringify(tournament);
+    requestOptions.headers = new Headers({"Content-Type": "application/json"});
+
+    return this.http.request(new Request(requestOptions))
+        .map((res: Response) => res.ok).catch(() => {
+          return Observable.of(false);
+        });
   }
 }
