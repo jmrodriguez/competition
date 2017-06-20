@@ -64,8 +64,15 @@
                 <button type="submit" class="btn btn btn-default btn-flat"><i class="fa fa-search"></i></button>
             </div>
         </div>
+        <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <label for="selectedCategory">Filter by Category
+            </label>
+            <select (change)="categoryChanged()" name="selectedCategory" [(ngModel)]="selectedCategory" id="selectedCategory" >
+                <option *ngFor="let category of categories | async" [ngValue]="category" [selected]="category.id == 1">{{category.name}}</option>
+            </select>
+        </div>
     </form>
-    <h1>Player List</h1>
+    <h1>Player List ({{total | async}})</h1>
     <table>
         <thead>
         <tr>
