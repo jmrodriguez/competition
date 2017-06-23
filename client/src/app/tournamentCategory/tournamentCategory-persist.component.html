@@ -1,0 +1,44 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+    </ul>
+</div>
+<div id="persist-tournamentCategory" class="content scaffold-edit" role="main">
+    <h1>{{create ? "Create" : "Edit"}} TournamentCategory</h1>
+    <ul class="errors" role="alert" *ngIf="errors">
+        <li *ngFor="let error of errors">{{error.message}}</li>
+    </ul>
+
+    <form name="save{className}" (ngSubmit)="save()">
+        <fieldset class="form">
+            <div class="fieldcontain required">
+                <label for="bestOf">Best Of
+                    <span class="required-indicator">*</span>
+                </label>
+                <select name="bestOf" id="bestOf" [(ngModel)]="tournamentCategory.bestOf">
+                    <option value="3">3 sets</option>
+                    <option value="5">5 sets</option>
+                    <option value="7">7 sets</option>
+                </select>
+            </div>
+            <div class="fieldcontain required">
+                <label for="groupsOf">Groups Of
+                    <span class="required-indicator">*</span>
+                </label>
+                <select name="groupsOf" id="groupsOf" [(ngModel)]="tournamentCategory.groupsOf">
+                    <option value="3">3 players</option>
+                    <option value="4">4 players</option>
+                    <option value="5">7 players</option>
+                </select>
+            </div>
+            <div class="fieldcontain">
+                <label for="includeGroupPhase">Include Group Phase</label>
+                <input name="includeGroupPhase" id="includeGroupPhase"
+                       [(ngModel)]="tournamentCategory.includeGroupPhase" type="checkbox"/>
+            </div>
+        </fieldset>
+        <fieldset class="buttons">
+            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'"/>
+        </fieldset>
+    </form>
+</div>

@@ -1,12 +1,9 @@
 
 
-export class Category {
+export class Match {
   id: number;
 
-  name: string;
-  minAge: number;
-  maxAge: number;
-  youthCategory: boolean;
+  
 
   constructor (object?: any) {
     if (object) {
@@ -19,6 +16,6 @@ export class Category {
   }
 
   toString(): string {
-    return 'org.competition.Category : ' + (this.id ? this.id : '(unsaved)');
+    return 'org.competition.Match : ' + (this.id ? this.id : '(unsaved)');
   }
 }

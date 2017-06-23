@@ -39,7 +39,8 @@
           "success": "Player removed successfully",
           "failure": "There's been an error removing the player"
         }
-      }
+      },
+      "gameplan" : "View Game Plan"
     }
   }
 }

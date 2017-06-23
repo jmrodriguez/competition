@@ -39,7 +39,8 @@
           "success": "Jugador desinscrito existosamente",
           "failure": "Ha ocurrido un error desinscribiendo al jugador"
         }
-      }
+      },
+      "gameplan" : "Ver Plan de Juego"
     }
   }
 }

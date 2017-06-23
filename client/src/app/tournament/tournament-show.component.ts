@@ -28,6 +28,7 @@ export class TournamentShowComponent implements OnInit {
   terms: string = "";
   playerType:number = 0;
   selectedCategory:Category;
+  gamePlanAvailable:boolean = false;
 
   private playerTypeStream = new Subject<number>();
   private searchTermStream = new Subject<string>();
@@ -103,6 +104,10 @@ export class TournamentShowComponent implements OnInit {
 
     this.total = source.pluck('total');
     this.players = source.pluck('list');
+
+    this.total.subscribe(total => {
+      this.gamePlanAvailable = this.playerType == 0 && total > 8
+    })
   }
 
   private _loadCategories():void {
@@ -125,6 +130,10 @@ export class TournamentShowComponent implements OnInit {
 
   goToPage(page: number) {
     this.pageStream.next(page);
+  }
+
+  goToGameplan() {
+    this.router.navigate(['/tournamentCategory', this.tournament.id, this.selectedCategory.id]);
   }
 
   viewPlayerType(event: any) {

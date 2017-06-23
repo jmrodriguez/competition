@@ -5,11 +5,10 @@ class Tournament {
     Date date = new Date()
     Boolean genderRestricted = false
     String gender
-    String draw
     Weight weight
     Federation federation
 
-    static hasMany = [players:Player, matches:TournamentMatch]
+    static hasMany = [players:Player, tournamentCategories:TournamentCategory]
 
     static constraints = {
         name nullable:false, blank: false
@@ -18,7 +17,6 @@ class Tournament {
         federation nullable:true, blank: true
         genderRestricted nullable:false, blank: false
         gender nullable:true, blank: true, inList: ["M", "F"]
-        draw nullable:true, blank: true
     }
 
 }

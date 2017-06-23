@@ -13,28 +13,32 @@
     <form name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
             <fieldset class="form">
-  <div class="fieldcontain required">
-    <label for="name">Name
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="name" id="name" [(ngModel)]="category.name" type="text" />
-  </div>
-  <div class="fieldcontain required">
-    <label for="minAge">Min Age
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="minAge" id="minAge" [(ngModel)]="category.minAge" type="number" />
-  </div>
-  <div class="fieldcontain required">
-    <label for="maxAge">Max Age
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="maxAge" id="maxAge" [(ngModel)]="category.maxAge" type="number" />
-  </div>
-</fieldset>
+                <div class="fieldcontain required">
+                    <label for="name">Name
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <input required="" name="name" id="name" [(ngModel)]="category.name" type="text"/>
+                </div>
+                <div class="fieldcontain required">
+                    <label for="minAge">Min Age
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <input required="" name="minAge" id="minAge" [(ngModel)]="category.minAge" type="number"/>
+                </div>
+                <div class="fieldcontain required">
+                    <label for="maxAge">Max Age
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <input required="" name="maxAge" id="maxAge" [(ngModel)]="category.maxAge" type="number"/>
+                </div>
+                <div class="fieldcontain">
+                    <label for="youthCategory">Youth Category</label>
+                    <input name="youthCategory" id="youthCategory" [(ngModel)]="category.youthCategory" type="checkbox" />
+                </div>
+            </fieldset>
         </fieldset>
         <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
+            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'"/>
         </fieldset>
     </form>
 </div>

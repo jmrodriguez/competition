@@ -89,11 +89,11 @@
         <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let player of players | async; let e = even;">
             <td>
                 <a [routerLink]="['/player','show',player.id]">{{player.id}}</a>
-                <button (click)="signOffPlayer(player)" *ngIf="playerType == 0" type="button" class="btn btn-success btn-s">
-                    <span class="fa fa-times"></span>{{ "tournament.show.players.signoff.button" | translate }}
+                <button (click)="signOffPlayer(player)" *ngIf="playerType == 0" type="button" class="btn btn-danger btn-s">
+                    <span class="fa fa-user-times"></span> {{ "tournament.show.players.signoff.button" | translate }}
                 </button>
                 <button (click)="signUpPlayer(player)" *ngIf="playerType == 1" type="button" class="btn btn-success btn-s">
-                    <span class="fa fa-check"></span> {{ "tournament.show.players.signup.button" | translate }}
+                    <span class="fa fa-user-plus"></span> {{ "tournament.show.players.signup.button" | translate }}
                 </button>
             </td>
             <td>
@@ -116,6 +116,13 @@
             </td>
         </tr>
         </tbody>
+        <tfoot>
+            <pagination [total]="total | async" [page]="page" (goTo)="goToPage($event)"></pagination>
+        </tfoot>
     </table>
-    <pagination [total]="total | async" [page]="page" (goTo)="goToPage($event)"></pagination>
+</div>
+<div role="main">
+    <button [disabled]="!gamePlanAvailable" (click)="goToGameplan()" *ngIf="playerType == 0" type="button" class="btn btn-success btn-s">
+        <span class="fa fa-thumbs-o-up"></span> {{ "tournament.show.gameplan" | translate }}
+    </button>
 </div>

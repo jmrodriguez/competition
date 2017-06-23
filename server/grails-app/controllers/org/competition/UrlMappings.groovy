@@ -7,6 +7,7 @@ class UrlMappings {
         "/api/federation"(resources:"federation")
         "/api/country"(resources:"country")
         "/api/tournament"(resources:"tournament")
+        "/api/tournamentCategory/$tournamentId/$categoryId" (controller: "tournamentCategory", action: "show", method: "GET")
         "/api/tournament/signUp/$playerId" (controller: "tournament", action: "signUp", method: "POST")
         "/api/tournament/signOff/$playerId" (controller: "tournament", action: "signOff", method: "POST")
         "/api/user"(resources:"user")

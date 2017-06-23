@@ -1,14 +1,13 @@
 package org.competition
 
-
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(TournamentMatch)
-class TournamentMatchSpec extends Specification {
+@TestFor(TournamentCategory)
+class TournamentCategorySpec extends Specification {
 
     def setup() {
     }

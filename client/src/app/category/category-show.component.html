@@ -8,25 +8,31 @@
 <div id="show-part" class="content scaffold-show" role="main">
     <h1>Show Category</h1>
     <ol class="property-list category">
-  <li class="fieldcontain">
-    <span id="name-label" class="property-label">Name</span>
-    <div class="property-value" aria-labelledby="name-label">
-      <span>{{category.name}}</span>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="minAge-label" class="property-label">Min Age</span>
-    <div class="property-value" aria-labelledby="minAge-label">
-      <span>{{category.minAge}}</span>
-    </div>
-  </li>
-  <li class="fieldcontain">
-    <span id="maxAge-label" class="property-label">Max Age</span>
-    <div class="property-value" aria-labelledby="maxAge-label">
-      <span>{{category.maxAge}}</span>
-    </div>
-  </li>
-</ol>
+        <li class="fieldcontain">
+            <span id="name-label" class="property-label">Name</span>
+            <div class="property-value" aria-labelledby="name-label">
+                <span>{{category.name}}</span>
+            </div>
+        </li>
+        <li class="fieldcontain">
+            <span id="minAge-label" class="property-label">Min Age</span>
+            <div class="property-value" aria-labelledby="minAge-label">
+                <span>{{category.minAge}}</span>
+            </div>
+        </li>
+        <li class="fieldcontain">
+            <span id="maxAge-label" class="property-label">Max Age</span>
+            <div class="property-value" aria-labelledby="maxAge-label">
+                <span>{{category.maxAge}}</span>
+            </div>
+        </li>
+        <li class="fieldcontain">
+            <span id="youthCategory-label" class="property-label">Youth Category</span>
+            <div class="property-value" aria-labelledby="youthCategory-label">
+                <span>{{category.youthCategory}}</span>
+            </div>
+        </li>
+    </ol>
 
     <a class="edit" [routerLink]="['/category', 'edit', category.id]">Edit</a>
     <button type="button" (click)="destroy()">Delete</button>
