@@ -4,4 +4,4 @@ model {
     Tournament tournament
 }
 
-json g.render(tournament, [expand: ['weight', 'federation'], excludes:['players']])
+json g.render(tournament, [expand: ['weight', 'federation', 'category'], excludes:['players', 'groups', 'drawMatches']])

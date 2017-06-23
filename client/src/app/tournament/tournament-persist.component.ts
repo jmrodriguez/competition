@@ -8,6 +8,8 @@ import { Weight } from '../weight/weight';
 import { FederationService } from '../federation/federation.service';
 import { Federation } from '../federation/federation';
 import {AuthService} from "../services/auth.service";
+import {CategoryService} from "../category/category.service";
+import {Category} from "../category/category";
 
 @Component({
   selector: 'tournament-persist',
@@ -20,6 +22,7 @@ export class TournamentPersistComponent implements OnInit {
   errors: any[];
   weightList: Weight[];
   federationList: Federation[];
+  categoryList: Category[];
   showFederationSelect:boolean;
 
   constructor(private route: ActivatedRoute,
@@ -27,11 +30,16 @@ export class TournamentPersistComponent implements OnInit {
               private router: Router,
               private weightService: WeightService,
               private federationService: FederationService,
+              private categoryService: CategoryService,
               private authService: AuthService) {}
 
   ngOnInit() {
     this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
     this.tournament.genderRestricted = false;
+    this.tournament.includeGroupPhase = true;
+    this.tournament.bestOf = 3;
+    this.tournament.groupsOf = 3;
+
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
@@ -45,6 +53,16 @@ export class TournamentPersistComponent implements OnInit {
               if (this.weightList[i].id == this.tournament.weight.id) {
                   this.tournament.weight = this.weightList[i];
                   break;
+              }
+            }
+          });
+
+          this.categoryService.list().subscribe((categoryList: Category[]) => {
+            this.categoryList = categoryList;
+            for (var i = 0; i < this.categoryList.length; i++) {
+              if (this.categoryList[i].id == this.tournament.category.id) {
+                this.tournament.category = this.categoryList[i];
+                break;
               }
             }
           });
@@ -66,6 +84,11 @@ export class TournamentPersistComponent implements OnInit {
         this.weightService.list().subscribe((weightList: Weight[]) => {
           this.weightList = weightList;
           this.tournament.weight = this.weightList[0];
+        });
+
+        this.categoryService.list().subscribe((categoryList: Category[]) => {
+          this.categoryList = categoryList;
+          this.tournament.category = this.categoryList[0];
         });
 
         if (this.showFederationSelect) {

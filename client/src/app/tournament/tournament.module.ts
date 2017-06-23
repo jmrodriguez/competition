@@ -7,6 +7,7 @@ import {TournamentRoutingModule} from './tournament-routing.module';
 import {TournamentShowComponent} from './tournament-show.component';
 import {TournamentListComponent} from './tournament-list.component';
 import {TournamentPersistComponent} from './tournament-persist.component';
+import {TournamentPlanComponent} from './tournament-plan.component';
 import { WeightModule } from '../weight/weight.module';
 import { FederationModule } from '../federation/federation.module';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -16,7 +17,8 @@ import {MdTabsModule} from "@angular/material";
   declarations: [
     TournamentListComponent,
     TournamentPersistComponent,
-    TournamentShowComponent
+    TournamentShowComponent,
+    TournamentPlanComponent
   ],
   imports: [
     SharedModule,

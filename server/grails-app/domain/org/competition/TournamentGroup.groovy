@@ -1,11 +1,12 @@
 package org.competition
 
-class Group {
+class TournamentGroup {
 
     Player first
     Player second
+    int number
 
-    static belongsTo = [tournamentCategory:TournamentCategory]
+    static belongsTo = [tournament:Tournament]
 
     static hasMany = [players:Player, matches:Match]
 

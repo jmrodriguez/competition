@@ -12,48 +12,90 @@
 
     <form name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
-          <div class="fieldcontain required">
-            <label for="name">Name
-              <span class="required-indicator">*</span>
-            </label>
-            <input required="" name="name" id="name" [(ngModel)]="tournament.name" type="text" />
-          </div>
-          <div class="fieldcontain required">
-            <label for="date">Date
-              <span class="required-indicator">*</span>
-            </label>
-            <input required="" name="date" id="date" type="date" placeholder="YYYY-MM-DD" [value]="tournament.date | date:'y-MM-dd'" (change)="tournament.date = $event.target.valueAsDate" />
-          </div>
-          <div class="fieldcontain required">
-            <label for="weight">Weight
-              <span class="required-indicator">*</span>
-            </label>
-            <select required="" name="weight" id="weight" [(ngModel)]="tournament.weight">
-              <option *ngFor="let weight of weightList" [ngValue]="weight" [selected]="tournament.weight?.id == weight.id">{{weight.name}} ({{weight.factor}})</option>
-            </select>
-          </div>
-          <div class="fieldcontain">
-            <label for="genderRestricted">Gender Restricted</label>
-            <input name="genderRestricted" id="genderRestricted" [(ngModel)]="tournament.genderRestricted" type="checkbox" />
-          </div>
-          <div class="fieldcontain">
-            <label for="gender">Gender</label>
-            <select name="gender" id="gender" [(ngModel)]="tournament.gender">
-              <option value="M">M</option>
-              <option value="F">F</option>
-            </select>
-          </div>
-          <div *ngIf="showFederationSelect" class="fieldcontain required">
-            <label for="federation">Federation
-              <span class="required-indicator">*</span>
-            </label>
-            <select required="" name="federation" id="federation" [(ngModel)]="tournament.federation">
-              <option *ngFor="let federation of federationList" [ngValue]="federation" [selected]="tournament.federation?.id == federation.id">{{federation.name}}</option>
-            </select>
-          </div>
+            <div class="fieldcontain required">
+                <label for="name">Name
+                    <span class="required-indicator">*</span>
+                </label>
+                <input required="" name="name" id="name" [(ngModel)]="tournament.name" type="text"/>
+            </div>
+            <div class="fieldcontain required">
+                <label for="date">Date
+                    <span class="required-indicator">*</span>
+                </label>
+                <input required="" name="date" id="date" type="date" placeholder="YYYY-MM-DD"
+                       [value]="tournament.date | date:'y-MM-dd'"
+                       (change)="tournament.date = $event.target.valueAsDate"/>
+            </div>
+            <div class="fieldcontain required">
+                <label for="weight">Weight
+                    <span class="required-indicator">*</span>
+                </label>
+                <select required="" name="weight" id="weight" [(ngModel)]="tournament.weight">
+                    <option *ngFor="let weight of weightList" [ngValue]="weight"
+                            [selected]="tournament.weight?.id == weight.id">{{weight.name}} ({{weight.factor}})
+                    </option>
+                </select>
+            </div>
+            <div class="fieldcontain">
+                <label for="genderRestricted">Gender Restricted</label>
+                <input name="genderRestricted" id="genderRestricted" [(ngModel)]="tournament.genderRestricted"
+                       type="checkbox"/>
+            </div>
+            <div class="fieldcontain">
+                <label for="gender">Gender</label>
+                <select name="gender" id="gender" [(ngModel)]="tournament.gender">
+                    <option value="M">M</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
+            <div class="fieldcontain required">
+                <label for="bestOf">Best Of
+                    <span class="required-indicator">*</span>
+                </label>
+                <select name="bestOf" id="bestOf" [(ngModel)]="tournament.bestOf">
+                    <option value="3">3 sets</option>
+                    <option value="5">5 sets</option>
+                    <option value="7">7 sets</option>
+                </select>
+            </div>
+            <div class="fieldcontain required">
+                <label for="groupsOf">Groups Of
+                    <span class="required-indicator">*</span>
+                </label>
+                <select name="groupsOf" id="groupsOf" [(ngModel)]="tournament.groupsOf">
+                    <option value="3">3 players</option>
+                    <option value="4">4 players</option>
+                    <option value="5">7 players</option>
+                </select>
+            </div>
+            <div class="fieldcontain">
+                <label for="includeGroupPhase">Include Group Phase</label>
+                <input name="includeGroupPhase" id="includeGroupPhase"
+                       [(ngModel)]="tournament.includeGroupPhase" type="checkbox"/>
+            </div>
+            <div class="fieldcontain required">
+                <label for="category">Category
+                    <span class="required-indicator">*</span>
+                </label>
+                <select required="" name="category" id="category" [(ngModel)]="tournament.category">
+                    <option *ngFor="let category of categoryList" [ngValue]="category"
+                            [selected]="tournament.category?.id == category.id">{{category.name}}
+                    </option>
+                </select>
+            </div>
+            <div *ngIf="showFederationSelect" class="fieldcontain required">
+                <label for="federation">Federation
+                    <span class="required-indicator">*</span>
+                </label>
+                <select required="" name="federation" id="federation" [(ngModel)]="tournament.federation">
+                    <option *ngFor="let federation of federationList" [ngValue]="federation"
+                            [selected]="tournament.federation?.id == federation.id">{{federation.name}}
+                    </option>
+                </select>
+            </div>
         </fieldset>
         <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
+            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'"/>
         </fieldset>
     </form>
 </div>

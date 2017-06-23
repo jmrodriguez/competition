@@ -79,6 +79,10 @@ class BootStrap {
         if(!Category.count()) {
             Category open = new Category(name:"Open")
             open.save(failOnError:true)
+            Category sub10 = new Category(name:"Sub10", minAge: 9, maxAge: 10, youthCategory: true)
+            sub10.save(failOnError:true)
+            Category sub8 = new Category(name:"Sub8", minAge: 8, maxAge: 9, youthCategory: true)
+            sub8.save(failOnError:true)
         }
     }
 

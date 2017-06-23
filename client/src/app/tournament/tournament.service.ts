@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import {ListResult} from "../helpers/list-result.interface";
 import {Player} from "../player/player";
+import {Group} from "../group/group";
 
 @Injectable()
 export class TournamentService {
@@ -85,4 +86,10 @@ export class TournamentService {
           return Observable.of(false);
         });
   }
+
+  generateDraw(id: number): Observable<Tournament> {
+    return this.http.get('tournament/generateDraw/'+id)
+        .map((r: Response) => new Tournament(r.json()));
+  }
+
 }

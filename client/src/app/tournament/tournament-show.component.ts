@@ -7,7 +7,6 @@ import {Observable} from "rxjs/Observable";
 import {Player} from "../player/player";
 import {Subject} from "rxjs/Subject";
 import {PlayerService} from "../player/player.service";
-import {CategoryService} from "../category/category.service";
 import {Category} from "../category/category";
 import { FlashMessagesService } from 'ngx-flash-messages';
 
@@ -22,23 +21,19 @@ export class TournamentShowComponent implements OnInit {
   private sub: any;
   total: Observable<number>;
   players: Observable<Player[]>;
-  categories: Observable<Category[]>;
 
   page: number = 1;
   terms: string = "";
   playerType:number = 0;
-  selectedCategory:Category;
   gamePlanAvailable:boolean = false;
 
   private playerTypeStream = new Subject<number>();
   private searchTermStream = new Subject<string>();
   private pageStream = new Subject<number>();
-  private categoryStream = new Subject<Category>();
 
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
               private playerService: PlayerService,
-              private categoryService: CategoryService,
               private router: Router,
               private translateService:TranslateService,
               private flashMessagesService: FlashMessagesService) {
@@ -59,7 +54,6 @@ export class TournamentShowComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
         this.tournament = tournament;
-        this._loadCategories();
         this._loadPlayers();
       });
     });
@@ -70,12 +64,12 @@ export class TournamentShowComponent implements OnInit {
     console.log("Loading tournament players");
     const playerTypeSource = this.playerTypeStream.map(playerType => {
       this.playerType = playerType;
-      return {search: this.terms, page: 1, playerType: playerType, category: this.selectedCategory}
+      return {search: this.terms, page: 1, playerType: playerType, category: this.tournament.category}
     });
 
     const pageSource = this.pageStream.map(pageNumber => {
       this.page = pageNumber;
-      return {search: this.terms, page: pageNumber, playerType: this.playerType, category: this.selectedCategory}
+      return {search: this.terms, page: pageNumber, playerType: this.playerType, category: this.tournament.category}
     });
 
     const searchSource = this.searchTermStream
@@ -83,20 +77,13 @@ export class TournamentShowComponent implements OnInit {
         .distinctUntilChanged()
         .map(searchTerm => {
           this.terms = searchTerm;
-          return {search: searchTerm, page: 1, playerType: this.playerType, category: this.selectedCategory}
-        });
-
-    const categorySource = this.categoryStream
-        .map(category => {
-          this.selectedCategory = category;
-          return {search: this.terms, page: 1, playerType: this.playerType, category: this.selectedCategory}
+          return {search: searchTerm, page: 1, playerType: this.playerType, category: this.tournament.category}
         });
 
     const source = pageSource
         .merge(searchSource)
         .merge(playerTypeSource)
-        .merge(categorySource)
-        .startWith({search: this.terms, page: this.page, playerType: this.playerType, category: this.selectedCategory})
+        .startWith({search: this.terms, page: this.page, playerType: this.playerType, category: this.tournament.category})
         .mergeMap((params: {search: string, page: number, playerType: number, category: Category}) => {
           return this.playerService.list(this.tournament, params.search, params.page, params.playerType, params.category);
         })
@@ -110,22 +97,8 @@ export class TournamentShowComponent implements OnInit {
     })
   }
 
-  private _loadCategories():void {
-
-    console.log("Loading tournament categories");
-    this.categories = this.categoryService.list();
-
-    this.categories.subscribe(categoryList => {
-      this.selectedCategory = categoryList[0];
-    })
-  }
-
   search(terms: string) {
     this.searchTermStream.next(terms);
-  }
-
-  categoryChanged() {
-    this.categoryStream.next(this.selectedCategory);
   }
 
   goToPage(page: number) {
@@ -133,7 +106,7 @@ export class TournamentShowComponent implements OnInit {
   }
 
   goToGameplan() {
-    this.router.navigate(['/tournamentCategory', this.tournament.id, this.selectedCategory.id]);
+    this.router.navigate(['/tournament/gameplan', this.tournament.id]);
   }
 
   viewPlayerType(event: any) {

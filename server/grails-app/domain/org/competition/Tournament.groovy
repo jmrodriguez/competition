@@ -7,8 +7,15 @@ class Tournament {
     String gender
     Weight weight
     Federation federation
+    int bestOf = 3
+    int groupsOf = 3
+    boolean includeGroupPhase = true
+    String draw
+    String bracketInfo
 
-    static hasMany = [players:Player, tournamentCategories:TournamentCategory]
+    static belongsTo = [tournament:Tournament, category:Category]
+
+    static hasMany = [players:Player, drawMatches:Match, groups:TournamentGroup]
 
     static constraints = {
         name nullable:false, blank: false
@@ -17,6 +24,11 @@ class Tournament {
         federation nullable:true, blank: true
         genderRestricted nullable:false, blank: false
         gender nullable:true, blank: true, inList: ["M", "F"]
+        bestOf blank:false, nullable:false, inList: [3, 5, 7]
+        groupsOf blank:false, nullable:false, inList: [3, 4, 5]
+        includeGroupPhase blank:false, nullable:false
+        draw blank:true, nullable:true
+        bracketInfo blank:true, nullable:true
     }
 
 }

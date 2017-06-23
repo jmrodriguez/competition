@@ -12,7 +12,7 @@ class Match {
     String setResults
     int matchNumber
 
-    static belongsTo = [tournamentCategory:TournamentCategory]
+    static belongsTo = [tournament:Tournament]
 
     static constraints = {
         player1 blank:false, nullable:false
