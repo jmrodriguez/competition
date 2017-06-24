@@ -24,6 +24,7 @@ export class TournamentPlanComponent implements OnInit {
               private router: Router) {}
 
   ngOnInit() {
+    this.groupsAvailable = false;
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
@@ -43,6 +44,8 @@ export class TournamentPlanComponent implements OnInit {
     this.groupService.list(this.tournament).subscribe((listResult: ListResult<Group>) => {
       this.total = Observable.of(listResult.total);
       this.groups = Observable.of(listResult.items);
+      this.groupsAvailable = listResult.total > 0;
+      console.log(listResult);
       console.log("Loaded tournament groups");
     });
 
@@ -52,6 +55,7 @@ export class TournamentPlanComponent implements OnInit {
     this.groupService.generateGroups(this.tournament.id).subscribe((listResult: ListResult<Group>) => {
       this.total = Observable.of(listResult.total);
       this.groups = Observable.of(listResult.items);
+      this.groupsAvailable = listResult.total > 0;
       console.log("Created tournament groups");
     });
   }

@@ -12,8 +12,7 @@ class Tournament {
     boolean includeGroupPhase = true
     String draw
     String bracketInfo
-
-    static belongsTo = [tournament:Tournament, category:Category]
+    Category category
 
     static hasMany = [players:Player, drawMatches:Match, groups:TournamentGroup]
 

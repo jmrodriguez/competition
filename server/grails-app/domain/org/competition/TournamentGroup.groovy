@@ -2,8 +2,8 @@ package org.competition
 
 class TournamentGroup {
 
-    Player first
-    Player second
+    Player winner
+    Player runnerup
     int number
 
     static belongsTo = [tournament:Tournament]
@@ -11,5 +11,7 @@ class TournamentGroup {
     static hasMany = [players:Player, matches:Match]
 
     static constraints = {
+        winner blank:true, nullable:true
+        runnerup blank:true, nullable:true
     }
 }
