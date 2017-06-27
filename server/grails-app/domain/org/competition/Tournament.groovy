@@ -14,7 +14,7 @@ class Tournament {
     String bracketInfo
     Category category
 
-    static hasMany = [players:Player, drawMatches:Match, groups:TournamentGroup]
+    static hasMany = [players:Player, matches:TournamentMatch, groups:TournamentGroup]
 
     static constraints = {
         name nullable:false, blank: false
@@ -28,6 +28,11 @@ class Tournament {
         includeGroupPhase blank:false, nullable:false
         draw blank:true, nullable:true
         bracketInfo blank:true, nullable:true
+    }
+
+    static mapping = {
+        groups cascade: "all-delete-orphan"
+        matches cascade: "all-delete-orphan"
     }
 
 }

@@ -64,7 +64,12 @@
 </div>
 
 <div *ngIf="groupsAvailable" id="list-group" class="content scaffold-list" role="main">
-    HAY GRUPOS
+    HAY GRUPOS ({{total | async}})
+
+    <md-tab-group (selectChange)="viewContent($event)" >
+        <md-tab *ngFor="let tournamentGroup of tournamentGroups | async" [label]="'tournament.gameplan.grouptab' | translate:{number: tournamentGroup.number}"></md-tab>
+        <md-tab [label]="'tournament.gameplan.brackettab' | translate"></md-tab>
+    </md-tab-group>
 </div>
 
 <div *ngIf="!groupsAvailable" id="empty-list-group" class="content scaffold-list" role="main">

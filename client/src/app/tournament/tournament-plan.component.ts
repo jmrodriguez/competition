@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
 import {Tournament} from './tournament';
 import {TournamentService} from './tournament.service';
 import {Observable} from "rxjs/Observable";
-import {GroupService} from "../group/group.service";
-import {Group} from "../group/group";
+import {TournamentGroupService} from "../tournamentGroup/tournamentGroup.service";
 import {ListResult} from "../helpers/list-result.interface";
+import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
+import {MdTab} from '@angular/material';
 
 @Component({
   selector: 'tournament-plan',
@@ -13,15 +15,18 @@ import {ListResult} from "../helpers/list-result.interface";
 })
 export class TournamentPlanComponent implements OnInit {
 
+  @ViewChildren(MdTab) mdTabList: QueryList<MdTab>;
+
   tournament = new Tournament();
   total: Observable<number>;
-  groups: Observable<Group[]>;
+  tournamentGroups: Observable<TournamentGroup[]>;
   groupsAvailable: boolean;
 
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
-              private groupService: GroupService,
-              private router: Router) {}
+              private tournamentGroupService: TournamentGroupService,
+              private router: Router,
+              private translateService: TranslateService) {}
 
   ngOnInit() {
     this.groupsAvailable = false;
@@ -41,21 +46,26 @@ export class TournamentPlanComponent implements OnInit {
 
     console.log("Loading tournament groups");
 
-    this.groupService.list(this.tournament).subscribe((listResult: ListResult<Group>) => {
-      this.total = Observable.of(listResult.total);
-      this.groups = Observable.of(listResult.items);
-      this.groupsAvailable = listResult.total > 0;
-      console.log(listResult);
+    const source = this.tournamentGroupService.list(this.tournament).share();
+
+    this.total = source.pluck('total');
+    this.tournamentGroups = source.pluck('list');
+
+    this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
+      this.groupsAvailable = groupsList.length > 0;
       console.log("Loaded tournament groups");
     });
 
   }
 
   generateGroups() {
-    this.groupService.generateGroups(this.tournament.id).subscribe((listResult: ListResult<Group>) => {
-      this.total = Observable.of(listResult.total);
-      this.groups = Observable.of(listResult.items);
-      this.groupsAvailable = listResult.total > 0;
+    console.log("Creating tournament groups");
+    const source = this.tournamentGroupService.generateGroups(this.tournament.id).share();
+    this.total = source.pluck('total');
+    this.tournamentGroups = source.pluck('list');
+
+    this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
+      this.groupsAvailable = groupsList.length > 0;
       console.log("Created tournament groups");
     });
   }
@@ -64,5 +74,15 @@ export class TournamentPlanComponent implements OnInit {
     this.tournamentService.generateDraw(this.tournament.id).subscribe((tournament: Tournament) => {
       this.tournament = tournament
     })
+  }
+
+  viewContent(event: any) {
+
+    // the selected tab is the final bracket tab
+    if (this.mdTabList.last == event.tab) {
+
+    } else {
+
+    }
   }
 }

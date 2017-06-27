@@ -7,7 +7,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import {ListResult} from "../helpers/list-result.interface";
 import {Player} from "../player/player";
-import {Group} from "../group/group";
+import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
 
 @Injectable()
 export class TournamentService {

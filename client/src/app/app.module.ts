@@ -28,7 +28,7 @@ import { HttpFactory } from "./helpers/http.factory";
 import { WeightModule } from './weight/weight.module';
 import { CategoryModule } from './category/category.module';
 import { PlayerModule } from './player/player.module';
-import {GroupModule} from "./group/group.module";
+import { TournamentGroupModule } from "./tournamentGroup/tournamentGroup.module";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -56,7 +56,7 @@ export function HttpLoaderFactory(http: Http) {
     WeightModule,
     CategoryModule,
     PlayerModule,
-    GroupModule,
+    TournamentGroupModule,
     NgbModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

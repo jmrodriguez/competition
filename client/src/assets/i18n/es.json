@@ -41,6 +41,10 @@
         }
       },
       "gameplan" : "Ver Plan de Juego"
+    },
+    "gameplan" : {
+      "grouptab" : "Grupo {{number}}",
+      "brackettab" : "Llave Final"
     }
   }
 }

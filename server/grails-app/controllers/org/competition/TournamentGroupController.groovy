@@ -62,6 +62,10 @@ class TournamentGroupController extends RestfulController {
         if((SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN") && currentUser.federation.id == tournament.federation.id) ||
                 SpringSecurityUtils.ifAnyGranted("ROLE_SUPER_ADMIN, ROLE_GENERAL_ADMIN")){
 
+            tournament.groups.clear()
+
+            tournament.save flush: true
+
             Object[] results = tournamentGroupService.generateGroups(tournament)
 
             List<TournamentGroup> groups = results[0]

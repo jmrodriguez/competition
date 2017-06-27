@@ -56,21 +56,20 @@ class TournamentGroupService {
 
 		int groupCount = getGroupCount(players.size(), tournament.groupsOf)
 
-		List<TournamentGroupService> groups = applySnake(tournament, groupCount, players)
+		List<TournamentGroup> groups = applySnake(groupCount, players)
 		return [groups, groups.size()]
 	}
 
 	/**
 	 * Creates the tournament groups, applying the snake algorithm
-	 * @param tournament the tournament
 	 * @param groupCount the number of groups
 	 * @param players the tournament players
 	 * @return the list of tournament groups
 	 */
-	private List applySnake(Tournament tournament, int groupCount, List players) {
+	private List applySnake(int groupCount, List players) {
 		List<TournamentGroup> groups = new ArrayList()
 		for (int i = 0; i < groupCount; i++) {
-			TournamentGroup group = new TournamentGroup(number: i + 1, tournament: tournament)
+			TournamentGroup group = new TournamentGroup(number: i + 1)
 			groups.add(group)
 		}
 

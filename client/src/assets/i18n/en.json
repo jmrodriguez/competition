@@ -41,6 +41,10 @@
         }
       },
       "gameplan" : "View Game Plan"
+    },
+    "gameplan" : {
+      "grouptab" : "Group {{number}}",
+      "brackettab" : "Final Bracket"
     }
   }
 }
