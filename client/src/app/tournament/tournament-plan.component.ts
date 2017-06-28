@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Observable";
 import {TournamentGroupService} from "../tournamentGroup/tournamentGroup.service";
 import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
 import {MdTab} from '@angular/material';
+import {ListResult} from "../helpers/list-result.interface";
 
 @Component({
   selector: 'tournament-plan',
@@ -51,15 +52,12 @@ export class TournamentPlanComponent implements OnInit {
 
     console.log("Loading tournament groups");
 
-    const source = this.tournamentGroupService.list(this.tournament).share();
-
-    this.total = source.pluck('total');
-    this.tournamentGroups = source.pluck('list');
-
-    this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
-      this.groupsAvailable = groupsList.length > 0;
+    this.tournamentGroupService.list(this.tournament).subscribe((results: ListResult<TournamentGroup>) => {
+      this.total = Observable.of(results.total);
+      this.tournamentGroups = Observable.of(results.list);
+      this.groupsAvailable = results.list.length > 0;
       if (this.groupsAvailable) {
-        this.selectedGroup = groupsList[0];
+        this.selectedGroup = results.list[0];
         this._getMatchOrder();
       }
       console.log("Loaded tournament groups");
@@ -69,14 +67,13 @@ export class TournamentPlanComponent implements OnInit {
 
   generateGroups() {
     console.log("Creating tournament groups");
-    const source = this.tournamentGroupService.generateGroups(this.tournament.id).share();
-    this.total = source.pluck('total');
-    this.tournamentGroups = source.pluck('list');
-
-    this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
-      this.groupsAvailable = groupsList.length > 0;
+    this.tournamentGroupService.generateGroups(this.tournament.id).subscribe((results: ListResult<TournamentGroup>) => {
+      this.total = Observable.of(results.total);
+      this.tournamentGroups = Observable.of(results.list);
+      this.groupsAvailable = results.list.length > 0;
       if (this.groupsAvailable) {
-        this.selectedGroup = groupsList[0];
+        this.selectedGroup = results.list[0];
+        this.selectedTab = 0;
         this._getMatchOrder();
       }
       console.log("Created tournament groups");

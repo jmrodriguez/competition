@@ -1,5 +1,5 @@
 export interface ListResult<T> {
-    items: T[]
+    list: T[]
 
     total: number
 }
