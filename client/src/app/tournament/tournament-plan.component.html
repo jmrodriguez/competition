@@ -66,8 +66,51 @@
 <div *ngIf="groupsAvailable" id="list-group" class="content scaffold-list" role="main">
     HAY GRUPOS ({{total | async}})
 
-    <md-tab-group (selectChange)="viewContent($event)" >
-        <md-tab *ngFor="let tournamentGroup of tournamentGroups | async" [label]="'tournament.gameplan.grouptab' | translate:{number: tournamentGroup.number}"></md-tab>
+    <md-tab-group [(selectedIndex)]="selectedTab" (selectChange)="viewContent($event)" >
+        <md-tab *ngFor="let tournamentGroup of tournamentGroups | async" [label]="'tournament.gameplan.grouptab' | translate:{number: tournamentGroup.number}">
+            <div *ngIf="selectedGroup">
+                <table>
+                    <thead>
+                        <th>Order</th>
+                        <th>ID</th>
+                        <th>Player</th>
+                        <th>Association</th>
+                        <th>Ranking</th>
+                        <th>Points</th>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let player of selectedGroup.players; let i = index">
+                            <tr>
+                                <td>{{i + 1}}</td>
+                                <td>{{player.id}}</td>
+                                <td>{{player.firstName}} {{player.lastName}}</td>
+                                <td>{{player.club}}</td>
+                                <td>{{player.ranking}}</td>
+                                <td>{{player.points}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+
+                <table>
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                    <ng-container *ngFor="let tm of matchOrder; let i = index">
+                        <div>{{tm[0]}} - {{tm[1]}}</div>
+                        <ng-container *ngIf="tournamentGroup.players[tm[0]-1] as player1">
+                            <ng-container *ngIf="tournamentGroup.players[tm[1]-1] as player2">
+                                <div>{{player1.firstName}} - {{player2.firstName}}</div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </md-tab>
         <md-tab [label]="'tournament.gameplan.brackettab' | translate"></md-tab>
     </md-tab-group>
 </div>

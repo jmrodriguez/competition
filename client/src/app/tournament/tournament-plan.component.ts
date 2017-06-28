@@ -5,7 +5,6 @@ import {Tournament} from './tournament';
 import {TournamentService} from './tournament.service';
 import {Observable} from "rxjs/Observable";
 import {TournamentGroupService} from "../tournamentGroup/tournamentGroup.service";
-import {ListResult} from "../helpers/list-result.interface";
 import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
 import {MdTab} from '@angular/material';
 
@@ -21,6 +20,11 @@ export class TournamentPlanComponent implements OnInit {
   total: Observable<number>;
   tournamentGroups: Observable<TournamentGroup[]>;
   groupsAvailable: boolean;
+  matchOrder:number[][];
+
+  selectedTab: number;
+
+  selectedGroup: TournamentGroup;
 
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
@@ -30,6 +34,7 @@ export class TournamentPlanComponent implements OnInit {
 
   ngOnInit() {
     this.groupsAvailable = false;
+    this.selectedTab = 0;
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
@@ -53,6 +58,10 @@ export class TournamentPlanComponent implements OnInit {
 
     this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
       this.groupsAvailable = groupsList.length > 0;
+      if (this.groupsAvailable) {
+        this.selectedGroup = groupsList[0];
+        this._getMatchOrder();
+      }
       console.log("Loaded tournament groups");
     });
 
@@ -66,6 +75,10 @@ export class TournamentPlanComponent implements OnInit {
 
     this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
       this.groupsAvailable = groupsList.length > 0;
+      if (this.groupsAvailable) {
+        this.selectedGroup = groupsList[0];
+        this._getMatchOrder();
+      }
       console.log("Created tournament groups");
     });
   }
@@ -77,12 +90,35 @@ export class TournamentPlanComponent implements OnInit {
   }
 
   viewContent(event: any) {
-
     // the selected tab is the final bracket tab
     if (this.mdTabList.last == event.tab) {
-
+      this.selectedGroup = null;
     } else {
-
+      this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
+        this.selectedGroup = groupsList[event.index];
+      });
     }
+  }
+
+  _getMatchOrder() {
+    var groupsOf = 3;
+    if (this.tournament != null) {
+      groupsOf = this.tournament.groupsOf;
+    }
+
+    var matchOrder = [[1,3], [1,2], [2,3]];
+    switch(groupsOf) {
+      case 3:
+        matchOrder = [[1,3], [1,2], [2,3]];
+        break;
+      case 4:
+        matchOrder = [[1,3], [4,2], [1,2], [3,4], [1,4], [2,3]];
+        break;
+      case 5:
+        matchOrder = [[1,4], [5,3], [1,3], [4,2], [1,2], [4,5], [2,5], [3,4], [1,5], [2,3]];
+        break;
+    }
+
+    this.matchOrder = matchOrder;
   }
 }

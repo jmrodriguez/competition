@@ -4,4 +4,4 @@ model {
     TournamentGroup tournamentGroup
 }
 
-json g.render(tournamentGroup, [excludes:['players', 'matches', 'winner', 'runnerup']])
+json g.render(tournamentGroup, [expand:['players', 'matches', 'winner', 'runnerup']])

@@ -35,6 +35,9 @@ class TournamentGroupController extends RestfulController {
         if((SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN") && currentUser.federation.id == tournament.federation.id) ||
             SpringSecurityUtils.ifAnyGranted("ROLE_SUPER_ADMIN, ROLE_GENERAL_ADMIN")){
             List<TournamentGroup> groups = TournamentGroup.findAllByTournament(tournament)
+            groups.sort{
+                it.number
+            }
             Map result = new HashMap()
             result.put("list", groups)
             result.put("total", groups.size())
