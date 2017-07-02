@@ -9,7 +9,7 @@ class UrlMappings {
         "/api/tournament"(resources:"tournament")
         "/api/tournament/groups" (controller: "tournamentGroup", action: "groups", method: "GET")
         "/api/tournament/generateGroups/$tournamentId" (controller: "tournamentGroup", action: "generateGroups", method: "GET")
-        "/api/tournament/generateDraw/$tournamentId" (controller: "tournamentGroup", action: "generateDraw", method: "GET")
+        "/api/tournament/generateDraw/$tournamentId" (controller: "tournament", action: "generateDraw", method: "GET")
         "/api/tournament/signUp/$playerId" (controller: "tournament", action: "signUp", method: "POST")
         "/api/tournament/signOff/$playerId" (controller: "tournament", action: "signOff", method: "POST")
         "/api/user"(resources:"user")

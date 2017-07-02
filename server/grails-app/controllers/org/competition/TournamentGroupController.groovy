@@ -5,7 +5,6 @@ import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 import grails.transaction.Transactional
 
-import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.UNAUTHORIZED
 
 @Secured(['ROLE_SUPER_ADMIN', 'ROLE_FEDERATION_ADMIN', 'ROLE_GENERAL_ADMIN'])
@@ -112,17 +111,5 @@ class TournamentGroupController extends RestfulController {
         } else {
             render status: UNAUTHORIZED
         }
-    }
-
-    @Transactional
-    def generateDraw(Integer tournamentId) {
-        if (tournamentId == null) {
-            notFound()
-            return
-        }
-
-        Tournament tournament = Tournament.findById(tournamentId)
-
-        render status: CREATED
     }
 }

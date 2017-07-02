@@ -98,4 +98,21 @@ class TournamentController extends RestfulController {
 
         render status: CREATED
     }
+
+    @Transactional
+    def generateDraw(Integer tournamentId) {
+        if (tournamentId == null) {
+            notFound()
+            return
+        }
+
+        Tournament tournament = Tournament.findById(tournamentId)
+
+        String finalDraw = String.join(",", RifaHelper.generarRifa(tournament.groups.size()))
+        tournament.draw = finalDraw
+
+        tournament.save flush:true
+
+        respond tournament, [status: CREATED]
+    }
 }
