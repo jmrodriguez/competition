@@ -95,6 +95,9 @@ export class InterceptedHttp extends Http {
                 //handle authorization errors
                 //in this example I am navigating to login.
                 console.log("Error_Token_Expired: redirecting to login.");
+                // call logout and redirect to login
+                this.authService.logout();
+
                 this.translateService.get('auth.token.expired', {}).subscribe((res: string) => {
                     this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
                 });
