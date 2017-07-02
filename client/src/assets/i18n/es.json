@@ -5,6 +5,11 @@
   "login": {
     "failed": "Autenticacion fallida"
   },
+  "auth": {
+    "token" : {
+      "expired": "Credenciales expiradas, por favor ingrese de nuevo"
+    }
+  },
   "user": {
     "edit" : {
       "title": "Editar Usuario"

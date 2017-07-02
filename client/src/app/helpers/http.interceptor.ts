@@ -1,11 +1,21 @@
-import {Injectable} from "@angular/core";
+import {Injectable, Injector} from "@angular/core";
 import { ConnectionBackend, RequestOptions, Request, RequestOptionsArgs, Response, Http, Headers} from "@angular/http";
 import {Observable} from "rxjs/Rx";
 import {environment} from "../../environments/environment";
+import {Router} from "@angular/router";
+import {AuthService} from "../services/auth.service";
+import {TranslateService} from "@ngx-translate/core";
+import {FlashMessagesService} from "ngx-flash-messages";
 
 @Injectable()
 export class InterceptedHttp extends Http {
-    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
+
+    private router;
+    private authService;
+    private translateService;
+    private flashMessagesService;
+
+    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private injector: Injector) {
         super(backend, defaultOptions);
     }
 
@@ -35,7 +45,7 @@ export class InterceptedHttp extends Http {
             url.url = updatedUrl;
         }
 
-        return super.request(this.getRequestOptionArgs(url), options);
+        return super.request(this.getRequestOptionArgs(url), options).catch(this.catchErrors());
     }
 
     private updateUrl(req: string) {
@@ -48,18 +58,49 @@ export class InterceptedHttp extends Http {
 
     private getRequestOptionArgs(request?: string | Request) : string | Request {
 
+        if (this.authService == null) {
+            this.authService = this.injector.get(AuthService);
+        }
+
         if (request instanceof Request) {
             if (request.headers == null) {
                 request.headers = new Headers();
             }
             request.headers.append('Content-Type', 'application/json');
 
-            let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            let currentUser = this.authService.currentUser;
             if (currentUser != null) {
                 request.headers.append('Authorization', "Bearer " + currentUser.access_token);
             }
         }
 
         return request;
+    }
+
+    private catchErrors() {
+
+        return (res: Response) => {
+            if (this.router == null) {
+                this.router = this.injector.get(Router);
+            }
+
+            if (this.translateService == null) {
+                this.translateService = this.injector.get(TranslateService);
+            }
+
+            if (this.flashMessagesService == null) {
+                this.flashMessagesService = this.injector.get(FlashMessagesService);
+            }
+            if (res.status === 401 || res.status === 403) {
+                //handle authorization errors
+                //in this example I am navigating to login.
+                console.log("Error_Token_Expired: redirecting to login.");
+                this.translateService.get('auth.token.expired', {}).subscribe((res: string) => {
+                    this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
+                });
+                this.router.navigate(['login']);
+            }
+            return Observable.throw(res);
+        };
     }
 }

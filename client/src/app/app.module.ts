@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, Injector} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions} from '@angular/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
@@ -67,17 +67,17 @@ export function HttpLoaderFactory(http: Http) {
     }),
     FlashMessagesModule,
     AppRoutingModule,
-],
+  ],
   providers: [
+    {
+      provide: Http,
+      useFactory: HttpFactory,
+      deps: [XHRBackend, RequestOptions, Injector]
+    },
     AuthService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     NavService,
     AuthGuard,
-    {
-      provide: Http,
-      useFactory: HttpFactory,
-      deps: [XHRBackend, RequestOptions]
-    },
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   bootstrap: [AppComponent]

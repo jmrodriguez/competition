@@ -5,6 +5,11 @@
   "login": {
     "failed": "Authentication failed"
   },
+  "auth": {
+    "token" : {
+      "expired": "Expired credentials, please login again"
+    }
+  },
   "user": {
     "edit" : {
       "title": "Edit User"
