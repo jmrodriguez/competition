@@ -95,14 +95,28 @@
 
                 <table>
                     <thead>
-
+                        <th>Match</th>
+                        <th>Number</th>
+                        <th>Player</th>
+                        <th *ngFor="let item of setArray">{{item}} Set</th>
+                        <th>Winner</th>
                     </thead>
                     <tbody>
-                    <ng-container *ngFor="let tm of matchOrder; let i = index">
-                        <div>{{tm[0]}} - {{tm[1]}}</div>
+                    <ng-container *ngFor="let tm of matchOrder; let i = index; let odd = odd; let even = even">
                         <ng-container *ngIf="tournamentGroup.players[tm[0]-1] as player1">
                             <ng-container *ngIf="tournamentGroup.players[tm[1]-1] as player2">
-                                <div>{{player1.firstName}} - {{player2.firstName}}</div>
+                                <tr [ngClass]="{'match-row-even': even}">
+                                    <td rowspan="2" [ngClass]="{'match-number-odd': odd,'match-number-even': even}">{{i + 1}}</td>
+                                    <td>{{tm[0]}}</td>
+                                    <td>{{player1.firstName}} {{player1.lastName}}</td>
+                                    <td *ngFor="let item of setArray"><input type="number" class="match-set-value"/></td>
+                                    <td rowspan="2" [ngClass]="{'match-number-odd': odd,'match-number-even': even}">WINNER GOES HERE</td>
+                                </tr>
+                                <tr [ngClass]="{'match-row-even': even}">
+                                    <td>{{tm[1]}}</td>
+                                    <td>{{player2.firstName}} {{player2.lastName}}</td>
+                                    <td *ngFor="let item of setArray"><input type="number" class="match-set-value"/></td>
+                                </tr>
                             </ng-container>
                         </ng-container>
                     </ng-container>

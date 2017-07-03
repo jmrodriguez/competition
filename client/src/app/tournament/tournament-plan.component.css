@@ -1,0 +1,19 @@
+td {
+    border: 1px solid black;
+}
+
+.match-set-value {
+    width: 40px;
+}
+
+.match-number-odd {
+    background-color: lightgray;
+}
+
+.match-number-even {
+    background-color: darkgray;
+}
+
+.match-row-even {
+    background-color: lightgray;
+}

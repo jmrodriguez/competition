@@ -11,13 +11,15 @@ import {ListResult} from "../helpers/list-result.interface";
 
 @Component({
   selector: 'tournament-plan',
-  templateUrl: './tournament-plan.component.html'
+  templateUrl: './tournament-plan.component.html',
+  styleUrls: ['./tournament-plan.component.css']
 })
 export class TournamentPlanComponent implements OnInit {
 
   @ViewChildren(MdTab) mdTabList: QueryList<MdTab>;
 
   tournament = new Tournament();
+  setArray = Array.from(new Array(3),(val,index)=>index+1);
   total: Observable<number>;
   tournamentGroups: Observable<TournamentGroup[]>;
   groupsAvailable: boolean;
@@ -40,6 +42,7 @@ export class TournamentPlanComponent implements OnInit {
       if (params.hasOwnProperty('id')) {
         this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
           this.tournament = tournament;
+          this.setArray = Array.from(new Array(tournament.bestOf),(val,index)=>index+1);
           this._loadGroups();
         });
       } else {
