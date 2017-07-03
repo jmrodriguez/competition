@@ -98,6 +98,7 @@ class TournamentGroupController extends RestfulController {
 
             groups.each {
                 tournament.addToGroups(it)
+                it.matches = new ArrayList<TournamentMatch>()
             }
 
             tournament.save flush:true

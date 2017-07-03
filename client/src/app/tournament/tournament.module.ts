@@ -12,13 +12,15 @@ import { WeightModule } from '../weight/weight.module';
 import { FederationModule } from '../federation/federation.module';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MdTabsModule} from "@angular/material";
+import {MatchResultPipe} from "./match-result-pipe";
 
 @NgModule({
   declarations: [
     TournamentListComponent,
     TournamentPersistComponent,
     TournamentShowComponent,
-    TournamentPlanComponent
+    TournamentPlanComponent,
+    MatchResultPipe
   ],
   imports: [
     SharedModule,

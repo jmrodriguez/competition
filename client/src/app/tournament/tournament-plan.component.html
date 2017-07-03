@@ -109,13 +109,16 @@
                                     <td rowspan="2" [ngClass]="{'match-number-odd': odd,'match-number-even': even}">{{i + 1}}</td>
                                     <td>{{tm[0]}}</td>
                                     <td>{{player1.firstName}} {{player1.lastName}}</td>
-                                    <td *ngFor="let item of setArray"><input type="number" class="match-set-value"/></td>
-                                    <td rowspan="2" [ngClass]="{'match-number-odd': odd,'match-number-even': even}">WINNER GOES HERE</td>
+                                    <td *ngFor="let item of setArray"><input type="number" class="match-set-value" [value]="tournamentGroup.matches[i]?.points | matchResult:item-1:0"/></td>
+                                    <td rowspan="2" [ngClass]="{'match-number-odd': odd,'match-number-even': even}">
+                                        <span *ngIf="tournamentGroup.matches[i]?.winner?.id == player1.id">{{tm[0]}}</span>
+                                        <span *ngIf="tournamentGroup.matches[i]?.winner?.id == player2.id">{{tm[1]}}</span>
+                                    </td>
                                 </tr>
                                 <tr [ngClass]="{'match-row-even': even}">
                                     <td>{{tm[1]}}</td>
                                     <td>{{player2.firstName}} {{player2.lastName}}</td>
-                                    <td *ngFor="let item of setArray"><input type="number" class="match-set-value"/></td>
+                                    <td *ngFor="let item of setArray"><input type="number" class="match-set-value" [value]="tournamentGroup.matches[i]?.points | matchResult:item-1:1"/></td>
                                 </tr>
                             </ng-container>
                         </ng-container>
