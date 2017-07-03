@@ -69,7 +69,7 @@
 
     <md-tab-group [(selectedIndex)]="selectedTab" (selectChange)="viewContent($event)" >
         <md-tab *ngFor="let tournamentGroup of tournamentGroups | async" [label]="'tournament.gameplan.grouptab' | translate:{number: tournamentGroup.number}">
-            <div *ngIf="selectedGroup">
+            <div>
                 <table>
                     <thead>
                         <th>Order</th>
@@ -96,13 +96,13 @@
                 <table>
                     <thead>
                         <th>Match</th>
-                        <th>Number</th>
+                        <th>Order</th>
                         <th>Player</th>
                         <th *ngFor="let item of setArray">{{item}} Set</th>
                         <th>Winner</th>
                     </thead>
                     <tbody>
-                    <ng-container *ngFor="let tm of matchOrder; let i = index; let odd = odd; let even = even">
+                    <ng-container *ngFor="let tm of getMatchOrder(tournamentGroup.players.length); let i = index; let odd = odd; let even = even">
                         <ng-container *ngIf="tournamentGroup.players[tm[0]-1] as player1">
                             <ng-container *ngIf="tournamentGroup.players[tm[1]-1] as player2">
                                 <tr [ngClass]="{'match-row-even': even}">
@@ -122,9 +122,7 @@
                     </ng-container>
                     </tbody>
                 </table>
-
             </div>
-
         </md-tab>
         <md-tab [label]="'tournament.gameplan.brackettab' | translate"></md-tab>
     </md-tab-group>

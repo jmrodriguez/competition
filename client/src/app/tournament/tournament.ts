@@ -1,6 +1,6 @@
 import { Weight } from '../weight/weight';
 import { Federation } from '../federation/federation';
-import {Match} from "../match/match";
+import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
 import {Category} from "../category/category";
 
@@ -18,7 +18,7 @@ export class Tournament {
   includeGroupPhase: boolean;
   draw: string;
   bracketInfo: string;
-  drawMatches: Match[];
+  drawMatches: TournamentMatch[];
   groups: TournamentGroup[];
   tournament: Tournament;
   category: Category;
@@ -37,7 +37,7 @@ export class Tournament {
       }
 
       if (object.hasOwnProperty('drawMatches')) {
-        this.drawMatches = object['drawMatches'].map((obj: any) => { return new Match(obj); });
+        this.drawMatches = object['drawMatches'].map((obj: any) => { return new TournamentMatch(obj); });
         delete object['drawMatches'];
       }
 

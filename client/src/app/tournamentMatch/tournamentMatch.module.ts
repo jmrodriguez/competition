@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {TournamentMatchService} from "./tournamentMatch.service";
 
 
 @NgModule({
@@ -10,6 +11,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule,
   ],
   providers: [
+      TournamentMatchService
   ]
 })
-export class MatchModule {}
+export class TournamentMatchModule {}

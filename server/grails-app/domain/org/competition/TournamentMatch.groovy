@@ -11,12 +11,14 @@ class TournamentMatch {
     String sets
     String points
     int matchNumber
+    Player winner
 
     static belongsTo = [tournament:Tournament, tournamentGroup: TournamentGroup]
 
     static constraints = {
         player1 blank:false, nullable:false
         player2 blank:false, nullable:false
+        winner blank:false, nullable:false
         sets blank:false, nullable:false
         points blank:false, nullable:false
         tournamentGroup blank:true, nullable:true

@@ -23,7 +23,6 @@ export class TournamentPlanComponent implements OnInit {
   total: Observable<number>;
   tournamentGroups: Observable<TournamentGroup[]>;
   groupsAvailable: boolean;
-  matchOrder:number[][];
 
   selectedTab: number;
 
@@ -61,7 +60,6 @@ export class TournamentPlanComponent implements OnInit {
       this.groupsAvailable = results.list.length > 0;
       if (this.groupsAvailable) {
         this.selectedGroup = results.list[0];
-        this._getMatchOrder();
       }
       console.log("Loaded tournament groups");
     });
@@ -77,7 +75,6 @@ export class TournamentPlanComponent implements OnInit {
       if (this.groupsAvailable) {
         this.selectedGroup = results.list[0];
         this.selectedTab = 0;
-        this._getMatchOrder();
       }
       console.log("Created tournament groups");
     });
@@ -100,14 +97,9 @@ export class TournamentPlanComponent implements OnInit {
     }
   }
 
-  _getMatchOrder() {
-    var groupsOf = 3;
-    if (this.tournament != null) {
-      groupsOf = this.tournament.groupsOf;
-    }
-
+  getMatchOrder(groupOf: number) {
     var matchOrder = [[1,3], [1,2], [2,3]];
-    switch(groupsOf) {
+    switch(groupOf) {
       case 3:
         matchOrder = [[1,3], [1,2], [2,3]];
         break;
@@ -119,6 +111,6 @@ export class TournamentPlanComponent implements OnInit {
         break;
     }
 
-    this.matchOrder = matchOrder;
+    return matchOrder;
   }
 }
