@@ -138,6 +138,12 @@
     </md-tab-group>
 </div>
 
+<div>
+    <button type="button" (click)="saveGroupChanges()" class="btn btn-success btn-s">
+        <span class="fa fa-floppy-o"></span> Guardar Cambios
+    </button>
+</div>
+
 <div *ngIf="!groupsAvailable" id="empty-list-group" class="content scaffold-list" role="main">
     NO GROUPS AVAILABLE
 </div>

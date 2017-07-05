@@ -35,4 +35,20 @@ export class TournamentGroupService {
     return this.http.get('tournament/group/' + String(tournament.id) + "/" + number)
       .map((r: Response) => new TournamentGroup(r.json()));
   }
+
+  save(tournamentGroup: TournamentGroup): Observable<TournamentGroup> {
+    const requestOptions = new RequestOptions();
+    if (tournamentGroup.id) {
+      requestOptions.method = RequestMethod.Put;
+      requestOptions.url = 'tournamentGroup/' + tournamentGroup.id;
+    } else {
+      requestOptions.method = RequestMethod.Post;
+      requestOptions.url = 'tournamentGroup';
+    }
+    requestOptions.body = JSON.stringify(tournamentGroup);
+    requestOptions.headers = new Headers({"Content-Type": "application/json"});
+
+    return this.http.request(new Request(requestOptions))
+        .map((r: Response) => new TournamentGroup(r.json()));
+  }
 }

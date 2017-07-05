@@ -1,4 +1,6 @@
 import {Player} from "../player/player";
+import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
+import {Tournament} from "../tournament/tournament";
 
 export class TournamentMatch {
   id: number;
@@ -8,6 +10,8 @@ export class TournamentMatch {
   points: string;
   matchNumber: number;
   winner: Player;
+  tournament: Tournament;
+  tournamentGroup: TournamentGroup;
 
   constructor (object?: any) {
     if (object) {
@@ -25,6 +29,16 @@ export class TournamentMatch {
       if (object.hasOwnProperty('winner')) {
         this.winner = new Player(object['winner']);
         delete object['winner'];
+      }
+
+      if (object.hasOwnProperty('tournament')) {
+        this.tournament = new Tournament(object['tournament']);
+        delete object['tournament'];
+      }
+
+      if (object.hasOwnProperty('tournamentGroup')) {
+        this.tournamentGroup = new TournamentGroup(object['tournamentGroup']);
+        delete object['tournamentGroup'];
       }
 
       for (var prop in object) {

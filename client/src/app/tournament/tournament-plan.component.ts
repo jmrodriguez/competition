@@ -98,6 +98,13 @@ export class TournamentPlanComponent implements OnInit {
     })
   }
 
+  saveGroupChanges() {
+    this.tournamentGroupService.save(this.selectedGroup).subscribe((tournamentGroup: TournamentGroup) => {
+      console.log("group changes saved");
+      console.log(tournamentGroup);
+    })
+  }
+
   viewContent(event: any) {
     // the selected tab is the final bracket tab
     if (this.mdTabList.last == event.tab) {
@@ -110,7 +117,7 @@ export class TournamentPlanComponent implements OnInit {
   }
 
   getMatchOrder(groupOf: number) {
-    var matchOrder = [[1,3], [1,2], [2,3]];
+    let matchOrder = [[1,3], [1,2], [2,3]];
     switch(groupOf) {
       case 3:
         matchOrder = [[1,3], [1,2], [2,3]];
@@ -139,7 +146,7 @@ export class TournamentPlanComponent implements OnInit {
     let setsP2 = 0;
     let p1Id;
     let p2Id;
-    for (var i = 0; i < midPoint; i++) {
+    for (let i = 0; i < midPoint; i++) {
       let p1InputField = (<HTMLInputElement>matchInputFields[i]);
       let p2InputField = ((<HTMLInputElement>matchInputFields[i + midPoint]));
 
@@ -166,7 +173,7 @@ export class TournamentPlanComponent implements OnInit {
     // remove trailing 0-0 sets from string
     let values = pointsString.split(",");
     let finalPointsString = "";
-    for (var i = values.length - 1; i >= 0; i--) {
+    for (let i = values.length - 1; i >= 0; i--) {
       if (values[i] != "0-0") {
         finalPointsString = values[i] + "," + finalPointsString;
       }
@@ -188,7 +195,7 @@ export class TournamentPlanComponent implements OnInit {
     }
 
     this.tournamentGroups.subscribe((groupList: TournamentGroup[]) => {
-      var matches = groupList[tournamentGroup - 1].matches;
+      let matches = groupList[tournamentGroup - 1].matches;
       let match = matches[matchOrder];
       if (match != null) {
         match.points = finalPointsString;
@@ -196,17 +203,17 @@ export class TournamentPlanComponent implements OnInit {
           match.sets = finalSetsString;
         }
 
-        if (winner) {
-          match.winner = winner;
-          this._updateGroupWinners();
-        }
+        match.winner = winner;
+        this._updateGroupWinners();
       } else {
-        let match = new TournamentMatch();
+        match = new TournamentMatch();
         match.points = finalPointsString;
         match.player1 = new Player();
         match.player1.id = p1Id;
         match.player2 = new Player();
         match.player2.id = p2Id;
+        match.matchNumber = this._getMatchNumber(tournamentGroup - 1, matchOrder + 1, groupList);
+        match.tournament = this.tournament;
         if (finalSetsString) {
           match.sets = finalSetsString;
         }
@@ -247,12 +254,15 @@ export class TournamentPlanComponent implements OnInit {
         console.log("IMPOSIBLE TO RESOLVE THREE WAY TIE BY SETS AND POINTS");
       }
 
+    } else {
+      this.selectedGroup.winner = null;
+      this.selectedGroup.runnerup = null;
     }
   }
 
   _allMatchesHaveWinner() {
     let winnerCount = 0;
-    for (var match of this.selectedGroup.matches) {
+    for (let match of this.selectedGroup.matches) {
       if (match != null && match.winner != null) {
         winnerCount++;
       }
@@ -266,7 +276,7 @@ export class TournamentPlanComponent implements OnInit {
   _calculateWinnersByMatches() {
     let playerMatches = new Map<number, number>();
 
-    for (var i = 0; i < this.selectedGroup.matches.length; i++) {
+    for (let i = 0; i < this.selectedGroup.matches.length; i++) {
       let match = this.selectedGroup.matches[i];
 
       let winner = match.winner;
@@ -294,7 +304,7 @@ export class TournamentPlanComponent implements OnInit {
         } else {
           // three-way tie for first place
           this.threeWayTieIds = new Array();
-          for (var i = 0; i < 3; i++) {
+          for (let i = 0; i < 3; i++) {
             this.threeWayTieIds.push(mapKeys[i]);
           }
           this.firstPlaceThreeWayTie = true;
@@ -314,7 +324,7 @@ export class TournamentPlanComponent implements OnInit {
           } else {
             // three way tie for runnerup
             this.threeWayTieIds = new Array();
-            for (var i = 0; i < 3; i++) {
+            for (let i = 0; i < 3; i++) {
               this.threeWayTieIds.push(mapKeys[i + 1]);
             }
             this.firstPlaceThreeWayTie = false;
@@ -325,7 +335,7 @@ export class TournamentPlanComponent implements OnInit {
         } else {
           // three-way tie for first place
           this.threeWayTieIds = new Array();
-          for (var i = 0; i < 3; i++) {
+          for (let i = 0; i < 3; i++) {
             this.threeWayTieIds.push(mapKeys[i]);
           }
           this.firstPlaceThreeWayTie = true;
@@ -340,7 +350,7 @@ export class TournamentPlanComponent implements OnInit {
   _calculateWinnersBySets() {
     let playerSets = new Map<number, any>();
 
-    for (var i = 0; i < this.selectedGroup.matches.length; i++) {
+    for (let i = 0; i < this.selectedGroup.matches.length; i++) {
       let match = this.selectedGroup.matches[i];
 
       // process match only if the players are in the three-way tie array
@@ -402,7 +412,7 @@ export class TournamentPlanComponent implements OnInit {
   _calculateWinnersByPoints() {
     let playerPoints = new Map<number, any>();
 
-    for (var i = 0; i < this.selectedGroup.matches.length; i++) {
+    for (let i = 0; i < this.selectedGroup.matches.length; i++) {
       let match = this.selectedGroup.matches[i];
 
       // process match only if the players are in the three-way tie array
@@ -413,7 +423,7 @@ export class TournamentPlanComponent implements OnInit {
         let p2PointsWon = 0;
         let p1PointsLost = 0;
         let p2PointsLost = 0;
-        for (var j = 0; j < pointsArray.length; j++) {
+        for (let j = 0; j < pointsArray.length; j++) {
           let setPoints = pointsArray[j].split("-");
           p1PointsWon += Number(setPoints[0]);
           p2PointsWon += Number(setPoints[1]);
@@ -469,7 +479,7 @@ export class TournamentPlanComponent implements OnInit {
   }
 
   _getPlayerById(playerId) {
-    for (var player of this.selectedGroup.players) {
+    for (let player of this.selectedGroup.players) {
       if (player.id == playerId) {
         return player;
       }
@@ -477,11 +487,28 @@ export class TournamentPlanComponent implements OnInit {
   }
 
   _playerInTie(playerId) {
-    for (var i = 0; i < this.threeWayTieIds.length; i++) {
+    for (let i = 0; i < this.threeWayTieIds.length; i++) {
       if (playerId == this.threeWayTieIds[i]) {
         return true;
       }
     }
     return false;
+  }
+
+  _getMatchNumber(tournamentGroupNumber, matchOrder, groupList) {
+    let matchNumber = 0;
+    for (let i = 0; i < groupList.length; i++) {
+      if (i < tournamentGroupNumber) {
+        matchNumber += this.getMatchOrder(groupList[i].players.length).length;
+      } else {
+        if (i == tournamentGroupNumber) {
+          matchNumber += matchOrder;
+        } else {
+          break;
+        }
+      }
+
+    }
+    return matchNumber;
   }
 }

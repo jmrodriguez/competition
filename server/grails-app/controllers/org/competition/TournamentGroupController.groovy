@@ -5,6 +5,8 @@ import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 import grails.transaction.Transactional
 
+import static org.springframework.http.HttpStatus.CREATED
+import static org.springframework.http.HttpStatus.OK
 import static org.springframework.http.HttpStatus.UNAUTHORIZED
 
 @Secured(['ROLE_SUPER_ADMIN', 'ROLE_FEDERATION_ADMIN', 'ROLE_GENERAL_ADMIN'])
@@ -112,5 +114,42 @@ class TournamentGroupController extends RestfulController {
         } else {
             render status: UNAUTHORIZED
         }
+    }
+
+    @Transactional
+    def save(TournamentGroup tournamentGroupInstance) {
+        if (tournamentGroupInstance == null) {
+            notFound()
+            return
+        }
+
+        tournamentGroupInstance.clearErrors()
+        tournamentGroupInstance.validate()
+
+        if (tournamentGroupInstance.hasErrors()) {
+            respond tournamentGroupInstance.errors, view:'create', model:[]
+            return
+        }
+
+        tournamentGroupInstance.save flush:true
+
+        respond tournamentGroupInstance, [status: CREATED]
+    }
+
+    @Transactional
+    def update(TournamentGroup tournamentGroupInstance) {
+        if (tournamentGroupInstance == null) {
+            notFound()
+            return
+        }
+
+        if (tournamentGroupInstance.hasErrors()) {
+            respond tournamentGroupInstance.errors, view:'edit'
+            return
+        }
+
+        tournamentGroupInstance.save flush:true
+
+        respond tournamentGroupInstance, [status: OK]
     }
 }
