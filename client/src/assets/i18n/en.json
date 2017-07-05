@@ -49,7 +49,12 @@
     },
     "gameplan" : {
       "grouptab" : "Group {{number}}",
-      "brackettab" : "Final Bracket"
+      "brackettab" : "Final Bracket",
+      "generate" : {
+        "groups" : {
+          "failure" : "An error occurred generating the groups"
+        }
+      }
     }
   }
 }

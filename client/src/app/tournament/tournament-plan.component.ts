@@ -10,6 +10,7 @@ import {MdTab} from '@angular/material';
 import {ListResult} from "../helpers/list-result.interface";
 import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 import {Player} from "../player/player";
+import {FlashMessagesService} from "ngx-flash-messages";
 
 @Component({
   selector: 'tournament-plan',
@@ -37,7 +38,8 @@ export class TournamentPlanComponent implements OnInit {
               private tournamentService: TournamentService,
               private tournamentGroupService: TournamentGroupService,
               private router: Router,
-              private translateService: TranslateService) {}
+              private translateService: TranslateService,
+              private flashMessagesService: FlashMessagesService) {}
 
   ngOnInit() {
     this.groupsAvailable = false;
@@ -82,6 +84,11 @@ export class TournamentPlanComponent implements OnInit {
         this.selectedTab = 0;
       }
       console.log("Created tournament groups");
+    }, err => {
+      console.log("Error generating groups");
+      this.translateService.get('tournament.gameplan.generate.groups.failure', {}).subscribe((res: string) => {
+        this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
+      });
     });
   }
 
@@ -296,6 +303,7 @@ export class TournamentPlanComponent implements OnInit {
           return false;
         }
       case 4:
+      case 5:
         if (playerMatches.get(mapKeys[0]) > playerMatches.get(mapKeys[1])) {
           // this is either a clear winners group or a three-way tie for runnerup
           if (playerMatches.size == groupSize - 1) {
@@ -325,9 +333,6 @@ export class TournamentPlanComponent implements OnInit {
           this.selectedGroup.runnerup = null;
           return false;
         }
-      case 5:
-        return true;
-
     }
 
   }

@@ -103,8 +103,9 @@ class TournamentGroupService {
 	 * @return the number of groups
 	 */
 	private int getGroupCount(int playersCount, int groupsOf) {
-		int groupsOf3
-		int groupsOf4
+		int groupsOf3 = 0
+		int groupsOf4 = 0
+		int groupsOf5 = 0
 
 		switch(groupsOf) {
 			case 3:
@@ -134,12 +135,29 @@ class TournamentGroupService {
 				// de grupos de 4
 				groupsOf4 = (multiploDe4 / 4) - groupsOf3
 				break
+			case 5:
+				// calculate to build groups of 5 players
+				// los grupos de 4 son 5 menos el modulo del numero de jugadores entre 5
+				int modulo5 = (playersCount % 5)
+				if (modulo5 > 0) {
+					groupsOf4 = 5 - modulo5
+					// los grupos de 5 son siguiente numero que sea modulo 0 a partir de la cantidad de jugadores
+					// dividido entre 5 menos la cantidad de grupos de 4
+					int nextModulo = playersCount
+					while(nextModulo % 5 != 0) {
+						nextModulo++
+					}
+					groupsOf5 = (nextModulo / 5) - groupsOf4
+				} else {
+					groupsOf5 = playersCount / 5
+				}
+				break
 			default:
 				return 0
 				break
 		}
 
-		return groupsOf3 + groupsOf4
+		return groupsOf3 + groupsOf4 + groupsOf5
 	}
 
 

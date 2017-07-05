@@ -24,7 +24,11 @@ export class TournamentGroupService {
   }
 
   generateGroups(id: number): Observable<ListResult<TournamentGroup>> {
-    return this.http.get('tournament/generateGroups/'+id).map(res => res.json())
+    return this.http.get('tournament/generateGroups/'+id).map(res => res.json()).catch((error: any) => {
+      if (error.status < 400 || error.status === 500) {
+        return Observable.throw(new Error(error.status));
+      }
+    });
   }
 
   get(tournament:Tournament, number: number): Observable<TournamentGroup> {
