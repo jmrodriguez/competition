@@ -246,7 +246,7 @@ export class TournamentPlanComponent implements OnInit {
   _allMatchesHaveWinner() {
     let winnerCount = 0;
     for (var match of this.selectedGroup.matches) {
-      if (match.winner != null) {
+      if (match != null && match.winner != null) {
         winnerCount++;
       }
     }
