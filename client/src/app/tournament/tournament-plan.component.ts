@@ -220,22 +220,25 @@ export class TournamentPlanComponent implements OnInit {
 
       // if three way tie, check sets first
       if (!success) {
-        console.log("three way tie");
-        console.log(this.threeWayTieIds);
+        //console.log("three way tie");
+        //console.log(this.threeWayTieIds);
         success = this._calculateWinnersBySets();
       }
 
       // if three way tie persists, calculate using points
       if (!success) {
-        console.log("three way tie remains");
-        console.log(this.threeWayTieIds);
+        //console.log("three way tie remains");
+        //console.log(this.threeWayTieIds);
         success = this._calculateWinnersByPoints();
       }
 
-      console.log("selected group");
-      console.log(this.selectedGroup);
+      //console.log("selected group");
+      //console.log(this.selectedGroup);
 
       // if no success at this point, prompt the use for a random result
+      if (!success) {
+        console.log("IMPOSIBLE TO RESOLVE THREE WAY TIE BY SETS AND POINTS");
+      }
 
     }
   }
@@ -269,9 +272,6 @@ export class TournamentPlanComponent implements OnInit {
       }
       playerMatches.set(winner.id, playerWins);
     }
-
-    console.log("players matches antes");
-    console.log(playerMatches);
 
     let mapKeys = Array.from(playerMatches.keys()).sort(function(a, b) {
       return playerMatches.get(Number(b)) - playerMatches.get(Number(a));
@@ -374,15 +374,10 @@ export class TournamentPlanComponent implements OnInit {
         }
       }
     }
-    console.log("players sets");
-    console.log(playerSets);
 
     let mapKeys = Array.from(playerSets.keys()).sort(function(a, b) {
       return playerSets.get(Number(b)).avg - playerSets.get(Number(a)).avg;
     });
-
-    console.log("sets ordered");
-    console.log(mapKeys);
 
     if (playerSets.get(mapKeys[0]).avg > playerSets.get(mapKeys[1]).avg) {
       if (this.firstPlaceThreeWayTie) {
@@ -448,15 +443,10 @@ export class TournamentPlanComponent implements OnInit {
         }
       }
     }
-    console.log("players points");
-    console.log(playerPoints);
 
     let mapKeys = Array.from(playerPoints.keys()).sort(function(a, b) {
       return playerPoints.get(Number(b)).avg - playerPoints.get(Number(a)).avg;
     });
-
-    console.log("points ordered");
-    console.log(mapKeys);
 
     if (playerPoints.get(mapKeys[0]).avg > playerPoints.get(mapKeys[1]).avg) {
       if (this.firstPlaceThreeWayTie) {
