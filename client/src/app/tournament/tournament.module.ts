@@ -13,6 +13,7 @@ import { FederationModule } from '../federation/federation.module';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MdTabsModule} from "@angular/material";
 import {MatchResultPipe} from "./match-result-pipe";
+import { BracketDirective } from '../directives/bracket.directive';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {MatchResultPipe} from "./match-result-pipe";
     TournamentPersistComponent,
     TournamentShowComponent,
     TournamentPlanComponent,
-    MatchResultPipe
+    MatchResultPipe,
+    BracketDirective
   ],
   imports: [
     SharedModule,

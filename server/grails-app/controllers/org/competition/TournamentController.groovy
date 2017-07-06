@@ -111,6 +111,8 @@ class TournamentController extends RestfulController {
         String finalDraw = String.join(",", RifaHelper.generarRifa(tournament.groups.size()))
         tournament.draw = finalDraw
 
+        tournament.bracketInfo = null
+
         tournament.save flush:true
 
         respond tournament, [status: CREATED]

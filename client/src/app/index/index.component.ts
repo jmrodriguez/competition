@@ -13,7 +13,7 @@ export class IndexComponent implements OnInit {
 
   controllers: Array<any>;
   serverUrl: string;
-  initData: any;
+  //initData: any;
 
   constructor(private navService: NavService, private router: Router) { }
 
@@ -42,7 +42,7 @@ export class IndexComponent implements OnInit {
     //   ]
     // };
 
-    this.initData = {
+    /*this.initData = {
       teams : [
         [{name: "A 1", flag: 'fi'}, null],
         [{name: "B 3", flag: 'se'}, {name: "C 4", flag: 'us'}],
@@ -54,7 +54,7 @@ export class IndexComponent implements OnInit {
         [{name: "B 3", flag: 'se'}, {name: "C 4", flag: 'us'}]
       ],
       results : []
-    }
+    }*/
   }
 
   hasRoute(controllerName: string): boolean {

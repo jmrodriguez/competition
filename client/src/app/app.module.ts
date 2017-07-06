@@ -20,7 +20,6 @@ import { TodoModule } from './todo/todo.module';
 import { FederationModule } from './federation/federation.module';
 import { TournamentModule } from './tournament/tournament.module';
 import { UserModule } from './user/user.module';
-import { BracketDirective } from './directives/bracket.directive';
 
 import { AuthService } from './services/auth.service';
 
@@ -40,8 +39,7 @@ export function HttpLoaderFactory(http: Http) {
   declarations: [
     AppComponent,
     NavComponent,
-    IndexComponent,
-    BracketDirective
+    IndexComponent
   ],
   imports: [
     BrowserModule,

@@ -65,8 +65,6 @@
 </div>
 
 <div *ngIf="groupsAvailable" id="list-group" class="content scaffold-list" role="main">
-    HAY GRUPOS ({{total | async}})
-
     <md-tab-group [(selectedIndex)]="selectedTab" (selectChange)="viewContent($event)" >
         <md-tab *ngFor="let tournamentGroup of tournamentGroups | async" [label]="'tournament.gameplan.grouptab' | translate:{number: tournamentGroup.number}">
             <div>
@@ -87,7 +85,7 @@
                         <th>Points</th>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor="let player of selectedGroup.players; let i = index">
+                        <ng-container *ngFor="let player of selectedGroup?.players; let i = index">
                             <tr>
                                 <td>{{i + 1}}</td>
                                 <td>{{player.id}}</td>
@@ -133,15 +131,18 @@
                     </tbody>
                 </table>
             </div>
+            <div>
+                <button type="button" (click)="saveGroupChanges()" class="btn btn-success btn-s">
+                    <span class="fa fa-floppy-o"></span> Guardar Cambios
+                </button>
+            </div>
         </md-tab>
-        <md-tab [label]="'tournament.gameplan.brackettab' | translate"></md-tab>
+        <md-tab [label]="'tournament.gameplan.brackettab' | translate">
+            <div>
+                <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament">Empty Final Bracket</div>
+            </div>
+        </md-tab>
     </md-tab-group>
-</div>
-
-<div>
-    <button type="button" (click)="saveGroupChanges()" class="btn btn-success btn-s">
-        <span class="fa fa-floppy-o"></span> Guardar Cambios
-    </button>
 </div>
 
 <div *ngIf="!groupsAvailable" id="empty-list-group" class="content scaffold-list" role="main">

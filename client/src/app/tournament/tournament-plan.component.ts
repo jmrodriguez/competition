@@ -11,6 +11,7 @@ import {ListResult} from "../helpers/list-result.interface";
 import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 import {Player} from "../player/player";
 import {FlashMessagesService} from "ngx-flash-messages";
+import {Subject} from "rxjs/Subject";
 
 @Component({
   selector: 'tournament-plan',
@@ -34,6 +35,8 @@ export class TournamentPlanComponent implements OnInit {
   threeWayTieIds = new Array();
   firstPlaceThreeWayTie = false;
 
+  initData: Subject<any>;
+
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
               private tournamentGroupService: TournamentGroupService,
@@ -44,6 +47,7 @@ export class TournamentPlanComponent implements OnInit {
   ngOnInit() {
     this.groupsAvailable = false;
     this.selectedTab = 0;
+    this.initData = new Subject<any>();
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
@@ -83,6 +87,8 @@ export class TournamentPlanComponent implements OnInit {
         this.selectedGroup = results.list[0];
         this.selectedTab = 0;
       }
+      this.tournament.bracketInfo = null;
+      this.initData.next(JSON.parse(this.tournament.bracketInfo));
       console.log("Created tournament groups");
     }, err => {
       console.log("Error generating groups");
@@ -95,6 +101,7 @@ export class TournamentPlanComponent implements OnInit {
   generateDraw() {
     this.tournamentService.generateDraw(this.tournament.id).subscribe((tournament: Tournament) => {
       this.tournament = tournament
+      this._getFinalBracketPlayers();
     })
   }
 
@@ -109,6 +116,11 @@ export class TournamentPlanComponent implements OnInit {
     // the selected tab is the final bracket tab
     if (this.mdTabList.last == event.tab) {
       this.selectedGroup = null;
+      if (this.tournament.bracketInfo == null) {
+        this._getFinalBracketPlayers();
+      } else {
+        this.initData.next(JSON.parse(this.tournament.bracketInfo));
+      }
     } else {
       this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
         this.selectedGroup = groupsList[event.index];
@@ -271,6 +283,80 @@ export class TournamentPlanComponent implements OnInit {
     let matchCount = this.getMatchOrder(this.selectedGroup.players.length).length;
 
     return winnerCount == matchCount;
+  }
+
+  _getFinalBracketPlayers() {
+    let finalBracketPlayers = new Map<string, Player>();
+    this.tournamentGroups.subscribe((groupList: TournamentGroup[]) => {
+      for (let group of groupList) {
+        if (group.winner != null && group.runnerup != null) {
+          finalBracketPlayers.set("1-" + group.number, group.winner);
+          finalBracketPlayers.set("2-" + group.number, group.runnerup);
+        } else {
+          finalBracketPlayers = null;
+          break;
+        }
+      }
+
+      if (finalBracketPlayers != null) {
+        this._populateBracket(finalBracketPlayers);
+      } else {
+        console.log("THERE ARE GROUPS THAT HAVE NO WINNERS");
+        this.translateService.get('tournament.gameplan.missing.winners', {}).subscribe((res: string) => {
+          this.flashMessagesService.show(res, { classes: ['alert-warning'], timeout: 5000 });
+        });
+      }
+
+    });
+  }
+
+  _populateBracket(bracketPlayersMap) {
+    let draw = this.tournament.draw;
+    if (draw != null) {
+      let drawMembers = draw.split(",");
+      let initData = {
+        teams : [],
+        results : []
+      };
+      let teamCounter = 0;
+      for (let i = 0; i < drawMembers.length; i++) {
+        let member = drawMembers[i];
+        if (member != "BYE") {
+          let playerInfo = bracketPlayersMap.get(member);
+          let bracketEntry = {};
+          bracketEntry["name"] = playerInfo.firstName + " " + playerInfo.lastName;
+          // add flag
+          // add club or country info, depending on if it is a federation tournament or regional one
+          if (this.tournament.federation != null) {
+            bracketEntry["from"] = playerInfo.club;
+          }
+          if (i % 2 == 0) {
+            let bracketPair = [];
+            bracketPair.push(bracketEntry);
+            initData.teams.push(bracketPair);
+          } else {
+            initData.teams[teamCounter].push(bracketEntry);
+            teamCounter++;
+          }
+        } else {
+          if (i % 2 == 0) {
+            let bracketPair = [];
+            bracketPair.push(null);
+            initData.teams.push(bracketPair);
+          } else {
+            initData.teams[teamCounter].push(null);
+            teamCounter++;
+          }
+        }
+
+      }
+      this.initData.next(initData);
+    } else {
+      console.log("THE TOURNAMENT DOES NOT HAVE A DRAW");
+      this.translateService.get('tournament.gameplan.missing.draw', {}).subscribe((res: string) => {
+        this.flashMessagesService.show(res, { classes: ['alert-warning'], timeout: 5000 });
+      });
+    }
   }
 
   _calculateWinnersByMatches() {

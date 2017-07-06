@@ -54,6 +54,10 @@
         "groups" : {
           "failure" : "An error occurred generating the groups"
         }
+      },
+      "missing" : {
+        "draw" : "Final bracket draw hasn't been generated. Please click on the Generate Draw button",
+        "winners" : "Can't display final bracket as there are group winners missing"
       }
     }
   }

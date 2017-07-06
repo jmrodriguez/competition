@@ -50,6 +50,17 @@ class TournamentGroupController extends RestfulController {
                 }
             }
 
+            // for each group, sort matches, by their number
+            groups.each {group ->
+                group.matches = group.matches.sort {x,y->
+                    if(x.matchNumber == y.matchNumber) {
+                        x.id <=> y.id
+                    } else {
+                        x.matchNumber <=> y.matchNumber
+                    }
+                }
+            }
+
             Map result = new HashMap()
             result.put("list", groups)
             result.put("total", groups.size())
@@ -78,6 +89,8 @@ class TournamentGroupController extends RestfulController {
                 SpringSecurityUtils.ifAnyGranted("ROLE_SUPER_ADMIN, ROLE_GENERAL_ADMIN")){
 
             tournament.groups.clear()
+
+            tournament.bracketInfo = null
 
             tournament.save flush: true
 

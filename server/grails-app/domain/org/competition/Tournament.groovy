@@ -33,6 +33,7 @@ class Tournament {
     static mapping = {
         groups cascade: "all-delete-orphan"
         matches cascade: "all-delete-orphan"
+        bracketInfo sqlType:'LONGTEXT'
     }
 
 }

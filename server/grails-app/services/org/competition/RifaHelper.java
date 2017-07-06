@@ -39,9 +39,8 @@ public class RifaHelper {
         LinkedList<String> segundosDeGrupo = new LinkedList<String>();
 
         for (int i = 0; i < cantidadGrupos; i++) {
-            Character letra = new Character((char) (i + 65));
-            primerosDeGrupo.add("1" + letra);
-            segundosDeGrupo.add("2" + letra);
+            primerosDeGrupo.add("1-" + String.valueOf(i + 1));
+            segundosDeGrupo.add("2-" + String.valueOf(i + 1));
         }
 
         // calcular buckets de primeros y segundos
