@@ -16,7 +16,7 @@ import {Subject} from "rxjs/Subject";
 @Component({
   selector: 'tournament-plan',
   templateUrl: './tournament-plan.component.html',
-  styleUrls: ['./tournament-plan.component.css']
+  styleUrls: ['./tournament-plan.component.css'],
 })
 export class TournamentPlanComponent implements OnInit {
 
@@ -99,9 +99,11 @@ export class TournamentPlanComponent implements OnInit {
   }
 
   generateDraw() {
+    console.log("Generating final bracket draw");
     this.tournamentService.generateDraw(this.tournament.id).subscribe((tournament: Tournament) => {
       this.tournament = tournament
       this._getFinalBracketPlayers();
+      console.log("Generated final bracket draw");
     })
   }
 
@@ -596,5 +598,11 @@ export class TournamentPlanComponent implements OnInit {
 
     }
     return matchNumber;
+  }
+
+  onNotifyBracketError(event) {
+    this.translateService.get('tournament.gameplan.bracket.update.failure', {}).subscribe((res: string) => {
+      this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
+    });
   }
 }

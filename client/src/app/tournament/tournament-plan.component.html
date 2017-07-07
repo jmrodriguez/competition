@@ -139,7 +139,7 @@
         </md-tab>
         <md-tab [label]="'tournament.gameplan.brackettab' | translate">
             <div>
-                <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament">Empty Final Bracket</div>
+                <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)">Empty Final Bracket</div>
             </div>
         </md-tab>
     </md-tab-group>

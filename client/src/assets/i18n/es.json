@@ -58,6 +58,11 @@
       "missing" : {
         "draw" : "El sorteo de la llave final no ha sido generado. Haga click en Generar Llave",
         "winners" : "Imposible mostrar la llave final porque faltan ganadores de los grupos"
+      },
+      "bracket" : {
+        "update" : {
+          "failure" : "Ha ocurrido un error actualizando el estado de la llave final"
+        }
       }
     }
   }

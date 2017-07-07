@@ -2,7 +2,7 @@
  * Created by jmrodriguez on 6/2/17.
  */
 
-import {Directive, ElementRef, Input} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, Input, Output} from '@angular/core';
 import {Response} from '@angular/http';
 import {Tournament} from "../tournament/tournament";
 import {TournamentService} from "../tournament/tournament.service";
@@ -18,8 +18,10 @@ export class BracketDirective {
 
     @Input() initData:Observable<any>;
     @Input() tournament:Tournament;
+    @Output() notifyBracketError: EventEmitter<any> = new EventEmitter<any>();
 
-    constructor(private el: ElementRef, private tournamentService: TournamentService) {
+    constructor(private el: ElementRef,
+                private tournamentService: TournamentService) {
     }
 
     ngAfterViewInit() {
@@ -55,17 +57,13 @@ export class BracketDirective {
      * userData: optional data given when bracket is created.
      */
     saveFn(data, userData) {
-
         let bracketInfo = JSON.stringify(data);
-        console.log(bracketInfo);
         userData.tournament.bracketInfo = bracketInfo;
         userData.tournamentService.save(userData.tournament).subscribe((tournament: Tournament) => {
             userData.tournament = tournament;
-        }, (res: Response) => {
-            const json = res.json();
-
-            console.log("bingo");
-            console.log(json);
+        }, (err: Response) => {
+            console.log("There was an error updating final bracket information");
+            userData.notifyBracketError.next(err);
         });
     }
 
