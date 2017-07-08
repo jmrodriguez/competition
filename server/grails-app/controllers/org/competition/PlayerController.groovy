@@ -24,7 +24,7 @@ class PlayerController extends RestfulController {
         super(Player)
     }
 
-    def index(Integer tournamentId, Integer categoryId, String textFilter, Integer page, Integer playerType, Integer max) {
+    def index(Integer tournamentId, Integer categoryId, Integer federationId, String textFilter, Integer page, Integer playerType, Integer max) {
 
         Tournament tournament = null
         if (tournamentId != null) {
@@ -48,16 +48,23 @@ class PlayerController extends RestfulController {
         params.offset = offset
         Federation federation = null
 
-        if(SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN")){
+        if (SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN")){
             federation = springSecurityService.currentUser.federation
             if (tournament != null && tournament.federation.id != federation.id) {
                 render status: BAD_REQUEST
                 // allow admins to see the list of players only for tournaments of their own federation
                 return
             }
+        } else if (SpringSecurityUtils.ifAnyGranted("ROLE_SUPER_ADMIN, ROLE_GENERAL_ADMIN")) {
+            if (federationId != null) {
+                federation = Federation.findById(federationId)
+            }
         }
 
-        Object[] results = playerService.listPlayers(federation, tournament, category, textFilter, playerType, params)
+        Object[] results = [new ArrayList<Player>(), 0]
+        if (federation != null || tournament != null) {
+            results = playerService.listPlayers(federation, tournament, category, textFilter, playerType, params)
+        }
 
         //respond result
         Map result = new HashMap()

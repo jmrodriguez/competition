@@ -85,7 +85,7 @@ export class TournamentShowComponent implements OnInit {
         .merge(playerTypeSource)
         .startWith({search: this.terms, page: this.page, playerType: this.playerType, category: this.tournament.category})
         .mergeMap((params: {search: string, page: number, playerType: number, category: Category}) => {
-          return this.playerService.list(this.tournament, params.search, params.page, params.playerType, params.category);
+          return this.playerService.list(this.tournament, params.search, params.page, null, params.playerType, params.category);
         })
         .share();
 

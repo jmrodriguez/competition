@@ -3,6 +3,17 @@
         <li><a [routerLink]="['/index']" class="home">Home</a></li>
         <li><a [routerLink]="['/player','create']" class="create">New Player</a></li>
     </ul>
+    <div *ngIf="showFederationSelect" class="fieldcontain required">
+        <label for="federation">Federation
+            <span class="required-indicator">*</span>
+        </label>
+        <select required="" name="federation" id="federation" [(ngModel)]="selectedFederation" (ngModelChange)="onFederationChange($event)">
+            <option [ngValue]="undefined" disabled> Select a Federation </option>
+            <option *ngFor="let fed of federationList" [ngValue]="fed">
+                {{fed.name}}
+            </option>
+        </select>
+    </div>
 </div>
 <div id="list-player" class="content scaffold-list" role="main">
     <form (submit)="search(term.value)">
