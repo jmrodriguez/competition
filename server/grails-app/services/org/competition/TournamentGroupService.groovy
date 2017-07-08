@@ -21,34 +21,58 @@ class TournamentGroupService {
 		// sort players by their ranking depending on the type of tournament
 		if (tournament.federation == null) {
 			if (tournament.genderRestricted && tournament.gender.equals("F")) {
-				players = players.sort {
-					it.rankingFem
+				players = players.sort {x,y->
+					if(x.rankingFem == y.rankingFem) {
+						x.id <=> y.id
+					} else {
+						x.rankingFem <=> y.rankingFem
+					}
 				}
 			} else {
 				if (tournament.category.youthCategory) {
-					players = players.sort {
-						it.rankingLm
+					players = players.sort {x,y->
+						if(x.rankingLm == y.rankingLm) {
+							x.id <=> y.id
+						} else {
+							x.rankingLm <=> y.rankingLm
+						}
 					}
 				} else {
-					players = players.sort {
-						it.ranking
+					players = players.sort {x,y->
+						if(x.ranking == y.ranking) {
+							x.id <=> y.id
+						} else {
+							x.ranking <=> y.ranking
+						}
 					}
 				}
 
 			}
 		} else {
 			if (tournament.genderRestricted && tournament.gender.equals("F")) {
-				players = players.sort {
-					it.rankingFemFed
+				players = players.sort {x,y->
+					if(x.rankingFemFed == y.rankingFemFed) {
+						x.id <=> y.id
+					} else {
+						x.rankingFemFed <=> y.rankingFemFed
+					}
 				}
 			} else {
 				if (tournament.category.youthCategory) {
-					players = players.sort {
-						it.rankingLmFed
+					players = players.sort {x,y->
+						if(x.rankingLmFed == y.rankingLmFed) {
+							x.id <=> y.id
+						} else {
+							x.rankingLmFed <=> y.rankingLmFed
+						}
 					}
 				} else {
-					players = players.sort {
-						it.rankingFed
+					players = players.sort {x,y->
+						if(x.rankingFed == y.rankingFed) {
+							x.id <=> y.id
+						} else {
+							x.rankingFed <=> y.rankingFed
+						}
 					}
 				}
 			}
