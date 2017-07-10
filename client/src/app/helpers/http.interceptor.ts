@@ -5,7 +5,7 @@ import {environment} from "../../environments/environment";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {TranslateService} from "@ngx-translate/core";
-import {FlashMessagesService} from "ngx-flash-messages";
+import {ToastCommunicationService} from "../shared/toast-communication.service";
 
 @Injectable()
 export class InterceptedHttp extends Http {
@@ -13,7 +13,7 @@ export class InterceptedHttp extends Http {
     private router;
     private authService;
     private translateService;
-    private flashMessagesService;
+    private toastCommunicationService;
 
     constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private injector: Injector) {
         super(backend, defaultOptions);
@@ -88,19 +88,18 @@ export class InterceptedHttp extends Http {
                 this.translateService = this.injector.get(TranslateService);
             }
 
-            if (this.flashMessagesService == null) {
-                this.flashMessagesService = this.injector.get(FlashMessagesService);
+            if (this.toastCommunicationService == null) {
+                this.toastCommunicationService = this.injector.get(ToastCommunicationService);
             }
-            if (res.status === 401 || res.status === 403) {
+            if (res.status === 403) {
                 //handle authorization errors
                 //in this example I am navigating to login.
                 console.log("Error_Token_Expired: redirecting to login.");
                 // call logout and redirect to login
                 this.authService.logout();
 
-                this.translateService.get('auth.token.expired', {}).subscribe((res: string) => {
-                    this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
-                });
+                this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'auth.token.expired')
+
                 this.router.navigate(['login']);
             }
             return Observable.throw(res);

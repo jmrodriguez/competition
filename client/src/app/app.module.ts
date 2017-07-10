@@ -6,7 +6,7 @@ import { HttpModule, Http, XHRBackend, RequestOptions} from '@angular/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { FlashMessagesModule } from 'ngx-flash-messages';
+import { ToastyModule } from 'ng2-toasty';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IndexComponent } from './index/index.component';
 import { AppComponent } from './app.component';
@@ -43,6 +43,7 @@ export function HttpLoaderFactory(http: Http) {
   ],
   imports: [
     BrowserModule,
+    ToastyModule.forRoot(),
     CommonModule,
     FormsModule,
     HttpModule,
@@ -65,7 +66,6 @@ export function HttpLoaderFactory(http: Http) {
         deps: [Http]
       }
     }),
-    FlashMessagesModule,
     AppRoutingModule,
   ],
   providers: [

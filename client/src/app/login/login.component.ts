@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AuthService} from '../services/auth.service';
-import {FlashMessagesService} from 'ngx-flash-messages';
 import {TranslateService} from '@ngx-translate/core';
+import {ToastCommunicationService} from "../shared/toast-communication.service";
 
 @Component({
   selector: 'login',
@@ -17,8 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
-              private flashMessagesService: FlashMessagesService,
-              private translateService: TranslateService,) {
+              private toastCommunicationService: ToastCommunicationService,) {
   }
 
   ngOnInit() {
@@ -35,9 +34,7 @@ export class LoginComponent implements OnInit {
             },
             error => {
               this.loading = false;
-              this.translateService.get('login.failed', {}).subscribe((res: string) => {
-                this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
-              });
+              this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'login.failed');
             });
   }
 

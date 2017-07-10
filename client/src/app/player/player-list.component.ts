@@ -4,8 +4,6 @@ import {Player} from './player';
 import {FileUploader} from "ng2-file-upload";
 import {environment} from "../../environments/environment";
 import {AuthService} from "../services/auth.service";
-import {TranslateService} from '@ngx-translate/core';
-import { FlashMessagesService } from 'ngx-flash-messages';
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
@@ -19,6 +17,7 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/pluck';
 import {Federation} from "../federation/federation";
 import {FederationService} from "app/federation/federation.service";
+import {ToastCommunicationService} from "../shared/toast-communication.service";
 
 @Component({
   selector: 'player-list',
@@ -49,8 +48,7 @@ export class PlayerListComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private playerService: PlayerService,
               private authorizationService: AuthService,
-              private translateService: TranslateService,
-              private flashMessagesService: FlashMessagesService,
+              private toastCommunicationService: ToastCommunicationService,
               private authService: AuthService,
               private federationService: FederationService) {
     this.sub = this.route.params.subscribe(params => {
@@ -80,15 +78,12 @@ export class PlayerListComponent implements OnInit {
 
       if (status == 201 && response != null) {
         let responseObj = JSON.parse(response);
-        this.translateService.get('player.import.create.success', {value: responseObj.totalCreated}).subscribe((res: string) => {
-          this.flashMessagesService.show(res, { classes: ['alert-success'], timeout: 5000 });
-          this._loadData();
-        });
+
+        this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'player.import.create.success', {value: responseObj.totalCreated});
+        this._loadData();
       } else {
-        this.translateService.get('player.import.create.error', {}).subscribe((res: string) => {
-          this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
-          this._loadData();
-        });
+        this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'player.import.create.error');
+        this._loadData();
       }
     };
   }
@@ -151,7 +146,6 @@ export class PlayerListComponent implements OnInit {
   }
 
   onFederationChange(newValue: Federation) {
-    console.log("cambio de federacion");
     this.federationStream.next(newValue);
   }
 
