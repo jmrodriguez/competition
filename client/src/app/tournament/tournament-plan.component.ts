@@ -1,6 +1,5 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
 import {Tournament} from './tournament';
 import {TournamentService} from './tournament.service';
 import {Observable} from "rxjs/Observable";
@@ -10,8 +9,8 @@ import {MdTab} from '@angular/material';
 import {ListResult} from "../helpers/list-result.interface";
 import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 import {Player} from "../player/player";
-import {FlashMessagesService} from "ngx-flash-messages";
 import {Subject} from "rxjs/Subject";
+import {ToastCommunicationService} from "../shared/toast-communication.service";
 
 @Component({
   selector: 'tournament-plan',
@@ -41,8 +40,7 @@ export class TournamentPlanComponent implements OnInit {
               private tournamentService: TournamentService,
               private tournamentGroupService: TournamentGroupService,
               private router: Router,
-              private translateService: TranslateService,
-              private flashMessagesService: FlashMessagesService) {}
+              private toastCommunicationService: ToastCommunicationService) {}
 
   ngOnInit() {
     this.groupsAvailable = false;
@@ -92,16 +90,14 @@ export class TournamentPlanComponent implements OnInit {
       console.log("Created tournament groups");
     }, err => {
       console.log("Error generating groups");
-      this.translateService.get('tournament.gameplan.generate.groups.failure', {}).subscribe((res: string) => {
-        this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
-      });
+      this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.generate.groups.failure');
     });
   }
 
   generateDraw() {
     console.log("Generating final bracket draw");
     this.tournamentService.generateDraw(this.tournament.id).subscribe((tournament: Tournament) => {
-      this.tournament = tournament
+      this.tournament = tournament;
       this._getFinalBracketPlayers();
       console.log("Generated final bracket draw");
     })
@@ -109,9 +105,7 @@ export class TournamentPlanComponent implements OnInit {
 
   saveGroupChanges() {
     this.tournamentGroupService.save(this.selectedGroup).subscribe((tournamentGroup: TournamentGroup) => {
-      console.log("group changes saved");
-      console.log(tournamentGroup);
-    })
+    });
   }
 
   viewContent(event: any) {
@@ -304,9 +298,7 @@ export class TournamentPlanComponent implements OnInit {
         this._populateBracket(finalBracketPlayers);
       } else {
         console.log("THERE ARE GROUPS THAT HAVE NO WINNERS");
-        this.translateService.get('tournament.gameplan.missing.winners', {}).subscribe((res: string) => {
-          this.flashMessagesService.show(res, { classes: ['alert-warning'], timeout: 5000 });
-        });
+        this.toastCommunicationService.showToast(this.toastCommunicationService.WARNING, 'tournament.gameplan.missing.winners');
       }
 
     });
@@ -355,9 +347,7 @@ export class TournamentPlanComponent implements OnInit {
       this.initData.next(initData);
     } else {
       console.log("THE TOURNAMENT DOES NOT HAVE A DRAW");
-      this.translateService.get('tournament.gameplan.missing.draw', {}).subscribe((res: string) => {
-        this.flashMessagesService.show(res, { classes: ['alert-warning'], timeout: 5000 });
-      });
+      this.toastCommunicationService.showToast(this.toastCommunicationService.WARNING, 'tournament.gameplan.missing.draw');
     }
   }
 
@@ -601,8 +591,6 @@ export class TournamentPlanComponent implements OnInit {
   }
 
   onNotifyBracketError(event) {
-    this.translateService.get('tournament.gameplan.bracket.update.failure', {}).subscribe((res: string) => {
-      this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
-    });
+    this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.bracket.update.failure');
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {ToastyConfig} from "ng2-toasty";
 
 @Component({
   selector: 'app',
@@ -7,7 +8,14 @@ import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 })
 export class AppComponent {
 
-  constructor(translateService: TranslateService) {
+  constructor(translateService: TranslateService,
+              private toastyConfig: ToastyConfig) {
+
+    toastyConfig.position = "top-right";
+    toastyConfig.timeout = 5000;
+    toastyConfig.showClose = true;
+    toastyConfig.theme = "material";
+
     translateService.addLangs(["en", "es"]);
     // this language will be used as a fallback when a translation isn't found in the current language
     translateService.setDefaultLang('es');

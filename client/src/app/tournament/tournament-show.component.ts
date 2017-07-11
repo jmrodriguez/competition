@@ -8,7 +8,7 @@ import {Player} from "../player/player";
 import {Subject} from "rxjs/Subject";
 import {PlayerService} from "../player/player.service";
 import {Category} from "../category/category";
-import { FlashMessagesService } from 'ngx-flash-messages';
+import {ToastCommunicationService} from "../shared/toast-communication.service";
 
 @Component({
   selector: 'tournament-persist',
@@ -36,7 +36,7 @@ export class TournamentShowComponent implements OnInit {
               private playerService: PlayerService,
               private router: Router,
               private translateService:TranslateService,
-              private flashMessagesService: FlashMessagesService) {
+              private toastCommunicationService: ToastCommunicationService) {
     this.sub = this.route.params.subscribe(params => {
       let page = params['page'];
       if (page != null) {
@@ -116,14 +116,10 @@ export class TournamentShowComponent implements OnInit {
   signUpPlayer(player: Player) {
     this.tournamentService.signUpPlayer(this.tournament, player).subscribe(success => {
       if (success) {
-        this.translateService.get('tournament.show.players.signup.success', {}).subscribe((res: string) => {
-          this.flashMessagesService.show(res, { classes: ['alert-success'], timeout: 5000 });
-          this._loadPlayers()
-        });
+        this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.show.players.signup.success');
+        this._loadPlayers();
       } else {
-        this.translateService.get('tournament.show.players.signup.failure', {}).subscribe((res: string) => {
-          this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
-        });
+        this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.show.players.signup.failure');
       }
     })
   }
@@ -131,14 +127,10 @@ export class TournamentShowComponent implements OnInit {
   signOffPlayer(player: Player) {
     this.tournamentService.signOffPlayer(this.tournament, player).subscribe(success => {
       if (success) {
-        this.translateService.get('tournament.show.players.signoff.success', {}).subscribe((res: string) => {
-          this.flashMessagesService.show(res, { classes: ['alert-success'], timeout: 5000 });
-          this._loadPlayers()
-        });
+        this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.show.players.signoff.success');
+        this._loadPlayers();
       } else {
-        this.translateService.get('tournament.show.players.signoff.failure', {}).subscribe((res: string) => {
-          this.flashMessagesService.show(res, { classes: ['alert-danger'], timeout: 5000 });
-        });
+        this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.show.players.signoff.failure');
       }
     })
   }
