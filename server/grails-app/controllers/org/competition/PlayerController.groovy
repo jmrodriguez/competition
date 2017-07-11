@@ -24,7 +24,7 @@ class PlayerController extends RestfulController {
         super(Player)
     }
 
-    def index(Integer tournamentId, Integer categoryId, Integer federationId, String textFilter, Integer page, Integer playerType, Integer max) {
+    def index(Integer tournamentId, Integer categoryId, Integer federationId, String textFilter, Integer page, Integer playerType, Integer max, Boolean preventPagination) {
 
         Tournament tournament = null
         if (tournamentId != null) {
@@ -39,7 +39,9 @@ class PlayerController extends RestfulController {
             category = Category.findById(1)
         }
 
-        params.max = Math.min(max ?: 5, 10)
+        if (!preventPagination) {
+            params.max = Math.min(max ?: 5, 10)
+        }
         if (page == null) {
             page = 1
         }

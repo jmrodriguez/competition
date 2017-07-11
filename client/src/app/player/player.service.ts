@@ -16,7 +16,7 @@ export class PlayerService {
   constructor(private http: Http) {
   }
 
-  list(tournament: Tournament = null, textFilter: string = null, page: number = 1, federation: Federation = null, playerType: number = 0, category: Category = null, max: number = 5): Observable<ListResult<Player>> {
+  list(tournament: Tournament = null, textFilter: string = null, page: number = 1, federation: Federation = null, playerType: number = 0, category: Category = null, max: number = 5, preventPagination: boolean = false): Observable<ListResult<Player>> {
     let params = new URLSearchParams();
     if (tournament) {
       params.set('tournamentId', String(tournament.id))
@@ -38,6 +38,10 @@ export class PlayerService {
     }
     if (max) {
       params.set('max', String(max))
+    }
+
+    if (preventPagination) {
+      params.set('preventPagination', String(preventPagination))
     }
 
     return this.http.get('player', { search: params }).map(res => res.json())

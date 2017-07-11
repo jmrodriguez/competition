@@ -91,16 +91,19 @@ export class InterceptedHttp extends Http {
             if (this.toastCommunicationService == null) {
                 this.toastCommunicationService = this.injector.get(ToastCommunicationService);
             }
-            if (res.status === 403) {
-                //handle authorization errors
-                //in this example I am navigating to login.
-                console.log("Error_Token_Expired: redirecting to login.");
-                // call logout and redirect to login
-                this.authService.logout();
+            if (!res.url.endsWith("login")) {
+                if (res.status === 401 || res.status === 403) {
+                    console.log(res);
+                    //handle authorization errors
+                    //in this example I am navigating to login.
+                    console.log("Error_Token_Expired: redirecting to login.");
+                    // call logout and redirect to login
+                    this.authService.logout();
 
-                this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'auth.token.expired')
+                    this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'auth.token.expired')
 
-                this.router.navigate(['login']);
+                    this.router.navigate(['login']);
+                }
             }
             return Observable.throw(res);
         };

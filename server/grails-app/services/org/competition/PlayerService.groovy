@@ -110,9 +110,11 @@ class PlayerService {
             }
         }
 
-        int to = metaParams.offset + metaParams.max
-        to = to > total ? total : to
-        players = players.subList(metaParams.offset, to)
+        if (metaParams.max != null) {
+            int to = metaParams.offset + metaParams.max
+            to = to > total ? total : to
+            players = players.subList(metaParams.offset, to)
+        }
 
         return [players, total]
 

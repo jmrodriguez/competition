@@ -145,6 +145,29 @@
     </md-tab-group>
 </div>
 
-<div *ngIf="!groupsAvailable" id="empty-list-group" class="content scaffold-list" role="main">
+<div *ngIf="!groupsAvailable && tournament.includeGroupPhase" id="empty-list-group" class="content scaffold-list" role="main">
     NO GROUPS AVAILABLE
+</div>
+
+<div *ngIf="!groupsAvailable && !tournament.includeGroupPhase" id="no-group-list" class="content scaffold-list" role="main">
+    <md-tab-group [(selectedIndex)]="selectedTab" (selectChange)="viewContent($event)" >
+        <md-tab [label]="'tournament.gameplan.players' | translate">
+            <div>
+                <ul class="list-group" dnd-sortable-container [sortableData]="tournamentPlayers">
+                    <li *ngFor="let player of tournamentPlayers; let i = index" class="list-group-item"
+                        dnd-sortable [sortableIndex]="i" [dragData]="player">{{player.firstName}} {{player.lastName}}</li>
+                </ul>
+            </div>
+            <div>
+                <button type="button" (click)="viewPlayersOrder()" class="btn btn-success btn-s">
+                    <span class="fa fa-floppy-o"></span> View Player Order
+                </button>
+            </div>
+        </md-tab>
+        <md-tab [label]="'tournament.gameplan.brackettab' | translate">
+            <div>
+                <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)">Empty Final Bracket</div>
+            </div>
+        </md-tab>
+    </md-tab-group>
 </div>

@@ -11,6 +11,7 @@ import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 import {Player} from "../player/player";
 import {Subject} from "rxjs/Subject";
 import {ToastCommunicationService} from "../shared/toast-communication.service";
+import {PlayerService} from "app/player/player.service";
 
 @Component({
   selector: 'tournament-plan',
@@ -27,6 +28,8 @@ export class TournamentPlanComponent implements OnInit {
   tournamentGroups: Observable<TournamentGroup[]>;
   groupsAvailable: boolean;
 
+  tournamentPlayers: Array<Player>;
+
   selectedTab: number;
 
   selectedGroup: TournamentGroup;
@@ -39,6 +42,7 @@ export class TournamentPlanComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
               private tournamentGroupService: TournamentGroupService,
+              private playerService: PlayerService,
               private router: Router,
               private toastCommunicationService: ToastCommunicationService) {}
 
@@ -51,7 +55,11 @@ export class TournamentPlanComponent implements OnInit {
         this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
           this.tournament = tournament;
           this.setArray = Array.from(new Array(tournament.bestOf),(val,index)=>index+1);
-          this._loadGroups();
+          if (this.tournament.includeGroupPhase) {
+            this._loadGroups();
+          } else {
+            this._loadPlayers();
+          }
         });
       } else {
         this.router.navigate(['/index']);
@@ -71,6 +79,18 @@ export class TournamentPlanComponent implements OnInit {
         this.selectedGroup = results.list[0];
       }
       console.log("Loaded tournament groups");
+    });
+
+  }
+
+  private _loadPlayers():void {
+
+    console.log("Loading tournament players");
+
+    this.playerService.list(this.tournament, null, 0, null, null, this.tournament.category, null, true).subscribe((results: ListResult<Player>) => {
+      this.total = Observable.of(results.total);
+      this.tournamentPlayers = results.list;
+      console.log("Loaded tournament players");
     });
 
   }
@@ -106,6 +126,10 @@ export class TournamentPlanComponent implements OnInit {
   saveGroupChanges() {
     this.tournamentGroupService.save(this.selectedGroup).subscribe((tournamentGroup: TournamentGroup) => {
     });
+  }
+
+  viewPlayersOrder() {
+    console.log(this.tournamentPlayers);
   }
 
   viewContent(event: any) {
