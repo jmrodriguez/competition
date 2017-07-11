@@ -5,6 +5,7 @@ import {PlayerService} from './player.service';
 import {Response} from "@angular/http";
 import { FederationService } from '../federation/federation.service';
 import { Federation } from '../federation/federation';
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'player-persist',
@@ -16,11 +17,20 @@ export class PlayerPersistComponent implements OnInit {
   create = true;
   errors: any[];
   federationList: Federation[];
+  showFederationSelect:boolean;
+  selectedFederation: Federation;
 
-  constructor(private route: ActivatedRoute, private playerService: PlayerService, private router: Router, private federationService: FederationService) {}
+  constructor(private route: ActivatedRoute,
+              private playerService: PlayerService,
+              private router: Router,
+              private authService: AuthService,
+              private federationService: FederationService) {}
 
   ngOnInit() {
-    this.federationService.list().subscribe((federationList: Federation[]) => { this.federationList = federationList; });
+    this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
+    if(this.showFederationSelect){
+      this.federationService.list().subscribe((federationList: Federation[]) => { this.federationList = federationList; });
+    }
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.playerService.get(+params['id']).subscribe((player: Player) => {
@@ -32,6 +42,9 @@ export class PlayerPersistComponent implements OnInit {
   }
 
   save() {
+    console.log(this.selectedFederation);
+    this.player.federation = this.selectedFederation;
+    console.log(this.player);
     this.playerService.save(this.player).subscribe((player: Player) => {
       this.router.navigate(['/player', 'show', player.id]);
     }, (res: Response) => {

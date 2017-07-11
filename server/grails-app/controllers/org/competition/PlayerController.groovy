@@ -81,8 +81,10 @@ class PlayerController extends RestfulController {
             return
         }
 
-        User currentUser = springSecurityService.currentUser
-        playerInstance.federation = currentUser.federation
+        if (SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN")) {
+            User currentUser = springSecurityService.currentUser
+            playerInstance.federation = currentUser.federation
+        }
 
         playerInstance.clearErrors()
         playerInstance.validate()
