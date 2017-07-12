@@ -307,25 +307,37 @@ export class TournamentPlanComponent implements OnInit {
 
   _getFinalBracketPlayers() {
     let finalBracketPlayers = new Map<string, Player>();
-    this.tournamentGroups.subscribe((groupList: TournamentGroup[]) => {
-      for (let group of groupList) {
-        if (group.winner != null && group.runnerup != null) {
-          finalBracketPlayers.set("1-" + group.number, group.winner);
-          finalBracketPlayers.set("2-" + group.number, group.runnerup);
+    if (this.tournament.includeGroupPhase) {
+      this.tournamentGroups.subscribe((groupList: TournamentGroup[]) => {
+        for (let group of groupList) {
+          if (group.winner != null && group.runnerup != null) {
+            finalBracketPlayers.set("1-" + group.number, group.winner);
+            finalBracketPlayers.set("2-" + group.number, group.runnerup);
+          } else {
+            finalBracketPlayers = null;
+            break;
+          }
+        }
+
+        if (finalBracketPlayers != null) {
+          this._populateBracket(finalBracketPlayers);
         } else {
-          finalBracketPlayers = null;
-          break;
+          console.log("THERE ARE GROUPS THAT HAVE NO WINNERS");
+          this.toastCommunicationService.showToast(this.toastCommunicationService.WARNING, 'tournament.gameplan.missing.winners');
+        }
+      });
+    } else {
+      let midPoint = Math.ceil(this.tournamentPlayers.length / 2);
+      for (let i = 0; i < this.tournamentPlayers.length; i++) {
+        if (i < midPoint) {
+          finalBracketPlayers.set("1-" + (i + 1), this.tournamentPlayers[i]);
+        } else {
+          finalBracketPlayers.set("2-" + (i - midPoint + 1), this.tournamentPlayers[i]);
         }
       }
+      this._populateBracket(finalBracketPlayers);
+    }
 
-      if (finalBracketPlayers != null) {
-        this._populateBracket(finalBracketPlayers);
-      } else {
-        console.log("THERE ARE GROUPS THAT HAVE NO WINNERS");
-        this.toastCommunicationService.showToast(this.toastCommunicationService.WARNING, 'tournament.gameplan.missing.winners');
-      }
-
-    });
   }
 
   _populateBracket(bracketPlayersMap) {

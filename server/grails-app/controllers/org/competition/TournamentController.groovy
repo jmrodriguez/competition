@@ -108,7 +108,14 @@ class TournamentController extends RestfulController {
 
         Tournament tournament = Tournament.findById(tournamentId)
 
-        String finalDraw = String.join(",", RifaHelper.generarRifa(tournament.groups.size()))
+        String finalDraw
+        if (tournament.includeGroupPhase) {
+            finalDraw = String.join(",", RifaHelper.generarRifa(tournament.groups.size()))
+        } else {
+            int numGroups = Math.ceil(tournament.players.size() / 2)
+            finalDraw = String.join(",", RifaHelper.generarRifa(numGroups))
+        }
+
         tournament.draw = finalDraw
 
         tournament.bracketInfo = null
