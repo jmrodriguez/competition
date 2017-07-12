@@ -18,6 +18,7 @@ export class Tournament {
   includeGroupPhase: boolean;
   draw: string;
   bracketInfo: string;
+  seedOrder: string;
   drawMatches: TournamentMatch[];
   groups: TournamentGroup[];
   tournament: Tournament;

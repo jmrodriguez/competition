@@ -129,7 +129,19 @@ export class TournamentPlanComponent implements OnInit {
   }
 
   savePlayersOrder() {
-    console.log(this.tournamentPlayers);
+    let orderArray = [];
+    for (let i = 0; i < this.tournamentPlayers.length; i++) {
+      orderArray.push(String(this.tournamentPlayers[i].id));
+    }
+
+    this.tournament.seedOrder = orderArray.join(",");
+    this.tournamentService.save(this.tournament).subscribe((tournament: Tournament) => {
+      // show success message
+      this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.gameplan.bracket.seeds.success');
+    }, (res: Response) => {
+      // show error message
+      this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.bracket.seeds.failure');
+    });
   }
 
   viewContent(event: any) {

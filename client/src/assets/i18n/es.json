@@ -70,6 +70,10 @@
       "bracket" : {
         "update" : {
           "failure" : "Ha ocurrido un error actualizando el estado de la llave final"
+        },
+        "seeds" : {
+          "success" : "Orden de siembra de los jugadores guardado con exito",
+          "failure" : "Ha ocurrido un error guardando el orden de siembra de los jugadores"
         }
       }
     }

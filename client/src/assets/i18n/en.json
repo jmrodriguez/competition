@@ -70,6 +70,10 @@
       "bracket" : {
         "update" : {
           "failure" : "There's been an error updating the final bracket information"
+        },
+        "seeds" : {
+          "success" : "Players seed order stored successfully",
+          "failure" : "There's been an error storing the players seed order"
         }
       }
     }

@@ -12,6 +12,7 @@ class Tournament {
     boolean includeGroupPhase = true
     String draw
     String bracketInfo
+    String seedOrder
     Category category
 
     static hasMany = [players:Player, matches:TournamentMatch, groups:TournamentGroup]
@@ -28,12 +29,14 @@ class Tournament {
         includeGroupPhase blank:false, nullable:false
         draw blank:true, nullable:true
         bracketInfo blank:true, nullable:true
+        seedOrder blank:true, nullable:true
     }
 
     static mapping = {
         groups cascade: "all-delete-orphan"
         matches cascade: "all-delete-orphan"
         bracketInfo sqlType:'LONGTEXT'
+        seedOrder sqlType:'LONGTEXT'
     }
 
 }
