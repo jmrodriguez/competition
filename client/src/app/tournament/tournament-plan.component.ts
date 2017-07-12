@@ -128,7 +128,7 @@ export class TournamentPlanComponent implements OnInit {
     });
   }
 
-  viewPlayersOrder() {
+  savePlayersOrder() {
     console.log(this.tournamentPlayers);
   }
 
@@ -353,13 +353,17 @@ export class TournamentPlanComponent implements OnInit {
         let member = drawMembers[i];
         if (member != "BYE") {
           let playerInfo = bracketPlayersMap.get(member);
-          let bracketEntry = {};
-          bracketEntry["name"] = playerInfo.firstName + " " + playerInfo.lastName;
-          // add flag
-          // add club or country info, depending on if it is a federation tournament or regional one
-          if (this.tournament.federation != null) {
-            bracketEntry["from"] = playerInfo.club;
+          let bracketEntry = null;
+          if (playerInfo != null) {
+            bracketEntry = {};
+            bracketEntry["name"] = playerInfo.firstName + " " + playerInfo.lastName;
+            // add flag
+            // add club or country info, depending on if it is a federation tournament or regional one
+            if (this.tournament.federation != null) {
+              bracketEntry["from"] = playerInfo.club;
+            }
           }
+
           if (i % 2 == 0) {
             let bracketPair = [];
             bracketPair.push(bracketEntry);
