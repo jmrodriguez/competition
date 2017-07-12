@@ -154,9 +154,11 @@ export class TournamentPlanComponent implements OnInit {
         this.initData.next(JSON.parse(this.tournament.bracketInfo));
       }
     } else {
-      this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
-        this.selectedGroup = groupsList[event.index];
-      });
+      if (this.tournamentGroups != null) {
+        this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
+          this.selectedGroup = groupsList[event.index];
+        });
+      }
     }
   }
 

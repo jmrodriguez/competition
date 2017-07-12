@@ -21,8 +21,12 @@ class PlayerService {
         }
 
         ArrayList<Player> players
+        boolean orderUsingSeedOrder = false
         if (tournament != null) {
             players = tournament.players
+            if (!tournament.includeGroupPhase && tournament.seedOrder != null) {
+                orderUsingSeedOrder = true
+            }
         } else {
             players = federation.players
         }
@@ -98,7 +102,7 @@ class PlayerService {
         if (metaParams.sort) {
             String sort = metaParams.sort
             String order = metaParams.order
-            players.sort{
+            players.sort {
                 it.getProperty(sort)
             }
             if (order != null && order == "desc") {
@@ -108,6 +112,24 @@ class PlayerService {
             players.sort{
                 it.id
             }
+        }
+
+        if (orderUsingSeedOrder) {
+            List<Player> orderedPlayers = new ArrayList<Player>()
+            String[] playerIds = tournament.seedOrder.split(",")
+
+            for (int i = 0; i < playerIds.length; i++) {
+                long playerId = Long.parseLong(playerIds[i])
+
+                for (int j = 0; j < players.size(); j++) {
+                    Player player = players.get(j)
+                    if (player.id == playerId) {
+                        orderedPlayers.push(player)
+                        break
+                    }
+                }
+            }
+            players = orderedPlayers
         }
 
         if (metaParams.max != null) {
