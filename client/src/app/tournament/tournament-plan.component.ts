@@ -12,6 +12,7 @@ import {Player} from "../player/player";
 import {Subject} from "rxjs/Subject";
 import {ToastCommunicationService} from "../shared/toast-communication.service";
 import {PlayerService} from "app/player/player.service";
+import {DialogsService} from "../shared/dialog/dialogs.service";
 
 @Component({
   selector: 'tournament-plan',
@@ -44,7 +45,8 @@ export class TournamentPlanComponent implements OnInit {
               private tournamentGroupService: TournamentGroupService,
               private playerService: PlayerService,
               private router: Router,
-              private toastCommunicationService: ToastCommunicationService) {}
+              private toastCommunicationService: ToastCommunicationService,
+              private dialogsService: DialogsService) {}
 
   ngOnInit() {
     this.groupsAvailable = false;
@@ -95,6 +97,24 @@ export class TournamentPlanComponent implements OnInit {
 
   }
 
+  confirmGenerateGroups() {
+    if (this.tournamentGroups != null) {
+      this.tournamentGroups.subscribe((groupsList: TournamentGroup[]) => {
+        if (groupsList.length > 0) {
+          this.dialogsService.confirm('confirmation.dialog.attention', 'tournament.gameplan.generate.groups.confirm').subscribe(res => {
+            if (res) {
+              this.generateGroups();
+            }
+          });
+        } else {
+          this.generateGroups();
+        }
+      });
+    } else {
+      this.generateGroups();
+    }
+  }
+
   generateGroups() {
     console.log("Creating tournament groups");
     this.tournamentGroupService.generateGroups(this.tournament.id).subscribe((results: ListResult<TournamentGroup>) => {
@@ -114,13 +134,28 @@ export class TournamentPlanComponent implements OnInit {
     });
   }
 
+  confirmGenerateDraw() {
+    if (this.tournament.draw != null) {
+      this.dialogsService.confirm('confirmation.dialog.attention', 'tournament.gameplan.generate.draw.confirm').subscribe(res => {
+        if (res) {
+          this.generateDraw();
+        }
+      });
+    } else {
+      this.generateDraw();
+    }
+  }
+
   generateDraw() {
     console.log("Generating final bracket draw");
     this.tournamentService.generateDraw(this.tournament.id).subscribe((tournament: Tournament) => {
       this.tournament = tournament;
       this._getFinalBracketPlayers();
       console.log("Generated final bracket draw");
-    })
+    }, err => {
+      console.log("Error generating bracket draw");
+      this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.generate.draw.failure');
+    });
   }
 
   saveGroupChanges() {

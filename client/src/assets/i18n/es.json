@@ -6,6 +6,15 @@
       "error": "Error!"
     }
   },
+  "confirmation" : {
+    "dialog" : {
+      "button" : {
+        "ok" : "OK",
+        "cancel" : "Cancelar"
+      },
+      "attention" : "Atención!"
+    }
+  },
   "index": {
     "title": "Hola angular con ngx-translate!"
   },
@@ -60,7 +69,12 @@
       "brackettab" : "Llave Final",
       "generate" : {
         "groups" : {
+          "confirm" : "Esta operacion va a eliminar los grupos existentes y los resultados de las partidas almacenados en los mismos. Desea continuar?",
           "failure" : "Ha ocurrido un error generando los grupos"
+        },
+        "draw" : {
+          "confirm": "Esta operacion va a eliminar la llave final existente y los resultados en la misma. Desea continuar?",
+          "failure" : "Ha ocurrido un error generando la rifa de la llave final"
         }
       },
       "missing" : {

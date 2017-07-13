@@ -56,10 +56,10 @@
     </table>
     <a class="edit" [routerLink]="['/tournament', 'edit', tournament.id]">Edit</a>
     <a class="show" [routerLink]="['/tournament', 'show', tournament.id]">Show</a>
-    <button *ngIf="tournament.includeGroupPhase" type="button" (click)="generateGroups()" class="btn btn-success btn-s">
+    <button *ngIf="tournament.includeGroupPhase" type="button" (click)="confirmGenerateGroups()" class="btn btn-success btn-s">
         <span class="fa fa-users"></span> Generar Grupos
     </button>
-    <button type="button" (click)="generateDraw()" class="btn btn-success btn-s">
+    <button type="button" (click)="confirmGenerateDraw()" class="btn btn-success btn-s">
         <span class="fa fa-filter"></span> Generar Llave
     </button>
 </div>

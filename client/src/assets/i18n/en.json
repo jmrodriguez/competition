@@ -6,6 +6,15 @@
       "error": "Error!"
     }
   },
+  "confirmation" : {
+    "dialog" : {
+      "button" : {
+        "ok" : "OK",
+        "cancel" : "Cancel"
+      },
+      "attention" : "Attention!"
+    }
+  },
   "index": {
     "title": "Hello Angular with ngx-translate!"
   },
@@ -60,7 +69,12 @@
       "brackettab" : "Final Bracket",
       "generate" : {
         "groups" : {
+          "confirm" : "This will remove the existing groups and their related match results. Do you want to proceed?",
           "failure" : "An error occurred generating the groups"
+        },
+        "draw" : {
+          "confirm": "This will remove the existing final bracket and their related match results. Do you want to proceed?",
+          "failure" : "An error occurred generating the final bracket draw"
         }
       },
       "missing" : {
