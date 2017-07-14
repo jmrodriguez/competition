@@ -1,10 +1,8 @@
 import {Component, OnInit, AfterViewInit, ChangeDetectorRef, Input, ViewChild} from '@angular/core';
 import {PlayerService} from './player.service';
-import {Player} from './player';
 import {FileUploader} from "ng2-file-upload";
 import {environment} from "../../environments/environment";
 import {AuthService} from "../services/auth.service";
-import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
 import 'rxjs/add/operator/debounceTime';
@@ -21,7 +19,6 @@ import {ToastCommunicationService} from "../shared/toast-communication.service";
 import {PlayerDataSource} from "./player.datasource";
 import {MdPaginator, MdSort} from "@angular/material";
 import {Tournament} from "../tournament/tournament";
-import {delay} from "rxjs/operator/delay";
 
 @Component({
   selector: 'player-list',

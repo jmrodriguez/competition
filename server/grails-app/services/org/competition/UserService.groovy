@@ -28,6 +28,14 @@ class UserService {
                 parameters.put("textFilter", "%${textFilter}%")
             }
 
+            if (metaParams.sort) {
+                String sort = metaParams.sort
+                String order = metaParams.order
+                if (order == null) {
+                    order = "asc"
+                }
+                selectQuery = selectQuery + " order by uf.user." + sort + " " + order
+            }
         } else {
             selectQuery = "from User u"
             countQuery = "select count(u) from User u"
@@ -36,6 +44,14 @@ class UserService {
                 selectQuery = selectQuery + " where (u.firstName like :textFilter)"
                 countQuery = countQuery + " where (u.firstName like :textFilter)"
                 parameters = ["textFilter": "%${textFilter}%"]
+            }
+            if (metaParams.sort) {
+                String sort = metaParams.sort
+                String order = metaParams.order
+                if (order == null) {
+                    order = "asc"
+                }
+                selectQuery = selectQuery + " order by u." + sort + " " + order
             }
         }
 
