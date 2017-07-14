@@ -10,6 +10,7 @@ import { Federation } from '../federation/federation';
 import {AuthService} from "../services/auth.service";
 import {CategoryService} from "../category/category.service";
 import {Category} from "../category/category";
+import {ListResult} from "../helpers/list-result.interface";
 
 @Component({
   selector: 'tournament-persist',
@@ -57,8 +58,8 @@ export class TournamentPersistComponent implements OnInit {
             }
           });
 
-          this.categoryService.list().subscribe((categoryList: Category[]) => {
-            this.categoryList = categoryList;
+          this.categoryService.list().subscribe((categoryList: ListResult<Category>) => {
+            this.categoryList = categoryList.list;
             for (var i = 0; i < this.categoryList.length; i++) {
               if (this.categoryList[i].id == this.tournament.category.id) {
                 this.tournament.category = this.categoryList[i];
@@ -86,8 +87,8 @@ export class TournamentPersistComponent implements OnInit {
           this.tournament.weight = this.weightList[0];
         });
 
-        this.categoryService.list().subscribe((categoryList: Category[]) => {
-          this.categoryList = categoryList;
+        this.categoryService.list().subscribe((categoryList: ListResult<Category>) => {
+          this.categoryList = categoryList.list;
           this.tournament.category = this.categoryList[0];
         });
 

@@ -5,35 +5,59 @@
     </ul>
 </div>
 <div id="list-category" class="content scaffold-list" role="main">
-    <h1>Category List</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Min Age</th>
-            <th>Max Age</th>
-            <th>Youth Category</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let category of categoryList; let e = even;">
-            <td>
-                <a [routerLink]="['/category','show',category.id]">{{category.id}}</a>
-            </td>
-            <td>
-                <span>{{category.name}}</span>
-            </td>
-            <td>
-                <span>{{category.minAge}}</span>
-            </td>
-            <td>
-                <span>{{category.maxAge}}</span>
-            </td>
-            <td>
-                <span>{{category.youthCategory}}</span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div>
+        <md-input-container floatPlaceholder="never">
+            <input mdInput #terms (keyup)="search(terms.value)" placeholder="Filter users">
+        </md-input-container>
+    </div>
+
+    <h1>Category List ({{categoryDatasource.total | async}})</h1>
+
+    <md-table #table [dataSource]="categoryDatasource" mdSort>
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- ID Column -->
+        <ng-container cdkColumnDef="id">
+            <md-header-cell *cdkHeaderCellDef md-sort-header> ID </md-header-cell>
+            <md-cell *cdkCellDef="let row">
+                <a [routerLink]="['/category','show',row.id]">{{row.id}}</a>
+            </md-cell>
+        </ng-container>
+
+        <!-- Name -->
+        <ng-container cdkColumnDef="name">
+            <md-header-cell *cdkHeaderCellDef md-sort-header> Name </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+        </ng-container>
+
+        <!-- Min Age -->
+        <ng-container cdkColumnDef="minAge">
+            <md-header-cell *cdkHeaderCellDef md-sort-header> Min Age </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.minAge}} </md-cell>
+        </ng-container>
+
+        <!-- Max Age -->
+        <ng-container cdkColumnDef="maxAge">
+            <md-header-cell *cdkHeaderCellDef md-sort-header> Max Age </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.maxAge}} </md-cell>
+        </ng-container>
+
+        <!-- Youth Category -->
+        <ng-container cdkColumnDef="youthCategory">
+            <md-header-cell *cdkHeaderCellDef md-sort-header>Youth Category </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.youthCategory}} </md-cell>
+        </ng-container>
+
+        <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+        <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+    </md-table>
+
+    <md-paginator #paginator
+                  [length]="categoryDatasource.total | async"
+                  [pageIndex]="0"
+                  [pageSize]="10"
+                  [pageSizeOptions]="[10, 20, 30, 50, 100]">
+    </md-paginator>
 </div>

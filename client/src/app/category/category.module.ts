@@ -9,6 +9,7 @@ import {CategoryRoutingModule} from './category-routing.module';
 import {CategoryShowComponent} from './category-show.component';
 import {CategoryListComponent} from './category-list.component';
 import {CategoryPersistComponent} from './category-persist.component';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {CategoryPersistComponent} from './category-persist.component';
     CategoryShowComponent
   ],
   imports: [
+    SharedModule,
     CommonModule,
     FormsModule,
     CategoryRoutingModule

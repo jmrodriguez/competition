@@ -1,28 +1,41 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, RequestMethod, Request, Headers} from '@angular/http';
+import {Http, Response, RequestOptions, RequestMethod, Request, Headers, URLSearchParams} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Category} from './category';
-import {Subject} from 'rxjs/Subject';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import {ListResult} from "../helpers/list-result.interface";
 
 @Injectable()
 export class CategoryService {
 
-  private baseUrl = 'http://localhost:8080/';
-
   constructor(private http: Http) {
   }
 
-  list(): Observable<Category[]> {
-    let subject = new Subject<Category[]>();
-    this.http.get('category')
-      .map((r: Response) => r.json())
-      .subscribe((json: any[]) => {
-        subject.next(json.map((item: any) => new Category(item)))
-      });
-    return subject.asObservable();
+  list(textFilter: string = null,
+       page: number = 1,
+       max: number = 100,
+       sort: string = null,
+       order: string = null): Observable<ListResult<Category>> {
+    let params = new URLSearchParams();
+    if (textFilter) {
+      params.set('textFilter', textFilter)
+    }
+    if (page) {
+      params.set('page', String(page))
+    }
+    if (max) {
+      params.set('max', String(max))
+    }
+    if (sort) {
+      params.set('sort', String(sort))
+    }
+    if (order) {
+      params.set('order', String(order))
+    }
+
+    return this.http.get('category', { search: params }).map(res => res.json())
   }
 
   get(id: number): Observable<Category> {

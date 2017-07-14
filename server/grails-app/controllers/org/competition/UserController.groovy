@@ -22,7 +22,7 @@ class UserController extends RestfulController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max, Integer page, String sort, String order) {
-        params.max = Math.min(max ?: 5, 10)
+        params.max = Math.min(max ?: 5, 100)
         if (page == null) {
             page = 1
         }
