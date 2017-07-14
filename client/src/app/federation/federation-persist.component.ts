@@ -5,6 +5,7 @@ import {FederationService} from './federation.service';
 import {Response} from "@angular/http";
 import { CountryService } from '../country/country.service';
 import { Country } from '../country/country';
+import {ListResult} from "../helpers/list-result.interface";
 
 @Component({
   selector: 'federation-persist',
@@ -25,8 +26,8 @@ export class FederationPersistComponent implements OnInit {
         this.federationService.get(+params['id']).subscribe((federation: Federation) => {
           this.create = false;
           this.federation = federation;
-          this.countryService.list().subscribe((countryList: Country[]) => {
-            this.countryList = countryList;
+          this.countryService.list().subscribe((countryList: ListResult<Country>) => {
+            this.countryList = countryList.list;
             for (var i = 0; i < this.countryList.length; i++) {
               if (this.countryList[i].id == this.federation.country.id) {
                 this.federation.country = this.countryList[i];
@@ -35,8 +36,8 @@ export class FederationPersistComponent implements OnInit {
           });
         });
       } else {
-        this.countryService.list().subscribe((countryList: Country[]) => {
-          this.countryList = countryList;
+        this.countryService.list().subscribe((countryList: ListResult<Country>) => {
+          this.countryList = countryList.list;
           this.federation.country = this.countryList[0];
         });
       }

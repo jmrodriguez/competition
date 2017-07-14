@@ -9,6 +9,7 @@ import {CountryRoutingModule} from './country-routing.module';
 import {CountryShowComponent} from './country-show.component';
 import {CountryListComponent} from './country-list.component';
 import {CountryPersistComponent} from './country-persist.component';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {CountryPersistComponent} from './country-persist.component';
     CountryShowComponent
   ],
   imports: [
+    SharedModule,
     CommonModule,
     FormsModule,
     CountryRoutingModule

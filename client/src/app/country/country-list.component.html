@@ -5,27 +5,47 @@
     </ul>
 </div>
 <div id="list-country" class="content scaffold-list" role="main">
-    <h1>Country List</h1>
-    <table>
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Iso Code</th>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let country of countryList; let e = even;">
-      <td>
-        <a [routerLink]="['/country','show',country.id]">{{country.id}}</a>
-      </td>
-      <td>
-        <span>{{country.isoCode}}</span>
-      </td>
-      <td>
-        <span>{{country.name}}</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <div>
+        <md-input-container floatPlaceholder="never">
+            <input mdInput #terms (keyup)="search(terms.value)" placeholder="Filter users">
+        </md-input-container>
+    </div>
+
+    <h1>Country List ({{countryDatasource.total | async}})</h1>
+
+    <md-table #table [dataSource]="countryDatasource" mdSort>
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- ID Column -->
+        <ng-container cdkColumnDef="id">
+            <md-header-cell *cdkHeaderCellDef md-sort-header> ID </md-header-cell>
+            <md-cell *cdkCellDef="let row">
+                <a [routerLink]="['/country','show',row.id]">{{row.id}}</a>
+            </md-cell>
+        </ng-container>
+
+        <!-- Name -->
+        <ng-container cdkColumnDef="name">
+            <md-header-cell *cdkHeaderCellDef md-sort-header> Name </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+        </ng-container>
+
+        <!-- ISO Code -->
+        <ng-container cdkColumnDef="isoCode">
+            <md-header-cell *cdkHeaderCellDef md-sort-header> ISO Code </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.isoCode}} </md-cell>
+        </ng-container>
+
+        <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+        <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+    </md-table>
+
+    <md-paginator #paginator
+                  [length]="countryDatasource.total | async"
+                  [pageIndex]="0"
+                  [pageSize]="10"
+                  [pageSizeOptions]="[10, 20, 30, 50, 100]">
+    </md-paginator>
 </div>
