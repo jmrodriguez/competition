@@ -15,7 +15,11 @@ export class TournamentService {
   constructor(private http: Http) {
   }
 
-  list(textFilter: string = null, page: number = 1, max: number = 5): Observable<ListResult<Tournament>> {
+  list(textFilter: string = null,
+       page: number = 1,
+       max: number = 5,
+       sort: string = null,
+       order: string = null): Observable<ListResult<Tournament>> {
     let params = new URLSearchParams();
     if (textFilter) {
       params.set('textFilter', textFilter)
@@ -25,6 +29,12 @@ export class TournamentService {
     }
     if (max) {
       params.set('max', String(max))
+    }
+    if (sort) {
+      params.set('sort', String(sort))
+    }
+    if (order) {
+      params.set('order', String(order))
     }
 
     return this.http.get('tournament', { search: params }).map(res => res.json())

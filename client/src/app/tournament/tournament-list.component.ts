@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TournamentService} from './tournament.service';
-import {Tournament} from './tournament';
-import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
+import {MdPaginator, MdSort} from "@angular/material";
+import {TournamentDataSource} from "./tournament.datasource";
 
 @Component({
   selector: 'tournament-list',
@@ -11,70 +11,34 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class TournamentListComponent implements OnInit {
 
-  private sub: any;
-  total: Observable<number>;
-  tournaments: Observable<Tournament[]>;
+  displayedColumns = ['id', 'name', 'date', 'weight', 'genderRestricted', 'gender', 'federation', 'bestOf', 'groupsOf', 'includeGroupPhase', 'category'];
+  @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild(MdSort) sort: MdSort;
 
-  page: number = 1;
-  terms: string = "";
+  tournamentDatasource: TournamentDataSource | null;
 
   private searchTermStream = new Subject<string>();
-  private pageStream = new Subject<number>();
+  private initStream = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService) {
-    this.sub = this.route.params.subscribe(params => {
-      let page = params['page'];
-      if (page != null) {
-        this.page = +page; // (+) converts string 'id' to a number
-      }
-
-      let terms = params['q'];
-      if (terms != null) {
-        this.terms = params['q'];
-      }
-    });
   }
 
   ngOnInit() {
-    this._loadData();
-  }
-
-  private _loadData():void {
-    const pageSource = this.pageStream.map(pageNumber => {
-      this.page = pageNumber;
-      return {search: this.terms, page: pageNumber}
+    this.tournamentDatasource = new TournamentDataSource(this.searchTermStream, this.paginator, this.sort, this.tournamentService, this.initStream);
+    // listen to datasource connection to trigger initial search
+    this.tournamentDatasource.connectionNotifier.subscribe((connected: boolean) => {
+      if (connected) {
+        // TRIGGER THE INITIAL SEARCH. We could use any subject for this purpose
+        // XXX: not sure why but if we don't use a timeout here, even with time 0, the event is not triggered
+        setTimeout (() => {
+          this.initStream.next(true);
+        }, 0);
+      }
     });
-
-    const searchSource = this.searchTermStream
-        .debounceTime(1000)
-        .distinctUntilChanged()
-        .map(searchTerm => {
-          this.terms = searchTerm;
-          return {search: searchTerm, page: 1}
-        });
-
-    const source = pageSource
-        .merge(searchSource)
-        .startWith({search: this.terms, page: this.page})
-        .mergeMap((params: {search: string, page: number}) => {
-          return this.tournamentService.list(params.search, params.page)
-        })
-        .share();
-
-    this.total = source.pluck('total');
-    this.tournaments = source.pluck('list');
   }
 
   search(terms: string) {
     this.searchTermStream.next(terms)
-  }
-
-  goToPage(page: number) {
-    this.pageStream.next(page)
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 }

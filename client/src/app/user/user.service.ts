@@ -17,7 +17,7 @@ export class UserService {
        page: number = 1,
        max: number = 5,
        sort: string = null,
-       order: string = null,): Observable<ListResult<User>> {
+       order: string = null): Observable<ListResult<User>> {
     let params = new URLSearchParams();
     if (textFilter) {
       params.set('textFilter', textFilter)

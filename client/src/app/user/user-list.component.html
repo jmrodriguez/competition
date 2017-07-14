@@ -44,19 +44,19 @@
             <md-cell *cdkCellDef="let row"> {{row.email}} </md-cell>
         </ng-container>
 
-        <!-- DNI Column -->
+        <!-- Last Login Date Column -->
         <ng-container cdkColumnDef="lastLoginDate">
             <md-header-cell *cdkHeaderCellDef md-sort-header> Last Login Date </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.lastLoginDate | date:'yyyy-MM-dd'}} </md-cell>
         </ng-container>
 
-        <!-- Club Column -->
+        <!-- Account Locked Column -->
         <ng-container cdkColumnDef="accountLocked">
             <md-header-cell *cdkHeaderCellDef md-sort-header> Account Locked </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.accountLocked}} </md-cell>
         </ng-container>
 
-        <!-- Birth Column -->
+        <!-- Account Expired Column -->
         <ng-container cdkColumnDef="accountExpired">
             <md-header-cell *cdkHeaderCellDef md-sort-header> Account Expired </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.accountExpired}} </md-cell>

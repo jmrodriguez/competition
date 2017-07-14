@@ -34,6 +34,14 @@ class TournamentService {
                 parameters.put("textFilter", "%${textFilter}%")
             }
 
+            if (metaParams.sort) {
+                String sort = metaParams.sort
+                String order = metaParams.order
+                if (order == null) {
+                    order = "asc"
+                }
+                selectQuery = selectQuery + " order by t." + sort + " " + order
+            }
         } else {
             selectQuery = "from Tournament t"
             countQuery = "select count(t) from Tournament t"
@@ -48,6 +56,14 @@ class TournamentService {
                         "t.name like :textFilter" +
                         ")"
                 parameters = ["textFilter": "%${textFilter}%"]
+            }
+            if (metaParams.sort) {
+                String sort = metaParams.sort
+                String order = metaParams.order
+                if (order == null) {
+                    order = "asc"
+                }
+                selectQuery = selectQuery + " order by t." + sort + " " + order
             }
         }
 
