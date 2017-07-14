@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, ChangeDetectorRef, Input} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ChangeDetectorRef, Input, ViewChild} from '@angular/core';
 import {PlayerService} from './player.service';
 import {Player} from './player';
 import {FileUploader} from "ng2-file-upload";
@@ -18,6 +18,10 @@ import 'rxjs/add/operator/pluck';
 import {Federation} from "../federation/federation";
 import {FederationService} from "app/federation/federation.service";
 import {ToastCommunicationService} from "../shared/toast-communication.service";
+import {PlayerDataSource} from "./player.datasource";
+import {MdPaginator, MdSort} from "@angular/material";
+import {Tournament} from "../tournament/tournament";
+import {delay} from "rxjs/operator/delay";
 
 @Component({
   selector: 'player-list',
@@ -34,16 +38,16 @@ export class PlayerListComponent implements OnInit {
   federationList: Federation[];
   selectedFederation: Federation;
 
-  private sub: any;
-  total: Observable<number>;
-  players: Observable<Player[]>;
+  displayedColumns = ['id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
+  @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild(MdSort) sort: MdSort;
 
-  page: number = 1;
-  terms: string = "";
+  playerDatasource: PlayerDataSource | null;
 
   private searchTermStream = new Subject<string>();
-  private pageStream = new Subject<number>();
   private federationStream = new Subject<Federation>();
+  private tournamentStream = new Subject<Tournament>(); // unused but necessary
+  private playerTypeStream = new Subject<number>(); // unused but necessary
 
   constructor(private route: ActivatedRoute,
               private playerService: PlayerService,
@@ -51,17 +55,6 @@ export class PlayerListComponent implements OnInit {
               private toastCommunicationService: ToastCommunicationService,
               private authService: AuthService,
               private federationService: FederationService) {
-    this.sub = this.route.params.subscribe(params => {
-      let page = params['page'];
-      if (page != null) {
-        this.page = +page; // (+) converts string 'id' to a number
-      }
-
-      let terms = params['q'];
-      if (terms != null) {
-        this.terms = params['q'];
-      }
-    });
 
     this.uploader = new FileUploader({
       url: environment.serverUrl + this.uploadEndpoint,
@@ -80,18 +73,28 @@ export class PlayerListComponent implements OnInit {
         let responseObj = JSON.parse(response);
 
         this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'player.import.create.success', {value: responseObj.totalCreated});
-        this._loadData();
       } else {
         this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'player.import.create.error');
-        this._loadData();
       }
+      // refresh the list
+      this.federationStream.next(null);
     };
   }
 
   ngOnInit() {
-    this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
+    this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.federationStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.sort, this.playerService);
 
-    this._loadData();
+    if (this.authService.hasRole(["ROLE_FEDERATION_ADMIN"])) {
+      // listen to datasource connection to trigger initial search
+      this.playerDatasource.connectionNotifier.subscribe((connected: boolean) => {
+        if (connected) {
+          // TRIGGER THE INITIAL SEARCH. We could use any subject for this purpose
+          this.federationStream.next(null);
+        }
+      });
+    }
+
+    this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
 
     if (this.showFederationSelect) {
       this.federationService.list().subscribe((federationList: Federation[]) => {
@@ -100,45 +103,8 @@ export class PlayerListComponent implements OnInit {
     }
   }
 
-  private _loadData():void {
-    const pageSource = this.pageStream.map(pageNumber => {
-      this.page = pageNumber;
-      return {search: this.terms, page: pageNumber, federation: this.selectedFederation}
-    });
-
-    const searchSource = this.searchTermStream
-        .debounceTime(1000)
-        .distinctUntilChanged()
-        .map(searchTerm => {
-          this.terms = searchTerm;
-          return {search: searchTerm, page: 1, federation: this.selectedFederation}
-        });
-
-    const federationSource = this.federationStream.map(federation => {
-      this.selectedFederation = federation;
-      return {search: this.terms, page: 1, federation: this.selectedFederation};
-    });
-
-    const source = pageSource
-        .merge(searchSource)
-        .merge(federationSource)
-        .startWith({search: this.terms, page: this.page, federation: this.selectedFederation})
-        .mergeMap((params: {search: string, page: number, federation: Federation}) => {
-          return this.playerService.list(null, params.search, params.page, params.federation)
-        })
-        .share();
-
-    this.total = source.pluck('total');
-    this.players = source.pluck('list');
-
-  }
-
   search(terms: string) {
     this.searchTermStream.next(terms)
-  }
-
-  goToPage(page: number) {
-    this.pageStream.next(page)
   }
 
   public fileOverBase(e:any):void {
@@ -147,9 +113,5 @@ export class PlayerListComponent implements OnInit {
 
   onFederationChange(newValue: Federation) {
     this.federationStream.next(newValue);
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 }

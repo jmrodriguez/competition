@@ -9,6 +9,8 @@ import {Player} from "./player";
 import {Tournament} from "../tournament/tournament";
 import {PlayerService} from "./player.service";
 import {Subject} from "rxjs/Subject";
+import {Federation} from "../federation/federation";
+import {EventEmitter} from "@angular/core";
 
 /**
  * Data source to provide what data should be rendered in the table. Note that the data source
@@ -22,17 +24,22 @@ export class PlayerDataSource extends DataSource<any> {
     total: Observable<number>;
 
     tournament: Tournament;
+    federation: Federation;
     search: string = null;
     playerType: number = 0;
     gamePlanAvailable:boolean = false;
 
+    connectionNotifier: EventEmitter<boolean>;
+
     constructor(private tournamentStream: Subject<Tournament>,
+                private federationStream: Subject<Federation>,
                 private searchTermStream: Subject<string>,
                 private playerTypeStream: Subject<number>,
                 private paginator: MdPaginator,
                 private sort: MdSort,
                 private playerService: PlayerService) {
         super();
+        this.connectionNotifier = new EventEmitter();
     }
 
     /** Connect function called by the table to retrieve one stream containing the data to render. */
@@ -45,6 +52,11 @@ export class PlayerDataSource extends DataSource<any> {
         const tournamentSource = this.tournamentStream.map(tournament => {
             this.tournament = tournament;
             return {tournament: tournament};
+        });
+
+        const federationSource = this.federationStream.map(federation => {
+            this.federation = federation;
+            return {federation: federation};
         });
 
         const searchSource = this.searchTermStream
@@ -63,19 +75,25 @@ export class PlayerDataSource extends DataSource<any> {
         const source = Observable
             .merge(...displayDataChanges)
             .merge(tournamentSource)
+            .merge(federationSource)
             .merge(searchSource)
             .merge(playerTypeSource)
             .mergeMap((params: any) => {
-                return this.playerService.list(this.tournament, this.search, this.paginator.pageIndex + 1, null, this.playerType, this.tournament.category, this.paginator.pageSize, this.sort.active, this.sort.direction, false);
+                let category = this.tournament ? this.tournament.category : null;
+                return this.playerService.list(this.tournament, this.search, this.paginator.pageIndex + 1, this.federation, this.playerType, category, this.paginator.pageSize, this.sort.active, this.sort.direction, false);
             }).share();
 
         this.total = source.pluck('total');
 
         this.total.subscribe(total => {
             this.gamePlanAvailable = this.playerType == 0 && total > 8
-        })
+        });
+
+        this.connectionNotifier.emit(true);
         return source.pluck('list');
     }
 
-    disconnect() {}
+    disconnect() {
+        this.connectionNotifier.emit(false);
+    }
 }
