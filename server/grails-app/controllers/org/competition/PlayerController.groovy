@@ -40,8 +40,11 @@ class PlayerController extends RestfulController {
         }
 
         if (!preventPagination) {
-            params.max = Math.min(max ?: 5, 10)
+            params.max = Math.min(max ?: 5, 100)
         }
+
+        params.preventPagination = preventPagination
+
         if (page == null) {
             page = 1
         }

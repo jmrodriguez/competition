@@ -27,7 +27,6 @@ import { BracketDirective } from '../directives/bracket.directive';
   imports: [
     SharedModule,
     BrowserAnimationsModule,
-    MdTabsModule,
     TranslateModule,
     TournamentRoutingModule,
     WeightModule,

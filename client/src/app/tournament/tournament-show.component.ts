@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Tournament} from './tournament';
 import {TournamentService} from './tournament.service';
-import {TranslateService} from '@ngx-translate/core';
 import {Observable} from "rxjs/Observable";
 import {Player} from "../player/player";
 import {Subject} from "rxjs/Subject";
 import {PlayerService} from "../player/player.service";
 import {Category} from "../category/category";
 import {ToastCommunicationService} from "../shared/toast-communication.service";
+import {MdPaginator} from "@angular/material";
+import {PlayerDataSource} from "app/player/player.datasource";
 
 @Component({
   selector: 'tournament-persist',
@@ -16,93 +17,35 @@ import {ToastCommunicationService} from "../shared/toast-communication.service";
 })
 export class TournamentShowComponent implements OnInit {
 
+  displayedColumns = ['userId', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
+  @ViewChild(MdPaginator) paginator: MdPaginator;
+
+  playerDatasource: PlayerDataSource | null;
+
   tournament = new Tournament();
 
-  private sub: any;
-  total: Observable<number>;
-  players: Observable<Player[]>;
-
-  page: number = 1;
-  terms: string = "";
-  playerType:number = 0;
-  gamePlanAvailable:boolean = false;
-
+  private tournamentStream = new Subject<Tournament>();
   private playerTypeStream = new Subject<number>();
   private searchTermStream = new Subject<string>();
-  private pageStream = new Subject<number>();
 
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
               private playerService: PlayerService,
               private router: Router,
-              private translateService:TranslateService,
-              private toastCommunicationService: ToastCommunicationService) {
-    this.sub = this.route.params.subscribe(params => {
-      let page = params['page'];
-      if (page != null) {
-        this.page = +page; // (+) converts string 'id' to a number
-      }
-
-      let terms = params['q'];
-      if (terms != null) {
-        this.terms = params['q'];
-      }
-    });
-  }
+              private toastCommunicationService: ToastCommunicationService) {}
 
   ngOnInit() {
+    this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.playerService);
     this.route.params.subscribe((params: Params) => {
       this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
         this.tournament = tournament;
-        this._loadPlayers();
+        this.tournamentStream.next(this.tournament);
       });
     });
   }
 
-  private _loadPlayers():void {
-
-    console.log("Loading tournament players");
-    const playerTypeSource = this.playerTypeStream.map(playerType => {
-      this.playerType = playerType;
-      return {search: this.terms, page: 1, playerType: playerType, category: this.tournament.category}
-    });
-
-    const pageSource = this.pageStream.map(pageNumber => {
-      this.page = pageNumber;
-      return {search: this.terms, page: pageNumber, playerType: this.playerType, category: this.tournament.category}
-    });
-
-    const searchSource = this.searchTermStream
-        .debounceTime(1000)
-        .distinctUntilChanged()
-        .map(searchTerm => {
-          this.terms = searchTerm;
-          return {search: searchTerm, page: 1, playerType: this.playerType, category: this.tournament.category}
-        });
-
-    const source = pageSource
-        .merge(searchSource)
-        .merge(playerTypeSource)
-        .startWith({search: this.terms, page: this.page, playerType: this.playerType, category: this.tournament.category})
-        .mergeMap((params: {search: string, page: number, playerType: number, category: Category}) => {
-          return this.playerService.list(this.tournament, params.search, params.page, null, params.playerType, params.category);
-        })
-        .share();
-
-    this.total = source.pluck('total');
-    this.players = source.pluck('list');
-
-    this.total.subscribe(total => {
-      this.gamePlanAvailable = this.playerType == 0 && total > 8
-    })
-  }
-
   search(terms: string) {
     this.searchTermStream.next(terms);
-  }
-
-  goToPage(page: number) {
-    this.pageStream.next(page);
   }
 
   goToGameplan() {
@@ -117,7 +60,8 @@ export class TournamentShowComponent implements OnInit {
     this.tournamentService.signUpPlayer(this.tournament, player).subscribe(success => {
       if (success) {
         this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.show.players.signup.success');
-        this._loadPlayers();
+        // this refreshes the list
+        this.tournamentStream.next(this.tournament);
       } else {
         this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.show.players.signup.failure');
       }
@@ -128,15 +72,12 @@ export class TournamentShowComponent implements OnInit {
     this.tournamentService.signOffPlayer(this.tournament, player).subscribe(success => {
       if (success) {
         this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.show.players.signoff.success');
-        this._loadPlayers();
+        // this refreshes the list
+        this.tournamentStream.next(this.tournament);
       } else {
         this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.show.players.signoff.failure');
       }
     })
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   destroy() {

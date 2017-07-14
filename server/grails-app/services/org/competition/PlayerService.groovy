@@ -24,7 +24,7 @@ class PlayerService {
         boolean orderUsingSeedOrder = false
         if (tournament != null) {
             players = tournament.players
-            if (!tournament.includeGroupPhase && tournament.seedOrder != null) {
+            if (!tournament.includeGroupPhase && tournament.seedOrder != null && metaParams.preventPagination) {
                 orderUsingSeedOrder = true
             }
         } else {
