@@ -89,7 +89,7 @@ export class TournamentPlanComponent implements OnInit {
 
     console.log("Loading tournament players");
 
-    this.playerService.list(this.tournament, null, 0, null, null, this.tournament.category, null, true).subscribe((results: ListResult<Player>) => {
+    this.playerService.list(this.tournament, null, 0, null, null, this.tournament.category, null, null, null, true).subscribe((results: ListResult<Player>) => {
       this.total = Observable.of(results.total);
       this.tournamentPlayers = results.list;
       console.log("Loaded tournament players");

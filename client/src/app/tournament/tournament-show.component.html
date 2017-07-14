@@ -68,14 +68,14 @@
 
     <h1>Player List ({{playerDatasource.total | async}})</h1>
 
-    <md-table #table [dataSource]="playerDatasource">
+    <md-table #table [dataSource]="playerDatasource" mdSort>
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
 
         <!-- ID Column -->
-        <ng-container cdkColumnDef="userId">
-            <md-header-cell *cdkHeaderCellDef> ID </md-header-cell>
+        <ng-container cdkColumnDef="id">
+            <md-header-cell *cdkHeaderCellDef md-sort-header> ID </md-header-cell>
             <md-cell *cdkCellDef="let row">
                 <a [routerLink]="['/player','show',row.id]">{{row.id}}</a>
                 <button (click)="signOffPlayer(row)" *ngIf="playerDatasource.playerType == 0" type="button" class="btn btn-danger btn-s">
@@ -89,37 +89,37 @@
 
         <!-- First Name -->
         <ng-container cdkColumnDef="firstName">
-            <md-header-cell *cdkHeaderCellDef> First Name </md-header-cell>
+            <md-header-cell *cdkHeaderCellDef md-sort-header> First Name </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.firstName}} </md-cell>
         </ng-container>
 
         <!-- Last Name -->
         <ng-container cdkColumnDef="lastName">
-            <md-header-cell *cdkHeaderCellDef> Last Name </md-header-cell>
+            <md-header-cell *cdkHeaderCellDef md-sort-header> Last Name </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.lastName}} </md-cell>
         </ng-container>
 
         <!-- Email Column -->
         <ng-container cdkColumnDef="email">
-            <md-header-cell *cdkHeaderCellDef> Email </md-header-cell>
+            <md-header-cell *cdkHeaderCellDef md-sort-header> Email </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.email}} </md-cell>
         </ng-container>
 
         <!-- DNI Column -->
         <ng-container cdkColumnDef="dni">
-            <md-header-cell *cdkHeaderCellDef> DNI </md-header-cell>
+            <md-header-cell *cdkHeaderCellDef md-sort-header> DNI </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.dni}} </md-cell>
         </ng-container>
 
         <!-- Club Column -->
         <ng-container cdkColumnDef="club">
-            <md-header-cell *cdkHeaderCellDef> Club </md-header-cell>
+            <md-header-cell *cdkHeaderCellDef md-sort-header> Club </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.club}} </md-cell>
         </ng-container>
 
         <!-- Birth Column -->
         <ng-container cdkColumnDef="birth">
-            <md-header-cell *cdkHeaderCellDef> Birth </md-header-cell>
+            <md-header-cell *cdkHeaderCellDef md-sort-header> Birth </md-header-cell>
             <md-cell *cdkCellDef="let row"> {{row.birth | date:'yyyy-MM-dd'}} </md-cell>
         </ng-container>
 

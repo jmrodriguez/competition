@@ -8,7 +8,7 @@ import {Subject} from "rxjs/Subject";
 import {PlayerService} from "../player/player.service";
 import {Category} from "../category/category";
 import {ToastCommunicationService} from "../shared/toast-communication.service";
-import {MdPaginator} from "@angular/material";
+import {MdPaginator, MdSort} from "@angular/material";
 import {PlayerDataSource} from "app/player/player.datasource";
 
 @Component({
@@ -17,8 +17,9 @@ import {PlayerDataSource} from "app/player/player.datasource";
 })
 export class TournamentShowComponent implements OnInit {
 
-  displayedColumns = ['userId', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
+  displayedColumns = ['id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
   @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild(MdSort) sort: MdSort;
 
   playerDatasource: PlayerDataSource | null;
 
@@ -35,7 +36,7 @@ export class TournamentShowComponent implements OnInit {
               private toastCommunicationService: ToastCommunicationService) {}
 
   ngOnInit() {
-    this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.playerService);
+    this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.sort, this.playerService);
     this.route.params.subscribe((params: Params) => {
       this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
         this.tournament = tournament;

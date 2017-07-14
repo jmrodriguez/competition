@@ -3,7 +3,7 @@
  */
 
 import {DataSource} from "@angular/cdk";
-import {MdPaginator} from "@angular/material";
+import {MdPaginator, MdSort} from "@angular/material";
 import {Observable} from "rxjs/Observable";
 import {Player} from "./player";
 import {Tournament} from "../tournament/tournament";
@@ -30,6 +30,7 @@ export class PlayerDataSource extends DataSource<any> {
                 private searchTermStream: Subject<string>,
                 private playerTypeStream: Subject<number>,
                 private paginator: MdPaginator,
+                private sort: MdSort,
                 private playerService: PlayerService) {
         super();
     }
@@ -38,6 +39,7 @@ export class PlayerDataSource extends DataSource<any> {
     connect(): Observable<Player[]> {
         const displayDataChanges = [
             this.paginator.page,
+            this.sort.mdSortChange
         ];
 
         const tournamentSource = this.tournamentStream.map(tournament => {
@@ -64,7 +66,7 @@ export class PlayerDataSource extends DataSource<any> {
             .merge(searchSource)
             .merge(playerTypeSource)
             .mergeMap((params: any) => {
-                return this.playerService.list(this.tournament, this.search, this.paginator.pageIndex + 1, null, this.playerType, this.tournament.category, this.paginator.pageSize, false);
+                return this.playerService.list(this.tournament, this.search, this.paginator.pageIndex + 1, null, this.playerType, this.tournament.category, this.paginator.pageSize, this.sort.active, this.sort.direction, false);
             }).share();
 
         this.total = source.pluck('total');

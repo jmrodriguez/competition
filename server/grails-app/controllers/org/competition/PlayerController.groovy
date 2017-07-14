@@ -24,7 +24,16 @@ class PlayerController extends RestfulController {
         super(Player)
     }
 
-    def index(Integer tournamentId, Integer categoryId, Integer federationId, String textFilter, Integer page, Integer playerType, Integer max, Boolean preventPagination) {
+    def index(Integer tournamentId,
+              Integer categoryId,
+              Integer federationId,
+              String textFilter,
+              Integer page,
+              Integer playerType,
+              Integer max,
+              String sort,
+              String order,
+              Boolean preventPagination) {
 
         Tournament tournament = null
         if (tournamentId != null) {
