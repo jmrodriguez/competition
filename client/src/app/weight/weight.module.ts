@@ -9,6 +9,7 @@ import {WeightRoutingModule} from './weight-routing.module';
 import {WeightShowComponent} from './weight-show.component';
 import {WeightListComponent} from './weight-list.component';
 import {WeightPersistComponent} from './weight-persist.component';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {WeightPersistComponent} from './weight-persist.component';
     WeightShowComponent
   ],
   imports: [
+    SharedModule,
     CommonModule,
     FormsModule,
     WeightRoutingModule

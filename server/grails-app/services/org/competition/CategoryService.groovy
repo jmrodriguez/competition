@@ -31,8 +31,8 @@ class CategoryService {
             selectQuery = selectQuery + " order by c." + sort + " " + order
         }
 
-        categories = User.executeQuery(selectQuery, parameters, metaParams)
-        categoriesCount = User.executeQuery(countQuery, parameters)[0].toString() as Long
+        categories = Category.executeQuery(selectQuery, parameters, metaParams)
+        categoriesCount = Category.executeQuery(countQuery, parameters)[0].toString() as Long
 
         return [categories, categoriesCount]
     }

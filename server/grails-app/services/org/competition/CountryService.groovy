@@ -31,8 +31,8 @@ class CountryService {
             selectQuery = selectQuery + " order by c." + sort + " " + order
         }
 
-        countries = User.executeQuery(selectQuery, parameters, metaParams)
-        countriesCount = User.executeQuery(countQuery, parameters)[0].toString() as Long
+        countries = Country.executeQuery(selectQuery, parameters, metaParams)
+        countriesCount = Country.executeQuery(countQuery, parameters)[0].toString() as Long
 
         return [countries, countriesCount]
     }

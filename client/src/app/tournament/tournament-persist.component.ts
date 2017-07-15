@@ -48,8 +48,8 @@ export class TournamentPersistComponent implements OnInit {
           this.tournament = tournament;
           // change the tournament weight and federation to use LITERALLY the exact object from the respective list,
           // otherwise the value in the select box is selected but not visible
-          this.weightService.list().subscribe((weightList: Weight[]) => {
-            this.weightList = weightList;
+          this.weightService.list().subscribe((weightList: ListResult<Weight>) => {
+            this.weightList = weightList.list;
             for (var i = 0; i < this.weightList.length; i++) {
               if (this.weightList[i].id == this.tournament.weight.id) {
                   this.tournament.weight = this.weightList[i];
@@ -82,8 +82,8 @@ export class TournamentPersistComponent implements OnInit {
         });
       } else {
         // load the list and set default values
-        this.weightService.list().subscribe((weightList: Weight[]) => {
-          this.weightList = weightList;
+        this.weightService.list().subscribe((weightList: ListResult<Weight>) => {
+          this.weightList = weightList.list;
           this.tournament.weight = this.weightList[0];
         });
 

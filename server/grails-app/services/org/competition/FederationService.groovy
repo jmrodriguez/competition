@@ -31,8 +31,8 @@ class FederationService {
             selectQuery = selectQuery + " order by f." + sort + " " + order
         }
 
-        federations = User.executeQuery(selectQuery, parameters, metaParams)
-        federationsCount = User.executeQuery(countQuery, parameters)[0].toString() as Long
+        federations = Federation.executeQuery(selectQuery, parameters, metaParams)
+        federationsCount = Federation.executeQuery(countQuery, parameters)[0].toString() as Long
 
         return [federations, federationsCount]
     }
