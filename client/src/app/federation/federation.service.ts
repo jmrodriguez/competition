@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, RequestMethod, Request, Headers} from '@angular/http';
+import {Http, Response, RequestOptions, RequestMethod, Request, Headers, URLSearchParams} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Federation} from './federation';
 import {Subject} from 'rxjs/Subject';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import {ListResult} from "../helpers/list-result.interface";
 
 @Injectable()
 export class FederationService {
@@ -13,14 +14,29 @@ export class FederationService {
   constructor(private http: Http) {
   }
 
-  list(): Observable<Federation[]> {
-    let subject = new Subject<Federation[]>();
-    this.http.get('federation')
-      .map((r: Response) => r.json())
-      .subscribe((json: any[]) => {
-        subject.next(json.map((item: any) => new Federation(item)))
-      });
-    return subject.asObservable();
+  list(textFilter: string = null,
+       page: number = 1,
+       max: number = 100,
+       sort: string = null,
+       order: string = null): Observable<ListResult<Federation>> {
+    let params = new URLSearchParams();
+    if (textFilter) {
+      params.set('textFilter', textFilter)
+    }
+    if (page) {
+      params.set('page', String(page))
+    }
+    if (max) {
+      params.set('max', String(max))
+    }
+    if (sort) {
+      params.set('sort', String(sort))
+    }
+    if (order) {
+      params.set('order', String(order))
+    }
+
+    return this.http.get('federation', { search: params }).map(res => res.json())
   }
 
   get(id: number): Observable<Federation> {

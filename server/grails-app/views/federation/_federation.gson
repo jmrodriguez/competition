@@ -1,0 +1,7 @@
+import org.competition.Federation
+
+model {
+    Federation federation
+}
+
+json g.render(federation, [expand: ['country']])

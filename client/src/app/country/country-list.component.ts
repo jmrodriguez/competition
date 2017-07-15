@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {CountryService} from './country.service';
-import {Country} from './country';
 import {MdPaginator, MdSort} from "@angular/material";
 import {CountryDataSource} from "./country.datasource";
 import {Subject} from "rxjs/Subject";

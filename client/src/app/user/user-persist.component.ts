@@ -6,6 +6,7 @@ import {Response} from "@angular/http";
 import {Federation} from "../federation/federation";
 import {FederationService} from "../federation/federation.service";
 import {AuthService} from "../services/auth.service";
+import {ListResult} from "../helpers/list-result.interface";
 
 
 @Component({
@@ -38,8 +39,8 @@ export class UserPersistComponent implements OnInit {
           this.userService.get(+params['id']).subscribe((user: User) => {
             this.create = false;
             this.user = user;
-            this.federationService.list().subscribe((federationList: Federation[]) => {
-              this.federationList = federationList;
+            this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+              this.federationList = federationList.list;
               for (var i = 0; i < this.federationList.length; i++) {
                 if (this.user.federation != null && this.federationList[i].id == this.user.federation.id) {
                   this.user.federation = this.federationList[i];

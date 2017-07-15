@@ -11,6 +11,7 @@ import {FederationListComponent} from './federation-list.component';
 import {FederationPersistComponent} from './federation-persist.component';
 import { FederationLogoModule } from '../federationLogo/federationLogo.module';
 import { CountryModule } from '../country/country.module';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CountryModule } from '../country/country.module';
     FederationShowComponent
   ],
   imports: [
+    SharedModule,
     CommonModule,
     FormsModule,
     FederationRoutingModule,

@@ -69,8 +69,8 @@ export class TournamentPersistComponent implements OnInit {
           });
 
           if (this.showFederationSelect) {
-            this.federationService.list().subscribe((federationList: Federation[]) => {
-              this.federationList = federationList;
+            this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+              this.federationList = federationList.list;
               for (var i = 0; i < this.federationList.length; i++) {
                 if (this.federationList[i].id == this.tournament.federation.id) {
                   this.tournament.federation = this.federationList[i];
@@ -93,8 +93,8 @@ export class TournamentPersistComponent implements OnInit {
         });
 
         if (this.showFederationSelect) {
-          this.federationService.list().subscribe((federationList: Federation[]) => {
-            this.federationList = federationList;
+          this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+            this.federationList = federationList.list;
           });
         }
 

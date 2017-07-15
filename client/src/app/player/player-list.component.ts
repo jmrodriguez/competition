@@ -19,6 +19,7 @@ import {ToastCommunicationService} from "../shared/toast-communication.service";
 import {PlayerDataSource} from "./player.datasource";
 import {MdPaginator, MdSort} from "@angular/material";
 import {Tournament} from "../tournament/tournament";
+import {ListResult} from "../helpers/list-result.interface";
 
 @Component({
   selector: 'player-list',
@@ -94,8 +95,8 @@ export class PlayerListComponent implements OnInit {
     this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
 
     if (this.showFederationSelect) {
-      this.federationService.list().subscribe((federationList: Federation[]) => {
-        this.federationList = federationList;
+      this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+        this.federationList = federationList.list;
       });
     }
   }

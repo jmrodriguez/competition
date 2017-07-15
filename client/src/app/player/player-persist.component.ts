@@ -6,6 +6,7 @@ import {Response} from "@angular/http";
 import { FederationService } from '../federation/federation.service';
 import { Federation } from '../federation/federation';
 import {AuthService} from "../services/auth.service";
+import {ListResult} from "../helpers/list-result.interface";
 
 @Component({
   selector: 'player-persist',
@@ -29,7 +30,9 @@ export class PlayerPersistComponent implements OnInit {
   ngOnInit() {
     this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
     if(this.showFederationSelect){
-      this.federationService.list().subscribe((federationList: Federation[]) => { this.federationList = federationList; });
+      this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+        this.federationList = federationList.list;
+      });
     }
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
