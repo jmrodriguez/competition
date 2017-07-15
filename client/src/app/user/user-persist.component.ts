@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router, UrlSegment} from '@angular/router';
 import {User} from './user';
 import {UserService} from './user.service';
 import {Response} from "@angular/http";
@@ -31,33 +31,37 @@ export class UserPersistComponent implements OnInit {
     this.user.accountLocked = false;
     this.user.accountExpired = false;
     this.user.passwordExpired = false;
-    this.user.enabled = false;
-    this.route.params.subscribe((params: Params) => {
-      if (params.hasOwnProperty('id')) {
+    this.user.enabled = true;
+
+    this.route.url.subscribe((url: UrlSegment[]) => {
+      let target  = url[url.length - 1].path;
+      this.route.params.subscribe((params: Params) => {
         if (this.authService.hasRole(["ROLE_SUPER_ADMIN"])) {
           this.showFederationSelect = true;
-          this.userService.get(+params['id']).subscribe((user: User) => {
-            this.create = false;
-            this.user = user;
-            this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
-              this.federationList = federationList.list;
-              for (var i = 0; i < this.federationList.length; i++) {
-                if (this.user.federation != null && this.federationList[i].id == this.user.federation.id) {
-                  this.user.federation = this.federationList[i];
-                  break;
-                }
+          this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+            this.federationList = federationList.list;
+            for (var i = 0; i < this.federationList.length; i++) {
+              if (this.user.federation != null && this.federationList[i].id == this.user.federation.id) {
+                this.user.federation = this.federationList[i];
+                break;
               }
-            });
+            }
           });
-        } else {
-          this.router.navigate(['/index']);
         }
-      } else {
-        this.userService.get(this.authService.currentUser.userDetails.id).subscribe((user: User) => {
-          this.create = false;
-          this.user = user;
-        });
-      }
+        if (params.hasOwnProperty('id')) {
+            this.userService.get(+params['id']).subscribe((user: User) => {
+              this.create = false;
+              this.user = user;
+            });
+        } else {
+          if (target == "edit") {
+            this.userService.get(this.authService.currentUser.userDetails.id).subscribe((user: User) => {
+              this.create = false;
+              this.user = user;
+            });
+          }
+        }
+      });
     });
   }
 
