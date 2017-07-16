@@ -18,9 +18,13 @@
 <div id="list-player" class="content scaffold-list" role="main">
     <div>
         <md-input-container floatPlaceholder="never">
-            <input mdInput #terms (keyup)="search(terms.value)" placeholder="Filter users">
+            <input mdInput [value]="terms" (keyup)="search($event.target.value)" placeholder="Filter users">
         </md-input-container>
+        <button (click)="clearFilterText()" type="button" class="btn btn-s">
+            <span class="fa fa-times"></span> {{ "general.messages.filter.clear" | translate }}
+        </button>
     </div>
+
 
     <h1>Player List ({{playerDatasource.total | async}})</h1>
 
@@ -34,12 +38,6 @@
             <md-header-cell *cdkHeaderCellDef md-sort-header> ID </md-header-cell>
             <md-cell *cdkCellDef="let row">
                 <a [routerLink]="['/player','show',row.id]">{{row.id}}</a>
-                <button (click)="signOffPlayer(row)" *ngIf="playerDatasource.playerType == 0" type="button" class="btn btn-danger btn-s">
-                    <span class="fa fa-user-times"></span> {{ "tournament.show.players.signoff.button" | translate }}
-                </button>
-                <button (click)="signUpPlayer(row)" *ngIf="playerDatasource.playerType == 1" type="button" class="btn btn-success btn-s">
-                    <span class="fa fa-user-plus"></span> {{ "tournament.show.players.signup.button" | translate }}
-                </button>
             </md-cell>
         </ng-container>
 

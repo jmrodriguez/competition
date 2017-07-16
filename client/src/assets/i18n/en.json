@@ -1,4 +1,11 @@
 {
+  "general":{
+    "messages":{
+      "filter":{
+        "clear": "Clear Filter"
+      }
+    }
+  },
   "toast": {
     "title" : {
       "success": "Success!",

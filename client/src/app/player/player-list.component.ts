@@ -40,6 +40,8 @@ export class PlayerListComponent implements OnInit {
   @ViewChild(MdPaginator) paginator: MdPaginator;
   @ViewChild(MdSort) sort: MdSort;
 
+  @Input() terms = "";
+
   playerDatasource: PlayerDataSource | null;
 
   private searchTermStream = new Subject<string>();
@@ -101,8 +103,14 @@ export class PlayerListComponent implements OnInit {
     }
   }
 
-  search(terms: string) {
-    this.searchTermStream.next(terms)
+  search(value:string) {
+    this.terms = value;
+    this.searchTermStream.next(this.terms);
+  }
+
+  clearFilterText() {
+    this.terms = "";
+    this.search(this.terms);
   }
 
   public fileOverBase(e:any):void {
