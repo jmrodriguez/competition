@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TournamentService} from './tournament.service';
 import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
@@ -14,6 +14,8 @@ export class TournamentListComponent implements OnInit {
   displayedColumns = ['id', 'name', 'date', 'weight', 'genderRestricted', 'gender', 'federation', 'bestOf', 'groupsOf', 'includeGroupPhase', 'category'];
   @ViewChild(MdPaginator) paginator: MdPaginator;
   @ViewChild(MdSort) sort: MdSort;
+
+  @Input() terms = "";
 
   tournamentDatasource: TournamentDataSource | null;
 
@@ -38,7 +40,13 @@ export class TournamentListComponent implements OnInit {
     });
   }
 
-  search(terms: string) {
-    this.searchTermStream.next(terms)
+  search(value:string) {
+    this.terms = value;
+    this.searchTermStream.next(this.terms);
+  }
+
+  clearFilterText() {
+    this.terms = "";
+    this.search(this.terms);
   }
 }

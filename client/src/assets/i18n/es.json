@@ -2,7 +2,8 @@
   "general":{
     "messages":{
       "filter":{
-        "clear": "Borrar Filtro"
+        "clear": "Borrar Filtro",
+        "list":"Filtrar lista"
       }
     }
   },

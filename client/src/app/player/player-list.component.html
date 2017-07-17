@@ -18,7 +18,7 @@
 <div id="list-player" class="content scaffold-list" role="main">
     <div>
         <md-input-container floatPlaceholder="never">
-            <input mdInput [value]="terms" (keyup)="search($event.target.value)" placeholder="Filter users">
+            <input mdInput [value]="terms" (keyup)="search($event.target.value)" placeholder="{{ 'general.messages.filter.list' | translate }}">
         </md-input-container>
         <button (click)="clearFilterText()" type="button" class="btn btn-s">
             <span class="fa fa-times"></span> {{ "general.messages.filter.clear" | translate }}
