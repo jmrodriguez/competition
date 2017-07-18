@@ -17,3 +17,26 @@ td {
 .match-row-even {
     background-color: lightgray;
 }
+
+/* BRACKET STYLING */
+/deep/ div.jQBracket .flagContainer {
+   float: left;
+   line-height: 1.5;
+   margin-right: 5px;
+}
+
+/deep/ div.jQBracket .nameContainer {
+    display: inline-block;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/deep/ div.jQBracket .clubContainer {
+   display: inline-block;
+   width: 70px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}

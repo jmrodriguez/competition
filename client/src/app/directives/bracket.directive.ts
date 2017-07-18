@@ -43,7 +43,7 @@ export class BracketDirective {
                     save: this.saveFn, /* without save() labels are disabled */
                     decorator: {edit: this.edit_fn,
                         render: this.render_fn},
-                    teamWidth: 150
+                    teamWidth: 300
                 });
             }
         });
@@ -69,16 +69,16 @@ export class BracketDirective {
 
     /* Edit function is called when team label is clicked (not in use due to disableTeamEdit flag set to true) */
     edit_fn(container, data, doneCb) {
-        var input = $('<input type="text">');
+        let input = $('<input type="text">');
         input.val(data ? data.flag + ':' + data.name : '');
         container.html(input);
         input.focus();
         input.blur(function() {
-            var inputValue = input.val();
+            let inputValue = input.val();
             if (inputValue.length === 0) {
                 doneCb(null); // Drop the team and replace with BYE
             } else {
-                var flagAndName = inputValue.split(':'); // Expects correct input
+                let flagAndName = inputValue.split(':'); // Expects correct input
                 doneCb({flag: flagAndName[0], name: flagAndName[1]});
             }
         });
@@ -96,7 +96,13 @@ export class BracketDirective {
             case "entry-no-score":
             case "entry-default-win":
             case "entry-complete":
-                container.append('<span class="flag-icon flag-icon-' + data.flag + '"></span> ').append(data.name);
+                let htmlString =
+                    "<span class='flag-icon flag-icon-" + data.flag + " flagContainer'></span> " +
+                    "<div class='infoContainer'>" +
+                        "<span class='nameContainer'>" + "(" + data.id + ") " + data.name + "</span> " +
+                        "<span class='clubContainer'>" + data.club + "</span> " +
+                    "</div>";
+                container.append(htmlString);
                 return;
         }
     }

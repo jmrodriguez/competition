@@ -405,12 +405,14 @@ export class TournamentPlanComponent implements OnInit {
           let bracketEntry = null;
           if (playerInfo != null) {
             bracketEntry = {};
+            bracketEntry["id"] = playerInfo.id;
             bracketEntry["name"] = playerInfo.firstName + " " + playerInfo.lastName;
             // add flag
             // add club or country info, depending on if it is a federation tournament or regional one
             if (this.tournament.federation != null) {
-              bracketEntry["from"] = playerInfo.club;
+              bracketEntry["club"] = playerInfo.club;
             }
+            bracketEntry["flag"] = playerInfo.federation.country.isoCode.toLowerCase();
           }
 
           if (i % 2 == 0) {
