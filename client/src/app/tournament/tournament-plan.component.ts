@@ -13,6 +13,7 @@ import {Subject} from "rxjs/Subject";
 import {ToastCommunicationService} from "../shared/toast-communication.service";
 import {PlayerService} from "app/player/player.service";
 import {DialogsService} from "../shared/dialog/dialogs.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'tournament-plan',
@@ -39,6 +40,7 @@ export class TournamentPlanComponent implements OnInit {
   firstPlaceThreeWayTie = false;
 
   initData: Subject<any>;
+  bracketIsFull: boolean;
 
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
@@ -46,12 +48,14 @@ export class TournamentPlanComponent implements OnInit {
               private playerService: PlayerService,
               private router: Router,
               private toastCommunicationService: ToastCommunicationService,
-              private dialogsService: DialogsService) {}
+              private dialogsService: DialogsService,
+              private translateService: TranslateService) {}
 
   ngOnInit() {
     this.groupsAvailable = false;
     this.selectedTab = 0;
     this.initData = new Subject<any>();
+    this.bracketIsFull = false;
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
@@ -62,6 +66,7 @@ export class TournamentPlanComponent implements OnInit {
           } else {
             this._loadPlayers();
           }
+          this.checkBracketIsFull();
         });
       } else {
         this.router.navigate(['/index']);
@@ -160,6 +165,27 @@ export class TournamentPlanComponent implements OnInit {
 
   saveGroupChanges() {
     this.tournamentGroupService.save(this.selectedGroup).subscribe((tournamentGroup: TournamentGroup) => {
+    }, err => {
+      const json = err.json();
+      let errors = null;
+      if (json.hasOwnProperty('message')) {
+        errors = [json];
+      } else {
+        errors = json._embedded.errors;
+      }
+
+      if (errors != null && errors.length > 0) {
+        for (let i = 0; i < errors.length; i++) {
+          if (errors[i].message.indexOf("cannot be null") != -1) {
+            this.translateService.get("general.errors.incomplete.data").subscribe((res: string) => {
+              let params = {};
+              params["error"] = res;
+              this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.group.save.failure', params);
+            });
+            break;
+          }
+        }
+      }
     });
   }
 
@@ -683,5 +709,33 @@ export class TournamentPlanComponent implements OnInit {
 
   onNotifyBracketError(event) {
     this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.bracket.update.failure');
+  }
+
+  onNotifyBracketChange(bracketInfo) {
+    this.tournament.bracketInfo = bracketInfo;
+    this.checkBracketIsFull();
+  }
+
+  /**
+   * checks if the bracket is full to enable the close tournament button
+   *
+   * data:     changed bracket object in format given to init
+   * userData: the object needed to notify the output element
+   */
+  checkBracketIsFull() {
+    if (this.tournament.bracketInfo != null) {
+      let data = JSON.parse(this.tournament.bracketInfo);
+      let finalMatch = data.results[0][data.results[0].length - 1][0];
+
+      if (finalMatch[0] != null && finalMatch[1] != null && (finalMatch[0] != 0 || finalMatch[1] != 0)) {
+        this.bracketIsFull = true;
+      } else {
+        this.bracketIsFull = false;
+      }
+    }
+  }
+
+  finishTournament() {
+    console.log("FINISH TOURNAMENT");
   }
 }

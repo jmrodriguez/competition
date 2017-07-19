@@ -19,6 +19,7 @@ export class BracketDirective {
     @Input() initData:Observable<any>;
     @Input() tournament:Tournament;
     @Output() notifyBracketError: EventEmitter<any> = new EventEmitter<any>();
+    @Output() notifyBracketChange: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(private el: ElementRef,
                 private tournamentService: TournamentService) {
@@ -49,7 +50,6 @@ export class BracketDirective {
         });
     }
 
-
     /**
      * Called whenever bracket is modified
      *
@@ -61,6 +61,7 @@ export class BracketDirective {
         userData.tournament.bracketInfo = bracketInfo;
         userData.tournamentService.save(userData.tournament).subscribe((tournament: Tournament) => {
             userData.tournament = tournament;
+            userData.notifyBracketChange.next(bracketInfo);
         }, (err: Response) => {
             console.log("There was an error updating final bracket information");
             userData.notifyBracketError.next(err);
@@ -105,5 +106,22 @@ export class BracketDirective {
                 container.append(htmlString);
                 return;
         }
+    }
+
+    /**
+     * Counts the number of matches with results in the bracket
+     */
+    countMatches(node) {
+        let count = 0;
+        if (Array.isArray(node)) {
+            for (let i = 0; i < node.length; i++) {
+                if (!Array.isArray(node[i])) {
+                    return 1;
+                } else {
+                    count += this.countMatches(node[i]);
+                }
+            }
+        }
+        return count;
     }
 }

@@ -1,9 +1,14 @@
 {
-  "general":{
-    "messages":{
-      "filter":{
+  "general": {
+    "messages": {
+      "filter": {
         "clear": "Clear Filter",
         "list":"Filter list"
+      }
+    },
+    "errors": {
+      "incomplete": {
+        "data": "Incomplete Data"
       }
     }
   },
@@ -96,6 +101,11 @@
         "seeds" : {
           "success" : "Players seed order stored successfully",
           "failure" : "There's been an error storing the players seed order"
+        }
+      },
+      "group": {
+        "save": {
+          "failure" : "There's been an error saving group results information: {{error}}"
         }
       }
     }

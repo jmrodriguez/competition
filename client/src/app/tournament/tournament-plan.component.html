@@ -139,7 +139,12 @@
         </md-tab>
         <md-tab [label]="'tournament.gameplan.brackettab' | translate">
             <div>
-                <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)">Empty Final Bracket</div>
+                <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)" (notifyBracketChange)="onNotifyBracketChange($event)">Empty Final Bracket</div>
+            </div>
+            <div>
+                <button [disabled]="!bracketIsFull" type="button" (click)="finishTournament()" class="btn btn-success btn-s">
+                    <span class="fa fa-floppy-o"></span> Aplicar Resultados y Finalizar Torneo
+                </button>
             </div>
         </md-tab>
     </md-tab-group>
@@ -159,14 +164,19 @@
                 </ul>
             </div>
             <div>
-                <button type="button" (click)="savePlayersOrder()" class="btn btn-success btn-s">
+                <button [disabled]="!bracketIsFull" type="button" (click)="savePlayersOrder()" class="btn btn-success btn-s">
                     <span class="fa fa-floppy-o"></span> Save Player Order
                 </button>
             </div>
         </md-tab>
         <md-tab [label]="'tournament.gameplan.brackettab' | translate">
             <div>
-                <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)">Empty Final Bracket</div>
+                <div id="finalBracketNoGroups" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)" (notifyBracketChange)="onNotifyBracketChange($event)">Empty Final Bracket</div>
+            </div>
+            <div>
+                <button type="button" (click)="finishTournament()" class="btn btn-success btn-s">
+                    <span class="fa fa-floppy-o"></span> Aplicar Resultados y Finalizar Torneo
+                </button>
             </div>
         </md-tab>
     </md-tab-group>

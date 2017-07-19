@@ -5,6 +5,11 @@
         "clear": "Borrar Filtro",
         "list":"Filtrar lista"
       }
+    },
+    "errors": {
+      "incomplete": {
+        "data": "Informacion Incompleta"
+      }
     }
   },
   "toast": {
@@ -96,6 +101,11 @@
         "seeds" : {
           "success" : "Orden de siembra de los jugadores guardado con exito",
           "failure" : "Ha ocurrido un error guardando el orden de siembra de los jugadores"
+        }
+      },
+      "group": {
+        "save": {
+          "failure" : "Ha ocurrido un error guardando la informacion del grupo: {{error}}"
         }
       }
     }
