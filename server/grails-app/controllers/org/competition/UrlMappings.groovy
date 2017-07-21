@@ -12,6 +12,7 @@ class UrlMappings {
         "/api/tournament/generateDraw/$tournamentId" (controller: "tournament", action: "generateDraw", method: "GET")
         "/api/tournament/signUp/$playerId" (controller: "tournament", action: "signUp", method: "POST")
         "/api/tournament/signOff/$playerId" (controller: "tournament", action: "signOff", method: "POST")
+        "/api/tournament/bracketResults" (controller: "tournament", action: "saveBracketResults", method: "POST")
         "/api/tournamentGroup"(resources:"tournamentGroup")
         "/api/user"(resources:"user")
         "/api/user/current" (controller: "user", action: "current", method: "GET")

@@ -101,10 +101,15 @@
         "seeds" : {
           "success" : "Orden de siembra de los jugadores guardado con exito",
           "failure" : "Ha ocurrido un error guardando el orden de siembra de los jugadores"
+        },
+        "results" : {
+          "success" : "Resultados de la llave final guardados con exito",
+          "failure" : "Ha ocurrido un error guardando los resultados de la llave final"
         }
       },
       "group": {
         "save": {
+          "success" : "Resultados de grupo guardados exitosamente",
           "failure" : "Ha ocurrido un error guardando la informacion del grupo: {{error}}"
         }
       }

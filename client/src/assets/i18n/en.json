@@ -101,10 +101,15 @@
         "seeds" : {
           "success" : "Players seed order stored successfully",
           "failure" : "There's been an error storing the players seed order"
+        },
+        "results" : {
+          "success" : "Bracket results stored successfully",
+          "failure" : "There's been an error storing the bracket results"
         }
       },
       "group": {
         "save": {
+          "success" : "Group results saved successfully",
           "failure" : "There's been an error saving group results information: {{error}}"
         }
       }

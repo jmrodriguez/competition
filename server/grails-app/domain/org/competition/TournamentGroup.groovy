@@ -8,7 +8,7 @@ class TournamentGroup {
 
     static belongsTo = [tournament:Tournament]
 
-    static hasMany = [players:Player, matches:TournamentMatch]
+    static hasMany = [players:Player, groupMatches:TournamentMatch]
 
     static constraints = {
         winner blank:true, nullable:true
@@ -16,6 +16,6 @@ class TournamentGroup {
     }
 
     static mapping = {
-        matches cascade: "all-delete-orphan"
+        groupMatches cascade: "all-delete-orphan"
     }
 }

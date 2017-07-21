@@ -165,6 +165,7 @@ export class TournamentPlanComponent implements OnInit {
 
   saveGroupChanges() {
     this.tournamentGroupService.save(this.selectedGroup).subscribe((tournamentGroup: TournamentGroup) => {
+      this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.gameplan.group.save.success');
     }, err => {
       const json = err.json();
       let errors = null;
@@ -183,6 +184,10 @@ export class TournamentPlanComponent implements OnInit {
               this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.group.save.failure', params);
             });
             break;
+          } else {
+            let params = {};
+            params["error"] = "";
+            this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.group.save.failure', params);
           }
         }
       }
@@ -302,7 +307,7 @@ export class TournamentPlanComponent implements OnInit {
     }
 
     this.tournamentGroups.subscribe((groupList: TournamentGroup[]) => {
-      let matches = groupList[tournamentGroup - 1].matches;
+      let matches = groupList[tournamentGroup - 1].groupMatches;
       let match = matches[matchOrder];
       if (match != null) {
         match.points = finalPointsString;
@@ -320,7 +325,6 @@ export class TournamentPlanComponent implements OnInit {
         match.player2 = new Player();
         match.player2.id = p2Id;
         match.matchNumber = this._getMatchNumber(tournamentGroup - 1, matchOrder + 1, groupList);
-        match.tournament = this.tournament;
         if (finalSetsString) {
           match.sets = finalSetsString;
         }
@@ -369,7 +373,7 @@ export class TournamentPlanComponent implements OnInit {
 
   _allMatchesHaveWinner() {
     let winnerCount = 0;
-    for (let match of this.selectedGroup.matches) {
+    for (let match of this.selectedGroup.groupMatches) {
       if (match != null && match.winner != null) {
         winnerCount++;
       }
@@ -471,8 +475,8 @@ export class TournamentPlanComponent implements OnInit {
   _calculateWinnersByMatches() {
     let playerMatches = new Map<number, number>();
 
-    for (let i = 0; i < this.selectedGroup.matches.length; i++) {
-      let match = this.selectedGroup.matches[i];
+    for (let i = 0; i < this.selectedGroup.groupMatches.length; i++) {
+      let match = this.selectedGroup.groupMatches[i];
 
       let winner = match.winner;
 
@@ -545,8 +549,8 @@ export class TournamentPlanComponent implements OnInit {
   _calculateWinnersBySets() {
     let playerSets = new Map<number, any>();
 
-    for (let i = 0; i < this.selectedGroup.matches.length; i++) {
-      let match = this.selectedGroup.matches[i];
+    for (let i = 0; i < this.selectedGroup.groupMatches.length; i++) {
+      let match = this.selectedGroup.groupMatches[i];
 
       // process match only if the players are in the three-way tie array
       if (this._playerInTie(match.player1.id) && this._playerInTie(match.player2.id)) {
@@ -607,8 +611,8 @@ export class TournamentPlanComponent implements OnInit {
   _calculateWinnersByPoints() {
     let playerPoints = new Map<number, any>();
 
-    for (let i = 0; i < this.selectedGroup.matches.length; i++) {
-      let match = this.selectedGroup.matches[i];
+    for (let i = 0; i < this.selectedGroup.groupMatches.length; i++) {
+      let match = this.selectedGroup.groupMatches[i];
 
       // process match only if the players are in the three-way tie array
       if (this._playerInTie(match.player1.id) && this._playerInTie(match.player2.id)) {
@@ -736,7 +740,121 @@ export class TournamentPlanComponent implements OnInit {
   }
 
   finishTournament() {
-    console.log("FINISH TOURNAMENT");
+    // get byes
+    let tournamentByes = this._getByes();
+    // get bracket matches
+    let matchesArray = this._getBracketMatches();
+
+    this.tournament.byes = tournamentByes;
+    this.tournament.bracketMatches = matchesArray;
+
+    // save bracket matches and byes
+    this.tournamentService.saveBracketResults(this.tournament).subscribe((tournament: Tournament) => {
+      this.tournament = tournament;
+      this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.gameplan.bracket.results.success');
+    }, (res: Response) => {
+      // show error message
+      this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.bracket.results.failure');
+    });
+    // apply results
+  }
+
+  _getBracketMatches() {
+    let matchesArray = [];
+
+    if (this.tournament.bracketInfo != null) {
+      let data = JSON.parse(this.tournament.bracketInfo);
+
+      let players = [];
+
+      let teams = data.teams;
+
+      for (let i = 0; i < teams.length; i++) {
+        let team = teams[i];
+        let player = null;
+        if (team[0] != null) {
+          player = new Player();
+          player.id = team[0].id;
+        }
+        players.push(player);
+
+        player = null;
+        if (team[1] != null) {
+          player = new Player();
+          player.id = team[1].id;
+        }
+        players.push(player);
+      }
+
+      let results = data.results[0];
+
+      for (let i = 0; i < results.length; i++) {
+        let nextRoundPlayers = [];
+        let round = results[i];
+        for (let j = 0; j < round.length; j++) {
+          let result = round[j];
+          if (result[0] != null && result[1] != null) {
+            let match = new TournamentMatch();
+            match.player1 = players[2*j];
+            match.player2 = players[2*j + 1];
+            match.sets = result[0] + "-" + result[1];
+            // this is not a BYE result
+            if (result[0] > result[1]) {
+              // winner is [0]
+              match.winner = match.player1;
+              nextRoundPlayers.push(match.player1);
+            } else {
+              // winner is [1]
+              match.winner = match.player2;
+              nextRoundPlayers.push(match.player2);
+            }
+            matchesArray.push(match);
+          } else {
+            if (result[0] == null && result[1] == null) {
+              // this is a BYE
+              if (players[2*j] != null) {
+                nextRoundPlayers.push(players[2*j]);
+              }
+              if (players[2*j + 1] != null) {
+                nextRoundPlayers.push(players[2*j + 1]);
+              }
+            }
+          }
+        }
+        players = nextRoundPlayers;
+      }
+    }
+
+    return matchesArray;
+  }
+
+  _getByes() {
+    let byes = [];
+    if (this.tournament.bracketInfo != null) {
+      let data = JSON.parse(this.tournament.bracketInfo);
+
+      let teams = data.teams;
+      for (let i = 0; i < teams.length; i++) {
+        let team = teams[i];
+        if (team[0] == null || team[1] == null) {
+          if (!(team[0] == null && team[1] == null)) {
+            let player = new Player();
+            // it is not a double bye
+            if (team[0] != null) {
+              player.id = team[0].id;
+              byes.push(player);
+            } else {
+              player.id = team[1].id;
+              byes.push(player);
+            }
+          }
+        }
+      }
+    }
+
+    return byes;
+  }
+
   matchOrderTrackByFn(index: any, item: any) {
     return index;
   }
@@ -745,7 +863,7 @@ export class TournamentPlanComponent implements OnInit {
     const pattern = /[0-9\+\-\ ]/;
     let inputChar = String.fromCharCode(event.charCode);
 
-    if (!pattern.test(inputChar)) {
+    if (!pattern.test(inputChar) && event.keyCode != 9 && event.KeyCode != 13) {
       // invalid character, prevent input
       event.preventDefault();
     }

@@ -52,7 +52,7 @@ class TournamentGroupController extends RestfulController {
 
             // for each group, sort matches, by their number
             groups.each {group ->
-                group.matches = group.matches.sort {x,y->
+                group.groupMatches = group.groupMatches.sort {x,y->
                     if(x.matchNumber == y.matchNumber) {
                         x.id <=> y.id
                     } else {
@@ -113,7 +113,7 @@ class TournamentGroupController extends RestfulController {
 
             groups.each {
                 tournament.addToGroups(it)
-                it.matches = new ArrayList<TournamentMatch>()
+                it.groupMatches = new ArrayList<TournamentMatch>()
             }
 
             tournament.save flush:true

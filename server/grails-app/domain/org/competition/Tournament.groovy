@@ -15,7 +15,7 @@ class Tournament {
     String seedOrder
     Category category
 
-    static hasMany = [players:Player, matches:TournamentMatch, groups:TournamentGroup]
+    static hasMany = [players:Player, byes:Player, bracketMatches:TournamentMatch, groups:TournamentGroup]
 
     static constraints = {
         name nullable:false, blank: false
@@ -34,7 +34,7 @@ class Tournament {
 
     static mapping = {
         groups cascade: "all-delete-orphan"
-        matches cascade: "all-delete-orphan"
+        bracketMatches cascade: "all-delete-orphan"
         bracketInfo sqlType:'LONGTEXT'
         seedOrder sqlType:'LONGTEXT'
     }

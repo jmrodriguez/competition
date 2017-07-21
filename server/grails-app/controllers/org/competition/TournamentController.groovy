@@ -124,4 +124,16 @@ class TournamentController extends RestfulController {
 
         respond tournament, [status: CREATED]
     }
+
+    @Transactional
+    def saveBracketResults(Tournament tournament) {
+        if (tournament == null) {
+            notFound()
+            return
+        }
+
+        tournament.save flush: true
+
+        respond tournament, [status: CREATED]
+    }
 }

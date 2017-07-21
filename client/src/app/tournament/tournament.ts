@@ -3,6 +3,7 @@ import { Federation } from '../federation/federation';
 import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
 import {Category} from "../category/category";
+import {Player} from "../player/player";
 
 export class Tournament {
   id: number;
@@ -19,7 +20,8 @@ export class Tournament {
   draw: string;
   bracketInfo: string;
   seedOrder: string;
-  drawMatches: TournamentMatch[];
+  byes: Player[];
+  bracketMatches: TournamentMatch[];
   groups: TournamentGroup[];
   tournament: Tournament;
   category: Category;
@@ -37,9 +39,9 @@ export class Tournament {
         delete object['federation'];
       }
 
-      if (object.hasOwnProperty('drawMatches')) {
-        this.drawMatches = object['drawMatches'].map((obj: any) => { return new TournamentMatch(obj); });
-        delete object['drawMatches'];
+      if (object.hasOwnProperty('bracketMatches')) {
+        this.bracketMatches = object['bracketMatches'].map((obj: any) => { return new TournamentMatch(obj); });
+        delete object['bracketMatches'];
       }
 
       if (object.hasOwnProperty('groups')) {

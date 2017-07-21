@@ -8,6 +8,7 @@ import 'rxjs/add/observable/of';
 import {ListResult} from "../helpers/list-result.interface";
 import {Player} from "../player/player";
 import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
+import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 
 @Injectable()
 export class TournamentService {
@@ -99,6 +100,18 @@ export class TournamentService {
 
   generateDraw(id: number): Observable<Tournament> {
     return this.http.get('tournament/generateDraw/'+id)
+        .map((r: Response) => new Tournament(r.json()));
+  }
+
+  saveBracketResults(tournament: Tournament): Observable<Tournament> {
+    const requestOptions = new RequestOptions();
+    requestOptions.method = RequestMethod.Post;
+    requestOptions.url = 'tournament/bracketResults';
+
+    requestOptions.body = JSON.stringify(tournament);
+    requestOptions.headers = new Headers({"Content-Type": "application/json"});
+
+    return this.http.request(new Request(requestOptions))
         .map((r: Response) => new Tournament(r.json()));
   }
 

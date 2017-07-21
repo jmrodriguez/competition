@@ -7,7 +7,7 @@ export class TournamentGroup {
   runnerup: Player;
   number: number;
   players: Player[];
-  matches: TournamentMatch[];
+  groupMatches: TournamentMatch[];
 
   constructor (object?: any) {
     if (object) {
@@ -27,9 +27,9 @@ export class TournamentGroup {
         delete object['players'];
       }
 
-      if (object.hasOwnProperty('matches')) {
-        this.players = object['matches'].map((obj: any) => { return new TournamentMatch(obj); });
-        delete object['matches'];
+      if (object.hasOwnProperty('groupMatches')) {
+        this.groupMatches = object['groupMatches'].map((obj: any) => { return new TournamentMatch(obj); });
+        delete object['groupMatches'];
       }
       
       for (var prop in object) {
