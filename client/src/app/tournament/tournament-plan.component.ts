@@ -737,5 +737,17 @@ export class TournamentPlanComponent implements OnInit {
 
   finishTournament() {
     console.log("FINISH TOURNAMENT");
+  matchOrderTrackByFn(index: any, item: any) {
+    return index;
+  }
+
+  _keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
   }
 }

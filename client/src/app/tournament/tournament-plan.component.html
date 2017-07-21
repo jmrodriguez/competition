@@ -107,14 +107,16 @@
                         <th>Winner</th>
                     </thead>
                     <tbody>
-                    <ng-container *ngFor="let tm of getMatchOrder(tournamentGroup.players.length); let i = index; let odd = odd; let even = even">
+                    <ng-container *ngFor="let tm of getMatchOrder(tournamentGroup.players.length); let i = index; let odd = odd; let even = even; trackBy:matchOrderTrackByFn">
                         <ng-container *ngIf="tournamentGroup.players[tm[0]-1] as player1">
                             <ng-container *ngIf="tournamentGroup.players[tm[1]-1] as player2">
                                 <tr [ngClass]="{'match-row-even': even}">
                                     <td rowspan="2" [ngClass]="{'match-number-odd': odd,'match-number-even': even}">{{i + 1}}</td>
                                     <td>{{tm[0]}}</td>
                                     <td>{{player1.firstName}} {{player1.lastName}}</td>
-                                    <td *ngFor="let item of setArray"><input id="{{tournamentGroup.number + '#' + i + '#' + item + '#' + player1.id}}" type="number" min="0" class="match-set-value" value="{{tournamentGroup.matches[i]?.points | matchResult:item-1:0}}" (change)="onInputChange($event)"/></td>
+                                    <td *ngFor="let item of setArray">
+                                        <input id="{{tournamentGroup.number + '#' + i + '#' + item + '#' + player1.id}}" type="number" min="0" class="match-set-value" value="{{tournamentGroup.matches[i]?.points | matchResult:item-1:0}}" (keypress)="_keyPress($event)" (change)="onInputChange($event)"/>
+                                    </td>
                                     <td rowspan="2" [ngClass]="{'match-number-odd': odd,'match-number-even': even}">
                                         <span *ngIf="tournamentGroup.matches[i]?.winner?.id == player1.id">{{tm[0]}}</span>
                                         <span *ngIf="tournamentGroup.matches[i]?.winner?.id == player2.id">{{tm[1]}}</span>
@@ -123,7 +125,9 @@
                                 <tr [ngClass]="{'match-row-even': even}">
                                     <td>{{tm[1]}}</td>
                                     <td>{{player2.firstName}} {{player2.lastName}}</td>
-                                    <td *ngFor="let item of setArray"><input id="{{tournamentGroup.number + '#' + i + '#' + item + '#' + player2.id}}" type="number" min="0" class="match-set-value" value="{{tournamentGroup.matches[i]?.points | matchResult:item-1:1}}" (change)="onInputChange($event)"/></td>
+                                    <td *ngFor="let item of setArray">
+                                        <input id="{{tournamentGroup.number + '#' + i + '#' + item + '#' + player2.id}}" type="number" min="0" class="match-set-value" value="{{tournamentGroup.matches[i]?.points | matchResult:item-1:1}}" (keypress)="_keyPress($event)" (change)="onInputChange($event)"/>
+                                    </td>
                                 </tr>
                             </ng-container>
                         </ng-container>
