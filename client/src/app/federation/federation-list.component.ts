@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FederationService} from './federation.service';
 import {MdPaginator, MdSort} from "@angular/material";
 import {FederationDataSource} from "./federation.datasource";
@@ -13,6 +13,8 @@ export class FederationListComponent implements OnInit {
   displayedColumns = ['id', 'name', 'logo', 'description', 'country'];
   @ViewChild(MdPaginator) paginator: MdPaginator;
   @ViewChild(MdSort) sort: MdSort;
+
+  @Input() terms = "";
 
   federationDatasource: FederationDataSource | null;
 
@@ -35,7 +37,13 @@ export class FederationListComponent implements OnInit {
     });
   }
 
-  search(terms: string) {
-    this.searchTermStream.next(terms)
+  search(value:string) {
+    this.terms = value;
+    this.searchTermStream.next(this.terms);
+  }
+
+  clearFilterText() {
+    this.terms = "";
+    this.search(this.terms);
   }
 }

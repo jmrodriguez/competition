@@ -7,8 +7,11 @@
 <div id="list-category" class="content scaffold-list" role="main">
     <div>
         <md-input-container floatPlaceholder="never">
-            <input mdInput #terms (keyup)="search(terms.value)" placeholder="Filter users">
+            <input mdInput [value]="terms" (keyup)="search($event.target.value)" placeholder="{{ 'general.messages.filter.list' | translate }}">
         </md-input-container>
+        <button (click)="clearFilterText()" type="button" class="btn btn-s">
+            <span class="fa fa-times"></span> {{ "general.messages.filter.clear" | translate }}
+        </button>
     </div>
 
     <h1>Category List ({{categoryDatasource.total | async}})</h1>

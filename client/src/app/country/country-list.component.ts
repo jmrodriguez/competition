@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {CountryService} from './country.service';
 import {MdPaginator, MdSort} from "@angular/material";
 import {CountryDataSource} from "./country.datasource";
@@ -13,6 +13,8 @@ export class CountryListComponent implements OnInit {
   displayedColumns = ['id', 'name', 'isoCode'];
   @ViewChild(MdPaginator) paginator: MdPaginator;
   @ViewChild(MdSort) sort: MdSort;
+
+  @Input() terms = "";
 
   countryDatasource: CountryDataSource | null;
 
@@ -35,7 +37,13 @@ export class CountryListComponent implements OnInit {
     });
   }
 
-  search(terms: string) {
-    this.searchTermStream.next(terms)
+  search(value:string) {
+    this.terms = value;
+    this.searchTermStream.next(this.terms);
+  }
+
+  clearFilterText() {
+    this.terms = "";
+    this.search(this.terms);
   }
 }

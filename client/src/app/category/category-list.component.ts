@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from './category.service';
 import {MdPaginator, MdSort} from "@angular/material";
 import {CategoryDataSource} from "./category.datasource";
@@ -13,6 +13,8 @@ export class CategoryListComponent implements OnInit {
   displayedColumns = ['id', 'name', 'minAge', 'maxAge', 'youthCategory'];
   @ViewChild(MdPaginator) paginator: MdPaginator;
   @ViewChild(MdSort) sort: MdSort;
+
+  @Input() terms = "";
 
   categoryDatasource: CategoryDataSource | null;
 
@@ -35,7 +37,13 @@ export class CategoryListComponent implements OnInit {
     });
   }
 
-  search(terms: string) {
-    this.searchTermStream.next(terms)
+  search(value:string) {
+    this.terms = value;
+    this.searchTermStream.next(this.terms);
+  }
+
+  clearFilterText() {
+    this.terms = "";
+    this.search(this.terms);
   }
 }

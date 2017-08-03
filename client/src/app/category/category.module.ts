@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-
+import { TranslateModule } from '@ngx-translate/core';
 import {CategoryService} from './category.service';
 
 
@@ -20,6 +20,7 @@ import {SharedModule} from "../shared/shared.module";
   imports: [
     SharedModule,
     CommonModule,
+    TranslateModule,
     FormsModule,
     CategoryRoutingModule
   ],
