@@ -9,11 +9,32 @@
   </a>
   <div class="collapse navbar-collapse " id="exCollapsingNavbar2" [ngbCollapse]="!navExpanded">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item" ngbDropdown>
-        <a *ngIf="authService.isSuperAdmin() || authService.isGeneralAdmin()" class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Countries<span class="caret"></span></a>
+      <li *ngIf="authService.isSuperAdmin() || authService.isGeneralAdmin()" class="nav-item" ngbDropdown>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Countries<span class="caret"></span></a>
         <div class="dropdown-menu">
           <a class="dropdown-item" [routerLink]="['/country']">List</a>
           <a class="dropdown-item" [routerLink]="['/country', 'create']">Create New</a>
+        </div>
+      </li>
+      <li *ngIf="authService.isSuperAdmin() || authService.isGeneralAdmin()" class="nav-item" ngbDropdown>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Federation<span class="caret"></span></a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" [routerLink]="['/federation']">List</a>
+          <a class="dropdown-item" [routerLink]="['/federation', 'create']">Create New</a>
+        </div>
+      </li>
+      <li *ngIf="authService.isSuperAdmin() || authService.isGeneralAdmin()" class="nav-item" ngbDropdown>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Users<span class="caret"></span></a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" [routerLink]="['/user']">List</a>
+          <a class="dropdown-item" [routerLink]="['/user', 'create']">Create New</a>
+        </div>
+      </li>
+      <li *ngIf="authService.isSuperAdmin() || authService.isGeneralAdmin()" class="nav-item" ngbDropdown>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Players<span class="caret"></span></a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" [routerLink]="['/player']">List</a>
+          <a class="dropdown-item" [routerLink]="['/player', 'create']">Create New</a>
         </div>
       </li>
       <li class="nav-item" ngbDropdown>

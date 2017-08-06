@@ -47,6 +47,7 @@ export class AuthService {
         return false;
       }
     }
+    return false;
   }
 
   login(email: string, password: string) {
@@ -90,6 +91,7 @@ export class AuthService {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.router.navigate(["/"]);
+    this.currentUser = null;
   }
 
 }
