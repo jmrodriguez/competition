@@ -10,7 +10,14 @@
   <div class="collapse navbar-collapse " id="exCollapsingNavbar2" [ngbCollapse]="!navExpanded">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" ngbDropdown>
-        <a href="#" class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Application Status <span class="caret"></span></a>
+        <a *ngIf="authService.isSuperAdmin() || authService.isGeneralAdmin()" class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Countries<span class="caret"></span></a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" [routerLink]="['/country']">List</a>
+          <a class="dropdown-item" [routerLink]="['/country', 'create']">Create New</a>
+        </div>
+      </li>
+      <li class="nav-item" ngbDropdown>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Application Status <span class="caret"></span></a>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="#">Environment: {{applicationData?.environment}}</a>
           <a class="dropdown-item" href="#">App profile: {{applicationData?.appprofile}}</a>

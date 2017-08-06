@@ -24,6 +24,14 @@ export class AuthService {
     return localStorage.getItem("currentUser") != null;
   }
 
+  isSuperAdmin() : boolean {
+    return this.hasRole(["ROLE_SUPER_ADMIN"]);
+  }
+
+  isGeneralAdmin() : boolean {
+      return this.hasRole(["ROLE_GENERAL_ADMIN"]);
+  }
+
   hasRole(roles: any[]) : boolean {
     let currentUser = this.currentUser;
     if (currentUser) {
