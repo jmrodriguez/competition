@@ -11,6 +11,7 @@ import {PlayerService} from "./player.service";
 import {Subject} from "rxjs/Subject";
 import {Federation} from "../federation/federation";
 import {EventEmitter} from "@angular/core";
+import {Category} from "../category/category";
 
 /**
  * Data source to provide what data should be rendered in the table. Note that the data source
@@ -24,6 +25,7 @@ export class PlayerDataSource extends DataSource<any> {
 
     tournament: Tournament;
     federation: Federation;
+    category: Category;
     search: string = null;
     playerType: number = 0;
     gamePlanAvailable:boolean = false;
@@ -32,11 +34,13 @@ export class PlayerDataSource extends DataSource<any> {
 
     constructor(private tournamentStream: Subject<Tournament>,
                 private federationStream: Subject<Federation>,
+                private categoryStream: Subject<Category>,
                 private searchTermStream: Subject<string>,
                 private playerTypeStream: Subject<number>,
                 private paginator: MdPaginator,
                 private sort: MdSort,
-                private playerService: PlayerService) {
+                private playerService: PlayerService,
+                private isRankingView: boolean = false) {
         super();
         this.connectionNotifier = new EventEmitter();
     }
@@ -58,6 +62,11 @@ export class PlayerDataSource extends DataSource<any> {
             return {federation: federation};
         });
 
+        const categorySource = this.categoryStream ? this.categoryStream.map(category => {
+            this.category = category;
+            return {category: category};
+        }) : null;
+
         const searchSource = this.searchTermStream
             .debounceTime(1000)
             .distinctUntilChanged()
@@ -75,10 +84,11 @@ export class PlayerDataSource extends DataSource<any> {
             .merge(...displayDataChanges)
             .merge(tournamentSource)
             .merge(federationSource)
+            .merge(categorySource)
             .merge(searchSource)
             .merge(playerTypeSource)
             .mergeMap((params: any) => {
-                let category = this.tournament ? this.tournament.category : null;
+                let category = this.tournament ? this.tournament.category : this.category;
                 return this.playerService.list(this.tournament, this.search, this.paginator.pageIndex + 1, this.federation, this.playerType, category, this.paginator.pageSize, this.sort.active, this.sort.direction, false);
             }).share();
 

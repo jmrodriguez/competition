@@ -8,6 +8,7 @@ import {PlayerService} from './player.service';
 import {PlayerRoutingModule} from './player-routing.module';
 import {PlayerShowComponent} from './player-show.component';
 import {PlayerListComponent} from './player-list.component';
+import {PlayerRankingComponent} from './player-ranking.component';
 import {PlayerPersistComponent} from './player-persist.component';
 import { TournamentModule } from '../tournament/tournament.module';
 import { FederationModule } from '../federation/federation.module';
@@ -15,6 +16,7 @@ import { FederationModule } from '../federation/federation.module';
 @NgModule({
   declarations: [
     PlayerListComponent,
+    PlayerRankingComponent,
     PlayerPersistComponent,
     PlayerShowComponent,
     FileSelectDirective,

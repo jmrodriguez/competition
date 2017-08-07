@@ -21,13 +21,14 @@ import {MdPaginator, MdSort} from "@angular/material";
 import {Tournament} from "../tournament/tournament";
 import {ListResult} from "../helpers/list-result.interface";
 import {Category} from "../category/category";
+import {CategoryService} from "../category/category.service";
 
 @Component({
-  selector: 'player-list',
-  templateUrl: './player-list.component.html',
-  styleUrls: ['./player-list.component.css']
+  selector: 'player-ranking',
+  templateUrl: './player-ranking.component.html',
+  styleUrls: ['./player-ranking.component.css']
 })
-export class PlayerListComponent implements OnInit {
+export class PlayerRankingComponent implements OnInit {
 
   private uploadEndpoint:string = "player/upload"
   public allowedMimeType:string[] = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
@@ -36,8 +37,11 @@ export class PlayerListComponent implements OnInit {
   showFederationSelect:boolean;
   federationList: Federation[];
   selectedFederation: Federation;
+  categoryList: Category[];
+  selectedCategory: Category;
+  rankingField: string = "ranking";
 
-  displayedColumns = ['id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
+  displayedColumns = ['ranking', 'id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
   @ViewChild(MdPaginator) paginator: MdPaginator;
   @ViewChild(MdSort) sort: MdSort;
 
@@ -47,7 +51,7 @@ export class PlayerListComponent implements OnInit {
 
   private searchTermStream = new Subject<string>();
   private federationStream = new Subject<Federation>();
-  private categoryStream = new Subject<Category>(); // unused but necessary
+  private categoryStream = new Subject<Category>();
   private tournamentStream = new Subject<Tournament>(); // unused but necessary
   private playerTypeStream = new Subject<number>(); // unused but necessary
 
@@ -56,7 +60,8 @@ export class PlayerListComponent implements OnInit {
               private authorizationService: AuthService,
               private toastCommunicationService: ToastCommunicationService,
               private authService: AuthService,
-              private federationService: FederationService) {
+              private federationService: FederationService,
+              private categoryService: CategoryService) {
 
     this.uploader = new FileUploader({
       url: environment.serverUrl + this.uploadEndpoint,
@@ -80,11 +85,13 @@ export class PlayerListComponent implements OnInit {
       }
       // refresh the list
       this.federationStream.next(null);
+
+      this.categoryStream.next(new Category(1));
     };
   }
 
   ngOnInit() {
-    this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.federationStream, this.categoryStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.sort, this.playerService);
+    this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.federationStream, this.categoryStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.sort, this.playerService, true);
 
     if (this.authService.hasRole(["ROLE_FEDERATION_ADMIN"])) {
       // listen to datasource connection to trigger initial search
@@ -92,9 +99,14 @@ export class PlayerListComponent implements OnInit {
         if (connected) {
           // TRIGGER THE INITIAL SEARCH. We could use any subject for this purpose
           this.federationStream.next(null);
+          this.categoryStream.next(null);
         }
       });
     }
+
+    this.categoryService.list().subscribe((categoryList: ListResult<Category>) => {
+      this.categoryList = categoryList.list;
+    });
 
     this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
 
@@ -120,6 +132,24 @@ export class PlayerListComponent implements OnInit {
   }
 
   onFederationChange(newValue: Federation) {
+    this.onSelectionChange(false, true);
+    this.selectedFederation = newValue;
     this.federationStream.next(newValue);
+  }
+
+  onCategoryChange(newValue: Category) {
+    this.onSelectionChange(true, false);
+    this.selectedCategory = newValue;
+    this.categoryStream.next(newValue);
+  }
+
+  //STILL NOT WORKING OK
+  onSelectionChange(cat: boolean, fed : boolean){
+    if(cat && !this.rankingField.includes("Fed") && !this.rankingField.includes("Lm")){
+      this.rankingField = this.rankingField.concat("Lm");
+    }
+    if(fed && !this.rankingField.includes("Fed")){
+      this.rankingField = this.rankingField.concat("Fed");
+    }
   }
 }

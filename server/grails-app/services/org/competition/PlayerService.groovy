@@ -27,8 +27,10 @@ class PlayerService {
             if (!tournament.includeGroupPhase && tournament.seedOrder != null && metaParams.preventPagination) {
                 orderUsingSeedOrder = true
             }
-        } else {
+        } else if (federation != null){
             players = federation.players
+        } else {
+            players = Player.findAll()
         }
 
         // retrieve unsigned players

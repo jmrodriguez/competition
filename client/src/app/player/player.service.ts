@@ -25,7 +25,8 @@ export class PlayerService {
        max: number = 5,
        sort: string = null,
        order: string = null,
-       preventPagination: boolean = false): Observable<ListResult<Player>> {
+       preventPagination: boolean = false,
+       isRankingView: boolean = false): Observable<ListResult<Player>> {
     let params = new URLSearchParams();
     if (tournament) {
       params.set('tournamentId', String(tournament.id))
@@ -52,12 +53,19 @@ export class PlayerService {
     if (sort) {
       params.set('sort', String(sort))
     }
+    else {
+      params.set('sort', String('ranking'))
+    }
     if (order) {
       params.set('order', String(order))
     }
 
     if (preventPagination) {
       params.set('preventPagination', String(preventPagination))
+    }
+
+    if (isRankingView) {
+      params.set('isRankingView', String(isRankingView))
     }
 
     return this.http.get('player', { search: params }).map(res => res.json())

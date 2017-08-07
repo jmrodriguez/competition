@@ -33,7 +33,8 @@ class PlayerController extends RestfulController {
               Integer max,
               String sort,
               String order,
-              Boolean preventPagination) {
+              Boolean preventPagination,
+              Boolean isRankingView) {
 
         Tournament tournament = null
         if (tournamentId != null) {
@@ -74,11 +75,18 @@ class PlayerController extends RestfulController {
                 federation = Federation.findById(federationId)
             }
         }
-
-        Object[] results = [new ArrayList<Player>(), 0]
-        if (federation != null || tournament != null) {
-            results = playerService.listPlayers(federation, tournament, category, textFilter, playerType, params)
+        if (isRankingView != null && isRankingView){
+            def rankingColumn = "ranking"
+            if(categoryId != 1){ // NOT OPEN
+                rankingColumn.concat("_lm")
+            }
+            if(federationId != null){ //FED RANKING
+                rankingColumn.concat("_fed")
+            }
+            params.sort = rankingColumn
         }
+        Object[] results = [new ArrayList<Player>(), 0]
+        results = playerService.listPlayers(federation, tournament, category, textFilter, playerType, params)
 
         //respond result
         Map result = new HashMap()

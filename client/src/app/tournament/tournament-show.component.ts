@@ -28,6 +28,7 @@ export class TournamentShowComponent implements OnInit {
 
   private tournamentStream = new Subject<Tournament>();
   private federationStream = new Subject<Federation>(); // unused but necessary
+  private categoryStream = new Subject<Category>(); // unused but necessary
   private playerTypeStream = new Subject<number>();
   private searchTermStream = new Subject<string>();
 
@@ -38,7 +39,7 @@ export class TournamentShowComponent implements OnInit {
               private toastCommunicationService: ToastCommunicationService) {}
 
   ngOnInit() {
-    this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.federationStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.sort, this.playerService);
+    this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.federationStream, this.categoryStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.sort, this.playerService);
     this.route.params.subscribe((params: Params) => {
       this.tournamentService.get(+params['id']).subscribe((tournament: Tournament) => {
         this.tournament = tournament;
