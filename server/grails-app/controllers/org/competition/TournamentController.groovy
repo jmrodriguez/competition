@@ -148,9 +148,10 @@ class TournamentController extends RestfulController {
         // set base points
         playerService.setBasePoints(tournament)
 
-        throw new Exception("exception")
+        //throw new Exception("exception")
         // apply penalties to players who didn't play the tournament (if applicable)
         // apply byes
+        playerService.applyByes(tournament)
         // apply matches
         // re-arrange positions
 

@@ -5,6 +5,8 @@ import grails.transaction.Transactional
 @Transactional
 class PlayerService {
 
+    int BYE = 10
+
     /**
      * Gets the players related to a given federation (if any)
      * @param federation
@@ -205,7 +207,7 @@ class PlayerService {
      * @param tournament the tournament to be used to know which base points to set
      */
 
-    public void setBasePoints(Tournament tournament) {
+    void setBasePoints(Tournament tournament) {
 
         def currentYear = Calendar.instance.get(Calendar.YEAR)
         Integer lowerLimit
@@ -291,6 +293,71 @@ class PlayerService {
                 } else {
                     tempPlayers.each { player ->
                         player.fixedPointsLmFed = player.pointsLmFed
+                        player.save flush: true
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Applies byes to the players in the given tournament
+     * @param tournament the tournament to get byes to be applied
+     */
+    void applyByes(Tournament tournament) {
+
+        Set<Player> playersWithBye = tournament.byes
+
+        if (tournament.federation == null) {
+            // general points
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    playersWithBye.each { player ->
+                        player.pointsFem += BYE
+                        player.save flush: true
+                    }
+                } else {
+                    playersWithBye.each { player ->
+                        player.points += BYE
+                        player.save flush: true
+                    }
+                }
+            } else {
+                // this is a under-X tournament
+                playersWithBye.each { player ->
+                    player.pointsLm += BYE
+                    player.save flush: true
+                }
+            }
+        } else {
+            // federation tournament
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    playersWithBye.each { player ->
+                        player.pointsFemFed += BYE
+                        player.save flush: true
+                    }
+                } else {
+                    playersWithBye.each { player ->
+                        player.pointsFed += BYE
+                        player.save flush: true
+                    }
+                }
+            } else {
+                // this is a under-X tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    playersWithBye.each { player ->
+                        player.pointsLmFemFed += BYE
+                        player.save flush: true
+                    }
+                } else {
+                    playersWithBye.each { player ->
+                        player.pointsLmFed += BYE
                         player.save flush: true
                     }
                 }
