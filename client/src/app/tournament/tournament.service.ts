@@ -115,4 +115,16 @@ export class TournamentService {
         .map((r: Response) => new Tournament(r.json()));
   }
 
+  finishTournament(tournament: Tournament): Observable<Tournament> {
+      const requestOptions = new RequestOptions();
+      requestOptions.method = RequestMethod.Post;
+      requestOptions.url = 'tournament/finishTournament';
+
+      requestOptions.body = JSON.stringify(tournament);
+      requestOptions.headers = new Headers({"Content-Type": "application/json"});
+
+      return this.http.request(new Request(requestOptions))
+          .map((r: Response) => new Tournament(r.json()));
+  }
+
 }

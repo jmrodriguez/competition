@@ -752,11 +752,19 @@ export class TournamentPlanComponent implements OnInit {
     this.tournamentService.saveBracketResults(this.tournament).subscribe((tournament: Tournament) => {
       this.tournament = tournament;
       this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.gameplan.bracket.results.success');
+      // apply results
+      this.tournamentService.finishTournament(this.tournament).subscribe((tournament: Tournament) => {
+          this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'tournament.gameplan.apply.results.success');
+      }, (res: Response) => {
+          let params = {};
+          params["error"] = res;
+          // show error message
+          this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.apply.results.failure', params);
+      });
     }, (res: Response) => {
       // show error message
       this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'tournament.gameplan.bracket.results.failure');
     });
-    // apply results
   }
 
   _getBracketMatches() {

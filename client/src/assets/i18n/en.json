@@ -112,6 +112,12 @@
           "success" : "Group results saved successfully",
           "failure" : "There's been an error saving group results information: {{error}}"
         }
+      },
+      "apply": {
+        "results": {
+          "success" : "Tournament results applied successfully",
+          "failure" : "There's been an error applying tournament results: {{error}}"
+        }
       }
     }
   }

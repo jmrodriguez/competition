@@ -199,4 +199,102 @@ class PlayerService {
 
         return [players, playersCount]*/
     }
+
+    /**
+     * Sets the base points before applying results, based on the tournament passed as parameter
+     * @param tournament the tournament to be used to know which base points to set
+     */
+
+    public void setBasePoints(Tournament tournament) {
+
+        def currentYear = Calendar.instance.get(Calendar.YEAR)
+        Integer lowerLimit
+        Integer upperLimit
+        if (tournament.category) {
+            lowerLimit = currentYear - tournament.category.maxAge
+            upperLimit = currentYear - tournament.category.minAge
+        }
+
+        ArrayList<Player> players
+        if (tournament.federation != null){
+            players = tournament.federation.players
+        } else {
+            players = Player.findAll()
+        }
+
+        Set<Player> tempPlayers = players.findAll {
+
+            Calendar cal = Calendar.getInstance()
+            cal.setTime(it.birth)
+            int year = cal.get(Calendar.YEAR)
+
+            if (tournament.genderRestricted) {
+                if (lowerLimit && upperLimit) {
+                    year >= lowerLimit && year <= upperLimit && it.gender == tournament.gender
+                } else {
+                    it.gender == tournament.gender
+                }
+            } else {
+                if (lowerLimit && upperLimit) {
+                    year >= lowerLimit && year <= upperLimit
+                }
+            }
+        }
+
+        if (tournament.federation == null) {
+            // general points
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    tempPlayers.each { player ->
+                        player.fixedPointsFem = player.pointsFem
+                        player.save flush: true
+                    }
+                } else {
+                    tempPlayers.each { player ->
+                        player.fixedPoints = player.points
+                        player.save flush: true
+                    }
+                }
+            } else {
+                // this is a under-X tournament
+                tempPlayers.each { player ->
+                    player.fixedPointsLm = player.pointsLm
+                    player.save flush: true
+                }
+            }
+        } else {
+            // federation tournament
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    tempPlayers.each { player ->
+                        player.fixedPointsFemFed = player.pointsFemFed
+                        player.save flush: true
+                    }
+                } else {
+                    tempPlayers.each { player ->
+                        player.fixedPointsFed = player.pointsFed
+                        player.save flush: true
+                    }
+                }
+            } else {
+                // this is a under-X tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    tempPlayers.each { player ->
+                        player.fixedPointsLmFemFed = player.pointsLmFemFed
+                        player.save flush: true
+                    }
+                } else {
+                    tempPlayers.each { player ->
+                        player.fixedPointsLmFed = player.pointsLmFed
+                        player.save flush: true
+                    }
+                }
+            }
+        }
+    }
 }

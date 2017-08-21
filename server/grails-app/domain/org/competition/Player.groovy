@@ -23,6 +23,9 @@ class Player {
     int pointsFemFed = 500
     int fixedPointsFemFed = 0
     int rankingFemFed = 0
+    int pointsLmFemFed = 500
+    int fixedPointsLmFemFed = 0
+    int rankingLmFemFed = 0
     Date birth
     String club
     String email
@@ -46,12 +49,14 @@ class Player {
         rankingFed blank:true, nullable:true, min:0
         pointsLm blank:true, nullable:true, min:500
         pointsLmFed blank:true, nullable:true, min:500
-        rankingLm blank:true, nullable:true, min:0
-        rankingLmFed blank:true, nullable:true, min:0
         pointsFem blank:true, nullable:true, min:500
         pointsFemFed blank:true, nullable:true, min:500
+        pointsLmFemFed blank:true, nullable:true, min:500
+        rankingLm blank:true, nullable:true, min:0
+        rankingLmFed blank:true, nullable:true, min:0
         rankingFem blank:true, nullable:true, min:0
         rankingFemFed blank:true, nullable:true, min:0
+        rankingLmFemFed blank:true, nullable:true, min:0
         gender nullable:false, blank: false, inList: ["M", "F"]
         federation blank:false, nullable:false
     }

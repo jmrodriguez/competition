@@ -13,6 +13,7 @@ class TournamentController extends RestfulController {
 
     def springSecurityService
     def tournamentService
+    def playerService
 
     TournamentController() {
         super(Tournament)
@@ -133,6 +134,27 @@ class TournamentController extends RestfulController {
         }
 
         tournament.save flush: true
+
+        respond tournament, [status: CREATED]
+    }
+
+    @Transactional
+    def finishTournament(Tournament tournament) {
+        if (tournament == null) {
+            notFound()
+            return
+        }
+
+        // set base points
+        playerService.setBasePoints(tournament)
+
+        throw new Exception("exception")
+        // apply penalties to players who didn't play the tournament (if applicable)
+        // apply byes
+        // apply matches
+        // re-arrange positions
+
+        //tournament.save flush: true
 
         respond tournament, [status: CREATED]
     }

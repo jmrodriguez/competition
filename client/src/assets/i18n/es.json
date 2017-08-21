@@ -112,6 +112,12 @@
           "success" : "Resultados de grupo guardados exitosamente",
           "failure" : "Ha ocurrido un error guardando la informacion del grupo: {{error}}"
         }
+      },
+      "apply": {
+        "results": {
+          "success" : "Resultados del torneo aplicados exitosamente",
+          "failure" : "Ha ocurrido un error aplicando los resultados al torneo: {{error}}"
+        }
       }
     }
   }
