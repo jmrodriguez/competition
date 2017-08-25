@@ -92,12 +92,12 @@ environments:
         dataSource:
             dbCreate: update
             url: jdbc:mysql://localhost:3306/competition?useUnicode=yes&characterEncoding=UTF-8
-            loggingSql: true
+            logSql: true
     test:
         dataSource:
             dbCreate: update
             url: jdbc:mysql://localhost:3306/competition?useUnicode=yes&characterEncoding=UTF-8
-            loggingSql: true
+            logSql: true
     production:
         dataSource:
             dbCreate: none
@@ -120,4 +120,4 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-            loggingSql: true
+            logSql: true
