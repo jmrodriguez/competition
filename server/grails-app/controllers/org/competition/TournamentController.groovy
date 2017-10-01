@@ -155,6 +155,7 @@ class TournamentController extends RestfulController {
         // apply matches
         tournamentService.processMatches(tournament)
         // re-arrange positions
+        playerService.updateRankings(tournament)
 
         //tournament.save flush: true
 

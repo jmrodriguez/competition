@@ -209,39 +209,7 @@ class PlayerService {
 
     void setBasePoints(Tournament tournament) {
 
-        def currentYear = Calendar.instance.get(Calendar.YEAR)
-        Integer lowerLimit
-        Integer upperLimit
-        if (tournament.category) {
-            lowerLimit = currentYear - tournament.category.maxAge
-            upperLimit = currentYear - tournament.category.minAge
-        }
-
-        ArrayList<Player> players
-        if (tournament.federation != null){
-            players = tournament.federation.players
-        } else {
-            players = Player.findAll()
-        }
-
-        Set<Player> tempPlayers = players.findAll {
-
-            Calendar cal = Calendar.getInstance()
-            cal.setTime(it.birth)
-            int year = cal.get(Calendar.YEAR)
-
-            if (tournament.genderRestricted) {
-                if (lowerLimit && upperLimit) {
-                    year >= lowerLimit && year <= upperLimit && it.gender == tournament.gender
-                } else {
-                    it.gender == tournament.gender
-                }
-            } else {
-                if (lowerLimit && upperLimit) {
-                    year >= lowerLimit && year <= upperLimit
-                }
-            }
-        }
+        Set<Player> players = this._getPlayers(tournament)
 
         if (tournament.federation == null) {
             // general points
@@ -249,19 +217,19 @@ class PlayerService {
                 // this is an open tournament
                 if (tournament.genderRestricted && tournament.gender.equals("F")) {
                     // this is a ladies event
-                    tempPlayers.each { player ->
+                    players.each { player ->
                         player.fixedPointsFem = player.pointsFem
                         player.save flush: true
                     }
                 } else {
-                    tempPlayers.each { player ->
+                    players.each { player ->
                         player.fixedPoints = player.points
                         player.save flush: true
                     }
                 }
             } else {
                 // this is a under-X tournament
-                tempPlayers.each { player ->
+                players.each { player ->
                     player.fixedPointsLm = player.pointsLm
                     player.save flush: true
                 }
@@ -272,12 +240,12 @@ class PlayerService {
                 // this is an open tournament
                 if (tournament.genderRestricted && tournament.gender.equals("F")) {
                     // this is a ladies event
-                    tempPlayers.each { player ->
+                    players.each { player ->
                         player.fixedPointsFemFed = player.pointsFemFed
                         player.save flush: true
                     }
                 } else {
-                    tempPlayers.each { player ->
+                    players.each { player ->
                         player.fixedPointsFed = player.pointsFed
                         player.save flush: true
                     }
@@ -286,12 +254,12 @@ class PlayerService {
                 // this is a under-X tournament
                 if (tournament.genderRestricted && tournament.gender.equals("F")) {
                     // this is a ladies event
-                    tempPlayers.each { player ->
+                    players.each { player ->
                         player.fixedPointsLmFemFed = player.pointsLmFemFed
                         player.save flush: true
                     }
                 } else {
-                    tempPlayers.each { player ->
+                    players.each { player ->
                         player.fixedPointsLmFed = player.pointsLmFed
                         player.save flush: true
                     }
@@ -363,5 +331,119 @@ class PlayerService {
                 }
             }
         }
+    }
+
+    /**
+     * Updates the rankings for the players, based on the given tournament
+     * @param tournament the tournament to know with rankings to be updated
+     */
+    void updateRankings(Tournament tournament) {
+        List<Player> players = this._getPlayers(tournament).toList()
+
+        // sort the players based on the tournament settings
+
+        String sortColumn
+        String rankingColumn
+
+        if (tournament.federation == null) {
+            // general points
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    sortColumn = "pointsFem"
+                    rankingColumn = "rankingFem"
+                } else {
+                    sortColumn = "points"
+                    rankingColumn = "ranking"
+                }
+            } else {
+                // this is a under-X tournament
+                sortColumn = "pointsLm"
+                rankingColumn = "rankingLm"
+            }
+        } else {
+            // federation tournament
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    sortColumn = "pointsFemFed"
+                    rankingColumn = "rankingFemFed"
+                } else {
+                    sortColumn = "pointsFed"
+                    rankingColumn = "rankingFed"
+                }
+            } else {
+                // this is a under-X tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    sortColumn = "pointsLmFemFed"
+                    rankingColumn = "rankingLmFemFed"
+                } else {
+                    sortColumn = "pointsLmFed"
+                    rankingColumn = "rankingLmFed"
+                }
+            }
+        }
+
+        players.sort {
+            it.getProperty(sortColumn)
+        }
+        // order points desc
+        players.reverse(true)
+
+        // now set the rankings accordingly
+        int ranking  = 1
+
+        players.each { player->
+            player.setProperty(rankingColumn, ranking)
+            player.save flush: true
+            ranking++
+        }
+    }
+
+
+    /**
+     * Returns all the players of a federation or all players, depending on the tournament passed as parameter
+     * @param tournament the tournament to determine whether to return the tournament's federation players or all players
+     * @return the set of players
+     */
+    private Set<Player> _getPlayers(Tournament tournament) {
+        def currentYear = Calendar.instance.get(Calendar.YEAR)
+        Integer lowerLimit
+        Integer upperLimit
+        if (tournament.category) {
+            lowerLimit = currentYear - tournament.category.maxAge
+            upperLimit = currentYear - tournament.category.minAge
+        }
+
+        ArrayList<Player> players
+        if (tournament.federation != null){
+            players = tournament.federation.players
+        } else {
+            players = Player.findAll()
+        }
+
+        Set<Player> tempPlayers = players.findAll {
+
+            Calendar cal = Calendar.getInstance()
+            cal.setTime(it.birth)
+            int year = cal.get(Calendar.YEAR)
+
+            if (tournament.genderRestricted) {
+                if (lowerLimit && upperLimit) {
+                    year >= lowerLimit && year <= upperLimit && it.gender == tournament.gender
+                } else {
+                    it.gender == tournament.gender
+                }
+            } else {
+                if (lowerLimit && upperLimit) {
+                    year >= lowerLimit && year <= upperLimit
+                }
+            }
+        }
+
+        return tempPlayers
     }
 }
