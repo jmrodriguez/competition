@@ -9,7 +9,7 @@
             <span class="required-indicator">*</span>
         </label>
         <select required="" name="federation" id="federation" [(ngModel)]="selectedFederation" (ngModelChange)="onFederationChange($event)">
-            <option [ngValue]="undefined" disabled> Select a Federation </option>
+            <option [ngValue]="undefined"> General Ranking </option>
             <option *ngFor="let fed of federationList" [ngValue]="fed">
                 {{fed.name}}
             </option>
@@ -45,7 +45,13 @@
         <!-- Ranking -->
         <ng-container cdkColumnDef="ranking">
             <md-header-cell *cdkHeaderCellDef> {{rankingField}} </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.rankingField}} </md-cell>
+            <md-cell *cdkCellDef="let row"> {{row[rankingField]}} </md-cell>
+        </ng-container>
+
+        <!-- Points -->
+        <ng-container cdkColumnDef="points">
+            <md-header-cell *cdkHeaderCellDef> {{pointsField}} </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row[pointsField]}} </md-cell>
         </ng-container>
 
         <!-- ID Column -->

@@ -40,8 +40,9 @@ export class PlayerRankingComponent implements OnInit {
   categoryList: Category[];
   selectedCategory: Category;
   rankingField: string = "ranking";
+  pointsField: string = "points";
 
-  displayedColumns = ['ranking', 'id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
+  displayedColumns = ['ranking', 'points', 'id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
   @ViewChild(MdPaginator) paginator: MdPaginator;
   @ViewChild(MdSort) sort: MdSort;
 
@@ -91,21 +92,22 @@ export class PlayerRankingComponent implements OnInit {
   }
 
   ngOnInit() {
+    // init column selection
     this.playerDatasource = new PlayerDataSource(this.tournamentStream, this.federationStream, this.categoryStream, this.searchTermStream, this.playerTypeStream, this.paginator, this.sort, this.playerService, true);
 
-    if (this.authService.hasRole(["ROLE_FEDERATION_ADMIN"])) {
-      // listen to datasource connection to trigger initial search
-      this.playerDatasource.connectionNotifier.subscribe((connected: boolean) => {
-        if (connected) {
-          // TRIGGER THE INITIAL SEARCH. We could use any subject for this purpose
-          this.federationStream.next(null);
-          this.categoryStream.next(null);
-        }
-      });
-    }
+    // listen to datasource connection to trigger initial search
+    this.playerDatasource.connectionNotifier.subscribe((connected: boolean) => {
+      if (connected) {
+        // TRIGGER THE INITIAL SEARCH. We could use any subject for this purpose
+        this.federationStream.next(null);
+        this.categoryStream.next(null);
+      }
+    });
 
     this.categoryService.list().subscribe((categoryList: ListResult<Category>) => {
       this.categoryList = categoryList.list;
+      this.selectedCategory = this.categoryList[0];
+      this.onSelectionChange();
     });
 
     this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
@@ -132,24 +134,31 @@ export class PlayerRankingComponent implements OnInit {
   }
 
   onFederationChange(newValue: Federation) {
-    this.onSelectionChange(false, true);
+    this.onSelectionChange();
     this.selectedFederation = newValue;
     this.federationStream.next(newValue);
   }
 
   onCategoryChange(newValue: Category) {
-    this.onSelectionChange(true, false);
+    this.onSelectionChange();
     this.selectedCategory = newValue;
     this.categoryStream.next(newValue);
   }
 
-  //STILL NOT WORKING OK
-  onSelectionChange(cat: boolean, fed : boolean){
-    if(cat && !this.rankingField.includes("Fed") && !this.rankingField.includes("Lm")){
+  onSelectionChange(){
+
+    this.rankingField = "ranking";
+    this.pointsField = "points";
+
+    if (this.selectedCategory.id != 1) {
       this.rankingField = this.rankingField.concat("Lm");
+      this.pointsField = this.pointsField.concat("Lm");
     }
-    if(fed && !this.rankingField.includes("Fed")){
+
+    if ((this.authService.hasRole(["ROLE_FEDERATION_ADMIN"]) || this.selectedFederation != null)) {
       this.rankingField = this.rankingField.concat("Fed");
+      this.pointsField = this.pointsField.concat("Fed");
     }
+
   }
 }

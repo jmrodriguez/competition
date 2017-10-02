@@ -77,10 +77,10 @@ class PlayerController extends RestfulController {
         }
         if (isRankingView != null && isRankingView){
             def rankingColumn = "ranking"
-            if(categoryId != 1){ // NOT OPEN
+            if(category.id != 1){ // NOT OPEN
                 rankingColumn.concat("_lm")
             }
-            if(federationId != null){ //FED RANKING
+            if(federation != null){ //FED RANKING
                 rankingColumn.concat("_fed")
             }
             params.sort = rankingColumn

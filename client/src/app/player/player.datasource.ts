@@ -89,7 +89,7 @@ export class PlayerDataSource extends DataSource<any> {
             .merge(playerTypeSource)
             .mergeMap((params: any) => {
                 let category = this.tournament ? this.tournament.category : this.category;
-                return this.playerService.list(this.tournament, this.search, this.paginator.pageIndex + 1, this.federation, this.playerType, category, this.paginator.pageSize, this.sort.active, this.sort.direction, false);
+                return this.playerService.list(this.tournament, this.search, this.paginator.pageIndex + 1, this.federation, this.playerType, category, this.paginator.pageSize, this.sort.active, this.sort.direction, false, this.isRankingView);
             }).share();
 
         this.total = source.pluck('total');
