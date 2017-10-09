@@ -43,20 +43,20 @@ class Player {
         dni blank:true, nullable:true
         club blank:false, nullable:false
         birth blank:false, nullable:false
-        points blank:true, nullable:true, min:1000
-        pointsFed blank:true, nullable:true, min:1000
-        ranking blank:true, nullable:true, min:0
-        rankingFed blank:true, nullable:true, min:0
-        pointsLm blank:true, nullable:true, min:500
-        pointsLmFed blank:true, nullable:true, min:500
-        pointsFem blank:true, nullable:true, min:500
-        pointsFemFed blank:true, nullable:true, min:500
-        pointsLmFemFed blank:true, nullable:true, min:500
-        rankingLm blank:true, nullable:true, min:0
-        rankingLmFed blank:true, nullable:true, min:0
-        rankingFem blank:true, nullable:true, min:0
-        rankingFemFed blank:true, nullable:true, min:0
-        rankingLmFemFed blank:true, nullable:true, min:0
+        points blank:true, nullable:true
+        pointsFed blank:true, nullable:true
+        ranking blank:true, nullable:true
+        rankingFed blank:true, nullable:true
+        pointsLm blank:true, nullable:true
+        pointsLmFed blank:true, nullable:true
+        pointsFem blank:true, nullable:true
+        pointsFemFed blank:true, nullable:true
+        pointsLmFemFed blank:true, nullable:true
+        rankingLm blank:true, nullable:true
+        rankingLmFed blank:true, nullable:true
+        rankingFem blank:true, nullable:true
+        rankingFemFed blank:true, nullable:true
+        rankingLmFemFed blank:true, nullable:true
         gender nullable:false, blank: false, inList: ["M", "F"]
         federation blank:false, nullable:false
     }

@@ -13,6 +13,7 @@ class FederationController extends RestfulController {
         super(Federation)
     }
 
+    @Secured(["permitAll"])
     def index(Integer max, Integer page, String sort, String order) {
         params.max = Math.min(max ?: 5, 100)
         if (page == null) {

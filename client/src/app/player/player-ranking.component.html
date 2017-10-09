@@ -25,14 +25,14 @@
             </option>
         </select>
     </div>
-    <div>
+    <!--<div>
         <md-input-container floatPlaceholder="never">
             <input mdInput [value]="terms" (keyup)="search($event.target.value)" placeholder="{{ 'general.messages.filter.list' | translate }}">
         </md-input-container>
         <button (click)="clearFilterText()" type="button" class="btn btn-s">
             <span class="fa fa-times"></span> {{ "general.messages.filter.clear" | translate }}
         </button>
-    </div>
+    </div>-->
 
 
     <h1>Player Ranking ({{playerDatasource.total | async}})</h1>
@@ -108,41 +108,4 @@
                   [pageSize]="10"
                   [pageSizeOptions]="[10, 20, 30, 50, 100]">
     </md-paginator>
-</div>
-
-<div class="navbar navbar-default">
-    <div class="navbar-header">
-        <h1 class="navbar-brand">Upload list of players</h1>
-    </div>
-</div>
-
-<div class="row">
-
-    <div class="col-md-3">
-
-        <h3>Select player list file</h3>
-
-        <div class="dropzone"
-             ng2FileDrop
-             [uploader]="uploader"
-             [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
-             (fileOver)="fileOverBase($event)"
-             (click)=fileInput.click()>
-            <div>Drop or Click to select file</div>
-            <input #fileInput type="file" ng2FileSelect [uploader]="uploader" [accept]="allowedMimeType.toString()">
-        </div>
-        <div *ngFor="let item of uploader.queue">
-            <strong>{{ item?.file?.name }}</strong>
-        </div>
-
-        <div class="progress" style="">
-            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-        </div>
-
-        <button type="button" class="btn btn-success btn-s"
-                (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-            <span class="fa fa-upload"></span> Upload
-        </button>
-    </div>
-
 </div>

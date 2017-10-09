@@ -13,7 +13,7 @@ class CategoryController extends RestfulController {
         super(Category)
     }
 
-    @Secured(['ROLE_SUPER_ADMIN', 'ROLE_GENERAL_ADMIN','ROLE_FEDERATION_ADMIN'])
+    @Secured(["permitAll"])
     def index(Integer max, Integer page, String sort, String order) {
         params.max = Math.min(max ?: 5, 100)
         if (page == null) {

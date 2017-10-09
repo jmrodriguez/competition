@@ -21,9 +21,15 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
     checkLogin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         let url: string = state.url;
+        let routeData = route.data;
+
+        if (routeData && routeData.roles && routeData.roles.length == 0) {
+            // no roles needed, let them through
+            return true;
+        }
+
         if (this.authService.isAuthenticated()) {
             // logged in, now check roles if any
-            let routeData = route.data;
             if (routeData && routeData.roles) {
                 if (this.authService.hasRole(routeData.roles)) {
                     return true;

@@ -338,6 +338,8 @@ class PlayerService {
      * @param tournament the tournament to know with rankings to be updated
      */
     void updateRankings(Tournament tournament) {
+
+        // the list of players we need here is the one of the tournament's category
         List<Player> players = this._getPlayers(tournament).toList()
 
         // sort the players based on the tournament settings
@@ -398,7 +400,7 @@ class PlayerService {
 
         players.each { player->
             player.setProperty(rankingColumn, ranking)
-            player.save flush: true
+            player.save flush: true, failOnError: true
             ranking++
         }
     }

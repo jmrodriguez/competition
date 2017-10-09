@@ -1,7 +1,5 @@
-import {Component, OnInit, AfterViewInit, ChangeDetectorRef, Input, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import {PlayerService} from './player.service';
-import {FileUploader} from "ng2-file-upload";
-import {environment} from "../../environments/environment";
 import {AuthService} from "../services/auth.service";
 import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
@@ -30,10 +28,6 @@ import {CategoryService} from "../category/category.service";
 })
 export class PlayerRankingComponent implements OnInit {
 
-  private uploadEndpoint:string = "player/upload"
-  public allowedMimeType:string[] = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
-  public uploader:FileUploader;
-  public hasBaseDropZoneOver:boolean = false;
   showFederationSelect:boolean;
   federationList: Federation[];
   selectedFederation: Federation;
@@ -56,39 +50,10 @@ export class PlayerRankingComponent implements OnInit {
   private tournamentStream = new Subject<Tournament>(); // unused but necessary
   private playerTypeStream = new Subject<number>(); // unused but necessary
 
-  constructor(private route: ActivatedRoute,
-              private playerService: PlayerService,
-              private authorizationService: AuthService,
-              private toastCommunicationService: ToastCommunicationService,
+  constructor(private playerService: PlayerService,
               private authService: AuthService,
               private federationService: FederationService,
               private categoryService: CategoryService) {
-
-    this.uploader = new FileUploader({
-      url: environment.serverUrl + this.uploadEndpoint,
-      allowedMimeType: this.allowedMimeType,
-      headers: [{ name: 'Authorization', value : 'Bearer ' + this.authorizationService.currentUser.access_token } ]
-    });
-
-    this.uploader.onAfterAddingFile = (fileItem) => {
-      this.uploader.clearQueue();
-      this.uploader.queue[0] = fileItem;
-    };
-
-    this.uploader.onCompleteItem = (fileItem, response, status, headers) => {
-
-      if (status == 201 && response != null) {
-        let responseObj = JSON.parse(response);
-
-        this.toastCommunicationService.showToast(this.toastCommunicationService.SUCCESS, 'player.import.create.success', {value: responseObj.totalCreated});
-      } else {
-        this.toastCommunicationService.showToast(this.toastCommunicationService.ERROR, 'player.import.create.error');
-      }
-      // refresh the list
-      this.federationStream.next(null);
-
-      this.categoryStream.next(new Category(1));
-    };
   }
 
   ngOnInit() {
@@ -110,7 +75,7 @@ export class PlayerRankingComponent implements OnInit {
       this.onSelectionChange();
     });
 
-    this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
+    this.showFederationSelect = !this.authService.hasRole(["ROLE_FEDERATION_ADMIN"]);
 
     if (this.showFederationSelect) {
       this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
@@ -127,10 +92,6 @@ export class PlayerRankingComponent implements OnInit {
   clearFilterText() {
     this.terms = "";
     this.search(this.terms);
-  }
-
-  public fileOverBase(e:any):void {
-    this.hasBaseDropZoneOver = e;
   }
 
   onFederationChange(newValue: Federation) {

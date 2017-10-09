@@ -24,6 +24,7 @@ class PlayerController extends RestfulController {
         super(Player)
     }
 
+    @Secured(["permitAll"])
     def index(Integer tournamentId,
               Integer categoryId,
               Integer federationId,
@@ -70,7 +71,7 @@ class PlayerController extends RestfulController {
                 // allow admins to see the list of players only for tournaments of their own federation
                 return
             }
-        } else if (SpringSecurityUtils.ifAnyGranted("ROLE_SUPER_ADMIN, ROLE_GENERAL_ADMIN")) {
+        } else {
             if (federationId != null) {
                 federation = Federation.findById(federationId)
             }
@@ -78,10 +79,10 @@ class PlayerController extends RestfulController {
         if (isRankingView != null && isRankingView){
             def rankingColumn = "ranking"
             if(category.id != 1){ // NOT OPEN
-                rankingColumn.concat("_lm")
+                rankingColumn = rankingColumn.concat("Lm")
             }
             if(federation != null){ //FED RANKING
-                rankingColumn.concat("_fed")
+                rankingColumn = rankingColumn.concat("Fed")
             }
             params.sort = rankingColumn
         }
