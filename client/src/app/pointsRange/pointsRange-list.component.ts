@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {PointsRangeService} from './pointsRange.service';
 import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {PointsRangeDataSource} from "./pointsRange.datasource";
 
 
@@ -13,8 +13,8 @@ import {PointsRangeDataSource} from "./pointsRange.datasource";
 export class PointsRangeListComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'min', 'max'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Input() terms = "";
 

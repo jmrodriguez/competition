@@ -1,10 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {WeightService} from './weight.service';
-import {Weight} from './weight';
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {WeightDataSource} from "../weight/weight.datasource";
 import {Subject} from "rxjs/Subject";
-import {ListResult} from "app/helpers/list-result.interface";
 
 @Component({
   selector: 'weight-list',
@@ -13,8 +11,8 @@ import {ListResult} from "app/helpers/list-result.interface";
 export class WeightListComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'factor'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   weightDatasource: WeightDataSource | null;
 

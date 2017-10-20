@@ -2,7 +2,6 @@ import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import {PlayerService} from './player.service';
 import {AuthService} from "../services/auth.service";
 import {Subject} from "rxjs/Subject";
-import {ActivatedRoute} from "@angular/router";
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
@@ -13,9 +12,8 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/pluck';
 import {Federation} from "../federation/federation";
 import {FederationService} from "app/federation/federation.service";
-import {ToastCommunicationService} from "../shared/toast-communication.service";
 import {PlayerDataSource} from "./player.datasource";
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {Tournament} from "../tournament/tournament";
 import {ListResult} from "../helpers/list-result.interface";
 import {Category} from "../category/category";
@@ -37,8 +35,8 @@ export class PlayerRankingComponent implements OnInit {
   pointsField: string = "points";
 
   displayedColumns = ['ranking', 'points', 'id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Input() terms = "";
 

@@ -55,28 +55,28 @@
 
 <div id="list-player" class="content scaffold-list" role="main">
 
-    <md-tab-group (selectChange)="viewPlayerType($event)">
-        <md-tab label="{{ 'tournament.show.players.title.signed' | translate}}"></md-tab>
-        <md-tab label="{{ 'tournament.show.players.title.unsigned' | translate}}"></md-tab>
-    </md-tab-group>
+    <mat-tab-group (selectChange)="viewPlayerType($event)">
+        <mat-tab label="{{ 'tournament.show.players.title.signed' | translate}}"></mat-tab>
+        <mat-tab label="{{ 'tournament.show.players.title.unsigned' | translate}}"></mat-tab>
+    </mat-tab-group>
 
     <div>
-        <md-input-container floatPlaceholder="never">
-            <input mdInput #terms (keyup)="search(terms.value)" placeholder="Filter users">
-        </md-input-container>
+        <mat-input-container floatPlaceholder="never">
+            <input matInput #terms (keyup)="search(terms.value)" placeholder="Filter users">
+        </mat-input-container>
     </div>
 
     <h1>Player List ({{playerDatasource.total | async}})</h1>
 
-    <md-table #table [dataSource]="playerDatasource" mdSort>
+    <mat-table #table [dataSource]="playerDatasource" matSort>
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
 
         <!-- ID Column -->
-        <ng-container cdkColumnDef="id">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> ID </md-header-cell>
-            <md-cell *cdkCellDef="let row">
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let row">
                 <a [routerLink]="['/player','show',row.id]">{{row.id}}</a>
                 <button (click)="signOffPlayer(row)" *ngIf="playerDatasource.playerType == 0" type="button" class="btn btn-danger btn-s">
                     <span class="fa fa-user-times"></span> {{ "tournament.show.players.signoff.button" | translate }}
@@ -84,55 +84,55 @@
                 <button (click)="signUpPlayer(row)" *ngIf="playerDatasource.playerType == 1" type="button" class="btn btn-success btn-s">
                     <span class="fa fa-user-plus"></span> {{ "tournament.show.players.signup.button" | translate }}
                 </button>
-            </md-cell>
+            </mat-cell>
         </ng-container>
 
         <!-- First Name -->
-        <ng-container cdkColumnDef="firstName">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> First Name </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.firstName}} </md-cell>
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> First Name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.firstName}} </mat-cell>
         </ng-container>
 
         <!-- Last Name -->
-        <ng-container cdkColumnDef="lastName">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Last Name </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.lastName}} </md-cell>
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
         </ng-container>
 
         <!-- Email Column -->
-        <ng-container cdkColumnDef="email">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Email </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.email}} </md-cell>
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
         </ng-container>
 
         <!-- DNI Column -->
-        <ng-container cdkColumnDef="dni">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> DNI </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.dni}} </md-cell>
+        <ng-container matColumnDef="dni">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> DNI </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.dni}} </mat-cell>
         </ng-container>
 
         <!-- Club Column -->
-        <ng-container cdkColumnDef="club">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Club </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.club}} </md-cell>
+        <ng-container matColumnDef="club">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Club </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.club}} </mat-cell>
         </ng-container>
 
         <!-- Birth Column -->
-        <ng-container cdkColumnDef="birth">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Birth </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.birth | date:'yyyy-MM-dd'}} </md-cell>
+        <ng-container matColumnDef="birth">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Birth </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.birth | date:'yyyy-MM-dd'}} </mat-cell>
         </ng-container>
 
-        <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-        <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-    </md-table>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 
-    <md-paginator #paginator
+    <mat-paginator #paginator
                   [length]="playerDatasource.total | async"
                   [pageIndex]="0"
                   [pageSize]="10"
                   [pageSizeOptions]="[10, 20, 30, 50, 100]">
-    </md-paginator>
+    </mat-paginator>
 </div>
 <div role="main">
     <button [disabled]="!playerDatasource.gamePlanAvailable" (click)="goToGameplan()" *ngIf="playerDatasource.playerType == 0" type="button" class="btn btn-success btn-s">

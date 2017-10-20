@@ -8,7 +8,7 @@ import {Subject} from "rxjs/Subject";
 import {PlayerService} from "../player/player.service";
 import {Category} from "../category/category";
 import {ToastCommunicationService} from "../shared/toast-communication.service";
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {PlayerDataSource} from "app/player/player.datasource";
 import {Federation} from "../federation/federation";
 
@@ -19,8 +19,8 @@ import {Federation} from "../federation/federation";
 export class TournamentShowComponent implements OnInit {
 
   displayedColumns = ['id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   playerDatasource: PlayerDataSource | null;
 

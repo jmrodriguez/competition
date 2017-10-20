@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FederationService} from './federation.service';
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {FederationDataSource} from "./federation.datasource";
 import {Subject} from "rxjs/Subject";
 
@@ -11,8 +11,8 @@ import {Subject} from "rxjs/Subject";
 export class FederationListComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'logo', 'description', 'country'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Input() terms = "";
 

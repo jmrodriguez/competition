@@ -5,7 +5,7 @@ import {TournamentService} from './tournament.service';
 import {Observable} from "rxjs/Observable";
 import {TournamentGroupService} from "../tournamentGroup/tournamentGroup.service";
 import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
-import {MdTab} from '@angular/material';
+import {MatTab} from '@angular/material';
 import {ListResult} from "../helpers/list-result.interface";
 import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 import {Player} from "../player/player";
@@ -22,7 +22,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class TournamentPlanComponent implements OnInit {
 
-  @ViewChildren(MdTab) mdTabList: QueryList<MdTab>;
+  @ViewChildren(MatTab) matTabList: QueryList<MatTab>;
 
   tournament = new Tournament();
   setArray = Array.from(new Array(3),(val,index)=>index+1);
@@ -212,7 +212,7 @@ export class TournamentPlanComponent implements OnInit {
 
   viewContent(event: any) {
     // the selected tab is the final bracket tab
-    if (this.mdTabList.last == event.tab) {
+    if (this.matTabList.last == event.tab) {
       this.selectedGroup = null;
       if (this.tournament.bracketInfo == null) {
         this._getFinalBracketPlayers();

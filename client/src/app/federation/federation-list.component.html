@@ -6,9 +6,9 @@
 </div>
 <div id="list-federation" class="content scaffold-list" role="main">
   <div>
-    <md-input-container floatPlaceholder="never">
-      <input mdInput [value]="terms" (keyup)="search($event.target.value)" placeholder="{{ 'general.messages.filter.list' | translate }}">
-    </md-input-container>
+    <mat-input-container floatPlaceholder="never">
+      <input matInput [value]="terms" (keyup)="search($event.target.value)" placeholder="{{ 'general.messages.filter.list' | translate }}">
+    </mat-input-container>
     <button (click)="clearFilterText()" type="button" class="btn btn-s">
       <span class="fa fa-times"></span> {{ "general.messages.filter.clear" | translate }}
     </button>
@@ -16,51 +16,51 @@
 
   <h1>Federation List ({{federationDatasource.total | async}})</h1>
 
-  <md-table #table [dataSource]="federationDatasource" mdSort>
+  <mat-table #table [dataSource]="federationDatasource" matSort>
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
     <!-- ID Column -->
-    <ng-container cdkColumnDef="id">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> ID </md-header-cell>
-      <md-cell *cdkCellDef="let row">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+      <mat-cell *matCellDef="let row">
         <a [routerLink]="['/federation','show',row.id]">{{row.id}}</a>
-      </md-cell>
+      </mat-cell>
     </ng-container>
 
     <!-- Name -->
-    <ng-container cdkColumnDef="name">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> Name </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
     </ng-container>
 
     <!-- Logo -->
-    <ng-container cdkColumnDef="logo">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> Logo </md-header-cell>
-      <md-cell *cdkCellDef="let row"> DISPLAY LOGO </md-cell>
+    <ng-container matColumnDef="logo">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Logo </mat-header-cell>
+      <mat-cell *matCellDef="let row"> DISPLAY LOGO </mat-cell>
     </ng-container>
 
     <!-- Description -->
-    <ng-container cdkColumnDef="description">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> Description </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.description}} </md-cell>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
     </ng-container>
 
     <!-- Country -->
-    <ng-container cdkColumnDef="country">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> Country </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.country.name}} </md-cell>
+    <ng-container matColumnDef="country">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Country </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.country.name}} </mat-cell>
     </ng-container>
 
-    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-  </md-table>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 
-  <md-paginator #paginator
+  <mat-paginator #paginator
                 [length]="federationDatasource.total | async"
                 [pageIndex]="0"
                 [pageSize]="10"
                 [pageSizeOptions]="[10, 20, 30, 50, 100]">
-  </md-paginator>
+  </mat-paginator>
 </div>

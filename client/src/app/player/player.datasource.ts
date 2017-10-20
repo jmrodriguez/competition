@@ -2,8 +2,7 @@
  * Created by jmrodriguez on 7/13/17.
  */
 
-import {DataSource} from "@angular/cdk";
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {Observable} from "rxjs/Observable";
 import {Player} from "./player";
 import {Tournament} from "../tournament/tournament";
@@ -12,6 +11,7 @@ import {Subject} from "rxjs/Subject";
 import {Federation} from "../federation/federation";
 import {EventEmitter} from "@angular/core";
 import {Category} from "../category/category";
+import {DataSource} from "@angular/cdk/collections";
 
 /**
  * Data source to provide what data should be rendered in the table. Note that the data source
@@ -37,8 +37,8 @@ export class PlayerDataSource extends DataSource<any> {
                 private categoryStream: Subject<Category>,
                 private searchTermStream: Subject<string>,
                 private playerTypeStream: Subject<number>,
-                private paginator: MdPaginator,
-                private sort: MdSort,
+                private paginator: MatPaginator,
+                private sort: MatSort,
                 private playerService: PlayerService,
                 private isRankingView: boolean = false) {
         super();
@@ -49,7 +49,7 @@ export class PlayerDataSource extends DataSource<any> {
     connect(): Observable<Player[]> {
         const displayDataChanges = [
             this.paginator.page,
-            this.sort.mdSortChange
+            this.sort.sortChange
         ];
 
         const tournamentSource = this.tournamentStream.map(tournament => {

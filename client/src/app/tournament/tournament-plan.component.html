@@ -65,8 +65,8 @@
 </div>
 
 <div *ngIf="groupsAvailable" id="list-group" class="content scaffold-list" role="main">
-    <md-tab-group [(selectedIndex)]="selectedTab" (selectChange)="viewContent($event)" >
-        <md-tab *ngFor="let tournamentGroup of tournamentGroups | async" [label]="'tournament.gameplan.grouptab' | translate:{number: tournamentGroup.number}">
+    <mat-tab-group [(selectedIndex)]="selectedTab" (selectChange)="viewContent($event)" >
+        <mat-tab *ngFor="let tournamentGroup of tournamentGroups | async" [label]="'tournament.gameplan.grouptab' | translate:{number: tournamentGroup.number}">
             <div>
                 WINNER {{tournamentGroup.winner?.firstName}} {{tournamentGroup.winner?.lastName}}
             </div>
@@ -140,8 +140,8 @@
                     <span class="fa fa-floppy-o"></span> Guardar Cambios
                 </button>
             </div>
-        </md-tab>
-        <md-tab [label]="'tournament.gameplan.brackettab' | translate">
+        </mat-tab>
+        <mat-tab [label]="'tournament.gameplan.brackettab' | translate">
             <div>
                 <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)" (notifyBracketChange)="onNotifyBracketChange($event)">Empty Final Bracket</div>
             </div>
@@ -150,8 +150,8 @@
                     <span class="fa fa-floppy-o"></span> Aplicar Resultados y Finalizar Torneo
                 </button>
             </div>
-        </md-tab>
-    </md-tab-group>
+        </mat-tab>
+    </mat-tab-group>
 </div>
 
 <div *ngIf="!groupsAvailable && tournament.includeGroupPhase" id="empty-list-group" class="content scaffold-list" role="main">
@@ -159,8 +159,8 @@
 </div>
 
 <div *ngIf="!groupsAvailable && !tournament.includeGroupPhase" id="no-group-list" class="content scaffold-list" role="main">
-    <md-tab-group [(selectedIndex)]="selectedTab" (selectChange)="viewContent($event)" >
-        <md-tab [label]="'tournament.gameplan.players' | translate">
+    <mat-tab-group [(selectedIndex)]="selectedTab" (selectChange)="viewContent($event)" >
+        <mat-tab [label]="'tournament.gameplan.players' | translate">
             <div>
                 <ul class="list-group" dnd-sortable-container [sortableData]="tournamentPlayers">
                     <li *ngFor="let player of tournamentPlayers; let i = index" class="list-group-item"
@@ -172,8 +172,8 @@
                     <span class="fa fa-floppy-o"></span> Save Player Order
                 </button>
             </div>
-        </md-tab>
-        <md-tab [label]="'tournament.gameplan.brackettab' | translate">
+        </mat-tab>
+        <mat-tab [label]="'tournament.gameplan.brackettab' | translate">
             <div>
                 <div id="finalBracketNoGroups" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)" (notifyBracketChange)="onNotifyBracketChange($event)">Empty Final Bracket</div>
             </div>
@@ -182,6 +182,6 @@
                     <span class="fa fa-floppy-o"></span> Aplicar Resultados y Finalizar Torneo
                 </button>
             </div>
-        </md-tab>
-    </md-tab-group>
+        </mat-tab>
+    </mat-tab-group>
 </div>

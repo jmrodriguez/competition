@@ -6,9 +6,9 @@
 </div>
 <div id="list-category" class="content scaffold-list" role="main">
     <div>
-        <md-input-container floatPlaceholder="never">
-            <input mdInput [value]="terms" (keyup)="search($event.target.value)" placeholder="{{ 'general.messages.filter.list' | translate }}">
-        </md-input-container>
+        <mat-input-container floatPlaceholder="never">
+            <input matInput [value]="terms" (keyup)="search($event.target.value)" placeholder="{{ 'general.messages.filter.list' | translate }}">
+        </mat-input-container>
         <button (click)="clearFilterText()" type="button" class="btn btn-s">
             <span class="fa fa-times"></span> {{ "general.messages.filter.clear" | translate }}
         </button>
@@ -16,51 +16,51 @@
 
     <h1>Category List ({{categoryDatasource.total | async}})</h1>
 
-    <md-table #table [dataSource]="categoryDatasource" mdSort>
+    <mat-table #table [dataSource]="categoryDatasource" matSort>
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
 
         <!-- ID Column -->
-        <ng-container cdkColumnDef="id">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> ID </md-header-cell>
-            <md-cell *cdkCellDef="let row">
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let row">
                 <a [routerLink]="['/category','show',row.id]">{{row.id}}</a>
-            </md-cell>
+            </mat-cell>
         </ng-container>
 
         <!-- Name -->
-        <ng-container cdkColumnDef="name">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Name </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
         </ng-container>
 
         <!-- Min Age -->
-        <ng-container cdkColumnDef="minAge">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Min Age </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.minAge}} </md-cell>
+        <ng-container matColumnDef="minAge">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Min Age </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.minAge}} </mat-cell>
         </ng-container>
 
         <!-- Max Age -->
-        <ng-container cdkColumnDef="maxAge">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Max Age </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.maxAge}} </md-cell>
+        <ng-container matColumnDef="maxAge">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Max Age </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.maxAge}} </mat-cell>
         </ng-container>
 
         <!-- Youth Category -->
-        <ng-container cdkColumnDef="youthCategory">
-            <md-header-cell *cdkHeaderCellDef md-sort-header>Youth Category </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.youthCategory}} </md-cell>
+        <ng-container matColumnDef="youthCategory">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Youth Category </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.youthCategory}} </mat-cell>
         </ng-container>
 
-        <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-        <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-    </md-table>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 
-    <md-paginator #paginator
+    <mat-paginator #paginator
                   [length]="categoryDatasource.total | async"
                   [pageIndex]="0"
                   [pageSize]="10"
                   [pageSizeOptions]="[10, 20, 30, 50, 100]">
-    </md-paginator>
+    </mat-paginator>
 </div>

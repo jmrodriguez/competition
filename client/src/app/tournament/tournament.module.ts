@@ -11,7 +11,6 @@ import {TournamentPlanComponent} from './tournament-plan.component';
 import { WeightModule } from '../weight/weight.module';
 import { FederationModule } from '../federation/federation.module';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MdTabsModule} from "@angular/material";
 import {MatchResultPipe} from "./match-result-pipe";
 import { BracketDirective } from '../directives/bracket.directive';
 

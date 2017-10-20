@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TournamentService} from './tournament.service';
 import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {TournamentDataSource} from "./tournament.datasource";
 
 @Component({
@@ -12,8 +12,8 @@ import {TournamentDataSource} from "./tournament.datasource";
 export class TournamentListComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'date', 'weight', 'genderRestricted', 'gender', 'federation', 'bestOf', 'groupsOf', 'includeGroupPhase', 'category'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Input() terms = "";
 

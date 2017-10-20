@@ -2,13 +2,13 @@
  * Created by jmrodriguez on 7/13/17.
  */
 
-import {DataSource} from "@angular/cdk";
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {EventEmitter} from "@angular/core";
 import {Country} from "./country";
 import {CountryService} from "./country.service";
+import {DataSource} from "@angular/cdk/collections";
 
 /**
  * Data source to provide what data should be rendered in the table. Note that the data source
@@ -26,8 +26,8 @@ export class CountryDataSource extends DataSource<any> {
     connectionNotifier: EventEmitter<boolean>;
 
     constructor(private searchTermStream: Subject<string>,
-                private paginator: MdPaginator,
-                private sort: MdSort,
+                private paginator: MatPaginator,
+                private sort: MatSort,
                 private countryService: CountryService,
                 private initStream: Subject<boolean>) {
         super();
@@ -38,7 +38,7 @@ export class CountryDataSource extends DataSource<any> {
     connect(): Observable<Country[]> {
         const displayDataChanges = [
             this.paginator.page,
-            this.sort.mdSortChange
+            this.sort.sortChange
         ];
 
         const searchSource = this.searchTermStream

@@ -4,19 +4,19 @@
 
 import { Observable } from 'rxjs/Rx';
 import { ConfirmDialog } from './confirm-dialog.component';
-import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
+import { MatDialogRef, MatDialog } from '@angular/material';
 import { Injectable } from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class DialogsService {
 
-    constructor(private dialog: MdDialog,
+    constructor(private dialog: MatDialog,
                 private translateService: TranslateService) { }
 
     public confirm(titleKey: string, messageKey: string, params: any = {}): Observable<boolean> {
 
-        let dialogRef: MdDialogRef<ConfirmDialog>;
+        let dialogRef: MatDialogRef<ConfirmDialog>;
         dialogRef = this.dialog.open(ConfirmDialog);
         let primaryButtonKey = "confirmation.dialog.button.ok";
         let secondaryButtonKey = "confirmation.dialog.button.cancel";

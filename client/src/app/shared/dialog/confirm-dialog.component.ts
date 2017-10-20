@@ -2,7 +2,7 @@
  * Created by jmrodriguez on 7/13/17.
  */
 
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { Component } from '@angular/core';
 
 @Component({
@@ -16,7 +16,7 @@ export class ConfirmDialog {
     public primaryButtonText : string;
     public secondaryButtonText: string;
 
-    constructor(public dialogRef: MdDialogRef<ConfirmDialog>) {
+    constructor(public dialogRef: MatDialogRef<ConfirmDialog>) {
 
     }
 }

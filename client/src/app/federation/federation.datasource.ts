@@ -2,13 +2,14 @@
  * Created by jmrodriguez on 7/13/17.
  */
 
-import {DataSource} from "@angular/cdk";
-import {MdPaginator, MdSort} from "@angular/material";
+
+import {MatPaginator, MatSort} from "@angular/material";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {EventEmitter} from "@angular/core";
 import {Federation} from "./federation";
 import {FederationService} from "./federation.service";
+import {DataSource} from "@angular/cdk/collections";
 
 /**
  * Data source to provide what data should be rendered in the table. Note that the data source
@@ -26,8 +27,8 @@ export class FederationDataSource extends DataSource<any> {
     connectionNotifier: EventEmitter<boolean>;
 
     constructor(private searchTermStream: Subject<string>,
-                private paginator: MdPaginator,
-                private sort: MdSort,
+                private paginator: MatPaginator,
+                private sort: MatSort,
                 private federationService: FederationService,
                 private initStream: Subject<boolean>) {
         super();
@@ -38,7 +39,7 @@ export class FederationDataSource extends DataSource<any> {
     connect(): Observable<Federation[]> {
         const displayDataChanges = [
             this.paginator.page,
-            this.sort.mdSortChange
+            this.sort.sortChange
         ];
 
         const searchSource = this.searchTermStream

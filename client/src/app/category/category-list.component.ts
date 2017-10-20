@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {CategoryService} from './category.service';
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {CategoryDataSource} from "./category.datasource";
 import {Subject} from "rxjs/Subject";
 
@@ -11,8 +11,8 @@ import {Subject} from "rxjs/Subject";
 export class CategoryListComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'minAge', 'maxAge', 'youthCategory'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Input() terms = "";
 

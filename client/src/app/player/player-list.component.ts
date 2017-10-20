@@ -17,7 +17,7 @@ import {Federation} from "../federation/federation";
 import {FederationService} from "app/federation/federation.service";
 import {ToastCommunicationService} from "../shared/toast-communication.service";
 import {PlayerDataSource} from "./player.datasource";
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {Tournament} from "../tournament/tournament";
 import {ListResult} from "../helpers/list-result.interface";
 import {Category} from "../category/category";
@@ -38,8 +38,8 @@ export class PlayerListComponent implements OnInit {
   selectedFederation: Federation;
 
   displayedColumns = ['id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Input() terms = "";
 

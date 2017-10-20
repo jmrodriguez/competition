@@ -6,70 +6,70 @@
 </div>
 <div id="list-user" class="content scaffold-list" role="main">
     <div>
-        <md-input-container floatPlaceholder="never">
-            <input mdInput #terms (keyup)="search(terms.value)" placeholder="Filter users">
-        </md-input-container>
+        <mat-input-container floatPlaceholder="never">
+            <input matInput #terms (keyup)="search(terms.value)" placeholder="Filter users">
+        </mat-input-container>
     </div>
 
     <h1>User List ({{userDatasource.total | async}})</h1>
 
-    <md-table #table [dataSource]="userDatasource" mdSort>
+    <mat-table #table [dataSource]="userDatasource" matSort>
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
 
         <!-- ID Column -->
-        <ng-container cdkColumnDef="id">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> ID </md-header-cell>
-            <md-cell *cdkCellDef="let row">
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let row">
                 <a [routerLink]="['/user','show',row.id]">{{row.id}}</a>
-            </md-cell>
+            </mat-cell>
         </ng-container>
 
         <!-- First Name -->
-        <ng-container cdkColumnDef="firstName">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> First Name </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.firstName}} </md-cell>
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> First Name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.firstName}} </mat-cell>
         </ng-container>
 
         <!-- Last Name -->
-        <ng-container cdkColumnDef="lastName">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Last Name </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.lastName}} </md-cell>
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
         </ng-container>
 
         <!-- Email Column -->
-        <ng-container cdkColumnDef="email">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Email </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.email}} </md-cell>
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
         </ng-container>
 
         <!-- Last Login Date Column -->
-        <ng-container cdkColumnDef="lastLoginDate">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Last Login Date </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.lastLoginDate | date:'yyyy-MM-dd'}} </md-cell>
+        <ng-container matColumnDef="lastLoginDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Last Login Date </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.lastLoginDate | date:'yyyy-MM-dd'}} </mat-cell>
         </ng-container>
 
         <!-- Account Locked Column -->
-        <ng-container cdkColumnDef="accountLocked">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Account Locked </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.accountLocked}} </md-cell>
+        <ng-container matColumnDef="accountLocked">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Account Locked </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.accountLocked}} </mat-cell>
         </ng-container>
 
         <!-- Account Expired Column -->
-        <ng-container cdkColumnDef="accountExpired">
-            <md-header-cell *cdkHeaderCellDef md-sort-header> Account Expired </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.accountExpired}} </md-cell>
+        <ng-container matColumnDef="accountExpired">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Account Expired </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.accountExpired}} </mat-cell>
         </ng-container>
 
-        <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-        <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-    </md-table>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 
-    <md-paginator #paginator
+    <mat-paginator #paginator
                   [length]="userDatasource.total | async"
                   [pageIndex]="0"
                   [pageSize]="10"
                   [pageSizeOptions]="[10, 20, 30, 50, 100]">
-    </md-paginator>
+    </mat-paginator>
 </div>

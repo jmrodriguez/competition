@@ -10,7 +10,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/pluck';
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {UserDataSource} from "./user.datasource";
 
 @Component({
@@ -20,8 +20,8 @@ import {UserDataSource} from "./user.datasource";
 export class UserListComponent implements OnInit {
 
   displayedColumns = ['id', 'firstName', 'lastName', 'email', 'lastLoginDate', 'accountLocked', 'accountExpired'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   userDatasource: UserDataSource | null;
 

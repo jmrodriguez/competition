@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {CountryService} from './country.service';
-import {MdPaginator, MdSort} from "@angular/material";
+import {MatPaginator, MatSort} from "@angular/material";
 import {CountryDataSource} from "./country.datasource";
 import {Subject} from "rxjs/Subject";
 
@@ -11,8 +11,8 @@ import {Subject} from "rxjs/Subject";
 export class CountryListComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'isoCode'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Input() terms = "";
 
