@@ -29,6 +29,7 @@ import { CategoryModule } from './category/category.module';
 import { PlayerModule } from './player/player.module';
 import { TournamentGroupModule } from "./tournamentGroup/tournamentGroup.module";
 import { TournamentMatchModule } from "./tournamentMatch/tournamentMatch.module";
+import {PointsRangeModule} from "./pointsRange/pointsRange.module";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -52,6 +53,7 @@ export function HttpLoaderFactory(http: Http) {
     TodoModule,
     FederationModule,
     TournamentModule,
+    PointsRangeModule,
     UserModule,
     WeightModule,
     CategoryModule,

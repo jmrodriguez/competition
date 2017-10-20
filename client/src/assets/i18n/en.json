@@ -55,6 +55,11 @@
       }
     }
   },
+  "pointsRange": {
+    "show" : {
+      "title": "Points Range Info"
+    }
+  },
   "tournament": {
     "show" : {
       "title": "Tournament Info",

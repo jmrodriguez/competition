@@ -1,6 +1,6 @@
 package org.competition
 
-class Tournament {
+class  Tournament {
     String name
     Date date = new Date()
     Boolean genderRestricted = false

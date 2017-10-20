@@ -55,6 +55,11 @@
       }
     }
   },
+  "pointsRange": {
+    "show" : {
+      "title": "Informacion de Rango de Puntos"
+    }
+  },
   "tournament": {
     "show": {
       "title": "Informacion de Torneo",
