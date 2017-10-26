@@ -13,45 +13,43 @@
     <form name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
             <div class="fieldcontain required">
-              <label for="firstName">First Name
-                <span class="required-indicator">*</span>
-              </label>
-              <input required="" name="firstName" id="firstName" [(ngModel)]="player.firstName" type="text" />
+                <mat-form-field>
+                    <input matInput placeholder="First Name" required="" name="firstName" id="firstName" [(ngModel)]="player.firstName"/>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
-              <label for="lastName">Last Name
-                <span class="required-indicator">*</span>
-              </label>
-              <input required="" name="lastName" id="lastName" [(ngModel)]="player.lastName" type="text" />
+                <mat-form-field>
+                    <input matInput placeholder="Last Name" required="" name="lastName" id="lastName" [(ngModel)]="player.lastName"/>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
-              <label for="email">Email
-                <span class="required-indicator">*</span>
-              </label>
-              <input required="" name="email" id="email" [(ngModel)]="player.email" type="text" />
-            </div>
-            <div class="fieldcontain">
-              <label for="dni">Dni</label>
-              <input name="dni" id="dni" [(ngModel)]="player.dni" type="text" />
-            </div>
-            <div class="fieldcontain">
-              <label for="club">Club</label>
-              <input name="club" id="club" [(ngModel)]="player.club" type="text" />
+                <mat-form-field>
+                    <input matInput placeholder="Email" required="" name="Email" id="Email" [(ngModel)]="player.email"/>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
-              <label for="birth">Birth
-                <span class="required-indicator">*</span>
-              </label>
-              <input required="" name="birth" id="birth" type="date" placeholder="YYYY-MM-DD" [ngModel]="player.birth | date:'y-MM-dd'" (ngModelChange)="player.birth = $event" />
+                <mat-form-field>
+                    <input matInput placeholder="Dni" required="" name="dni" id="dni" [(ngModel)]="player.dni"/>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
-              <label for="gender">Gender
-                <span class="required-indicator">*</span>
-              </label>
-              <select required="" name="gender" id="gender" [(ngModel)]="player.gender">
-                <option value="M">M</option>
-                <option value="F">F</option>
-              </select>
+                <mat-form-field>
+                    <input matInput placeholder="Club" required="" name="club" id="club" [(ngModel)]="player.club"/>
+                </mat-form-field>
+            </div>
+            <div class="fieldcontain required">
+                <mat-form-field>
+                    <input matInput required="" name="birth" id="birth" type="date" placeholder="MM-DD-YYYY" [ngModel]="player.birth | date:'y-MM-dd'" (ngModelChange)="player.birth = $event" />
+                </mat-form-field>
+            </div>
+            <div class="fieldcontain required">
+                <label for="gender">Gender
+                    <span class="required-indicator">*</span>
+                </label>
+                <select required="" name="gender" id="gender" [(ngModel)]="player.gender">
+                    <option value="M">M</option>
+                    <option value="F">F</option>
+                </select>
             </div>
             <div *ngIf="showFederationSelect" class="fieldcontain required">
                 <label for="federation">Federation

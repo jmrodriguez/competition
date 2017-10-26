@@ -16,30 +16,27 @@
             <!--<label for="lastLoginDate">Last Login Date</label>-->
             <!--<input name="lastLoginDate" id="lastLoginDate" type="date" placeholder="YYYY-MM-DD" [value]="user.lastLoginDate | date:'y-MM-dd'" (change)="user.lastLoginDate = $event.target.valueAsDate" />-->
           <!--</div>-->
-          <div class="fieldcontain required">
-            <label for="email">Email
-              <span class="required-indicator">*</span>
-            </label>
-            <input required="" name="email" id="email" [(ngModel)]="user.email" type="email" />
-          </div>
+            <div class="fieldcontain required">
+                <mat-form-field>
+                    <input matInput placeholder="Email" required="" name="email" id="email" [(ngModel)]="user.email" type="email" />
+                </mat-form-field>
+            </div>
           <!--<div class="fieldcontain required">-->
             <!--<label for="password">Password-->
               <!--<span class="required-indicator">*</span>-->
             <!--</label>-->
             <!--<input required="" name="password" id="password" [(ngModel)]="user.password" type="text" />-->
           <!--</div>-->
-          <div class="fieldcontain required">
-            <label for="firstName">First Name
-              <span class="required-indicator">*</span>
-            </label>
-            <input required="" name="firstName" id="firstName" [(ngModel)]="user.firstName" type="text" />
-          </div>
-          <div class="fieldcontain required">
-            <label for="lastName">Last Name
-              <span class="required-indicator">*</span>
-            </label>
-            <input required="" name="lastName" id="lastName" [(ngModel)]="user.lastName" type="text" />
-          </div>
+            <div class="fieldcontain required">
+                <mat-form-field>
+                    <input matInput placeholder="First Name" required="" name="firstName" id="firstName" [(ngModel)]="user.firstName" type="text" />
+                </mat-form-field>
+            </div>
+            <div class="fieldcontain required">
+                <mat-form-field>
+                    <input matInput placeholder="Last Name" required="" name="lastName" id="lastName" [(ngModel)]="user.lastName" type="text" />
+                </mat-form-field>
+            </div>
           <div *ngIf="showFederationSelect" class="fieldcontain required">
             <label for="federation">Federation
               <span class="required-indicator">*</span>

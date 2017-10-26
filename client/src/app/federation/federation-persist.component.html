@@ -12,32 +12,30 @@
 
     <form name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
-            <fieldset class="form">
-  <div class="fieldcontain required">
-    <label for="name">Name
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="name" id="name" [(ngModel)]="federation.name" type="text" />
-  </div>
-  <div class="fieldcontain">
-    <label for="logo">Logo</label>
-    <select name="logo" id="logo" [(ngModel)]="federation.logo">
-      <option *ngFor="let federationLogo of federationLogoList" [value]="federationLogo.id" [selected]="federation.logo?.id == federationLogo.id">{{federationLogo.toString()}}</option>
-    </select>
-  </div>
-  <div class="fieldcontain">
-    <label for="description">Description</label>
-    <input name="description" id="description" [(ngModel)]="federation.description" type="text" />
-  </div>
-  <div class="fieldcontain required">
-    <label for="country">Country
-      <span class="required-indicator">*</span>
-    </label>
-    <select required="" name="country" id="country" [(ngModel)]="federation.country">
-      <option *ngFor="let country of countryList" [value]="country.id" [selected]="federation.country?.id == country.id">{{country.name}}</option>
-    </select>
-  </div>
-</fieldset>
+            <div class="fieldcontain required">
+                <mat-form-field>
+                    <input matInput placeholder="Name" required="" name="name" id="name" [(ngModel)]="federation.name" type="text" />
+                </mat-form-field>
+            </div>
+            <div class="fieldcontain">
+                <label for="logo">Logo</label>
+                <select name="logo" id="logo" [(ngModel)]="federation.logo">
+                    <option *ngFor="let federationLogo of federationLogoList" [value]="federationLogo.id" [selected]="federation.logo?.id == federationLogo.id">{{federationLogo.toString()}}</option>
+                </select>
+            </div>
+            <div class="fieldcontain required">
+                <mat-form-field>
+                    <input matInput placeholder="Description" name="description" id="description" [(ngModel)]="federation.description" type="text" />
+                </mat-form-field>
+            </div>
+            <div class="fieldcontain required">
+                <label for="country">Country
+                    <span class="required-indicator">*</span>
+                </label>
+                <select required="" name="country" id="country" [(ngModel)]="federation.country">
+                    <option *ngFor="let country of countryList" [value]="country.id" [selected]="federation.country?.id == country.id">{{country.name}}</option>
+                </select>
+            </div>
         </fieldset>
         <fieldset class="buttons">
             <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />

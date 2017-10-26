@@ -13,25 +13,23 @@
     <form #countryPersist="ngForm" (ngSubmit)="save()">
         <fieldset class="form">
             <div class="fieldcontain required">
-                <label for="isoCode">Iso Code
-                    <span class="required-indicator">*</span>
-                </label>
-                <input required name="isoCode" id="isoCode" [(ngModel)]="country.isoCode" type="text" #isoCode="ngModel"/>
-                <div [hidden]="isoCode.valid || isoCode.pristine"
-                     class="alert alert-danger">
-                    ISO Code is required
-                </div>
+                <mat-form-field>
+                    <input matInput placeholder="ISO Code" required name="isoCode" id="isoCode" [(ngModel)]="country.isoCode" type="text" #isoCode="ngModel"/>
+                    <div [hidden]="isoCode.valid || isoCode.pristine"
+                         class="alert alert-danger">
+                        ISO Code is required
+                    </div>
+                </mat-form-field>
             </div>
 
             <div class="fieldcontain required">
-                <label for="name">Name
-                    <span class="required-indicator">*</span>
-                </label>
-                <input required name="name" id="name" [(ngModel)]="country.name" type="text" #name="ngModel"/>
-                <div [hidden]="name.valid || name.pristine"
-                     class="alert alert-danger">
-                    Name is required
-                </div>
+                <mat-form-field>
+                    <input matInput placeholder="Name" required name="name" id="name" [(ngModel)]="country.name" type="text" #name="ngModel"/>
+                    <div [hidden]="name.valid || name.pristine"
+                         class="alert alert-danger">
+                        Name is required
+                    </div>
+                </mat-form-field>
             </div>
         </fieldset>
         <fieldset class="buttons">

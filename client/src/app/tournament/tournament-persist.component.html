@@ -13,18 +13,16 @@
     <form name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
             <div class="fieldcontain required">
-                <label for="name">Name
-                    <span class="required-indicator">*</span>
-                </label>
-                <input required="" name="name" id="name" [(ngModel)]="tournament.name" type="text"/>
+                <mat-form-field>
+                    <input matInput placeholder="Name" required="" name="name" id="name" [(ngModel)]="tournament.name"/>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
-                <label for="date">Date
-                    <span class="required-indicator">*</span>
-                </label>
-                <input required="" name="date" id="date" type="date" placeholder="YYYY-MM-DD"
-                       [value]="tournament.date | date:'y-MM-dd'"
-                       (change)="tournament.date = $event.target.valueAsDate"/>
+                <mat-form-field>
+                    <input matInput required="" name="date" id="date" type="date" placeholder="MM-DD-YYYY"
+                           [value]="tournament.date | date:'y-MM-dd'"
+                           (change)="tournament.date = $event.target.valueAsDate"/>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
                 <label for="weight">Weight
