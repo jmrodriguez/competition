@@ -10,7 +10,7 @@
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
 
-    <form name="save{className}" (ngSubmit)="save()">
+    <form #userPersist="ngForm" name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
           <!--<div class="fieldcontain">-->
             <!--<label for="lastLoginDate">Last Login Date</label>-->
@@ -60,7 +60,7 @@
           </div>
         </fieldset>
         <fieldset class="buttons">
-            <button mat-raised-button color="primary"><span translate>{{create ? 'general.forms.create' : 'general.forms.update'}}</span></button>
+            <button mat-raised-button color="primary" [disabled]="!userPersist.form.valid"><span translate>{{create ? 'general.forms.create' : 'general.forms.update'}}</span></button>
         </fieldset>
     </form>
 </div>
