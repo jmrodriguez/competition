@@ -7,13 +7,41 @@ import {DndModule} from 'ng2-dnd';
 import {DragDropConfig, DragDropService, DragDropSortableService} from "ng2-dnd";
 import {DialogsModule} from "./dialog/dialogs.module";
 import {DialogsService} from "./dialog/dialogs.service";
-import {MatInputModule, MatPaginatorModule, MatTableModule, MatTabsModule, MatSortModule} from "@angular/material";
+import {MatInputModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatTabsModule,
+        MatSortModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatButtonModule } from "@angular/material";
 
 
 @NgModule({
-    imports:      [ CommonModule, DndModule, DialogsModule, MatInputModule, MatTabsModule, MatTableModule, MatPaginatorModule, MatSortModule ],
+    imports:      [ CommonModule,
+                    DndModule,
+                    DialogsModule,
+                    MatInputModule,
+                    MatTabsModule,
+                    MatTableModule,
+                    MatPaginatorModule,
+                    MatSortModule,
+                    MatSelectModule,
+                    MatCheckboxModule,
+                    MatButtonModule ],
     declarations: [ ],
-    exports:      [ CommonModule, FormsModule, DndModule, DialogsModule, MatInputModule, MatTabsModule, MatTableModule, MatPaginatorModule, MatSortModule ],
+    exports:      [ CommonModule,
+                    FormsModule,
+                    DndModule,
+                    DialogsModule,
+                    MatInputModule,
+                    MatTabsModule,
+                    MatTableModule,
+                    MatPaginatorModule,
+                    MatSortModule,
+                    MatSelectModule,
+                    MatCheckboxModule,
+                    MatButtonModule ],
     providers: [
         ToastCommunicationService,
         DragDropService,

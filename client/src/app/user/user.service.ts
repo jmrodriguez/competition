@@ -48,6 +48,9 @@ export class UserService {
     if (user.id) {
       requestOptions.method = RequestMethod.Put;
       requestOptions.url = 'user/' + user.id;
+      if (!user.federation) {
+        user.federation = null;
+      }
     } else {
       requestOptions.method = RequestMethod.Post;
       requestOptions.url = 'user';

@@ -36,29 +36,54 @@ export class UserPersistComponent implements OnInit {
     this.route.url.subscribe((url: UrlSegment[]) => {
       let target  = url[url.length - 1].path;
       this.route.params.subscribe((params: Params) => {
-        if (this.authService.hasRole(["ROLE_SUPER_ADMIN"])) {
-          this.showFederationSelect = true;
-          this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
-            this.federationList = federationList.list;
-            for (var i = 0; i < this.federationList.length; i++) {
-              if (this.user.federation != null && this.federationList[i].id == this.user.federation.id) {
-                this.user.federation = this.federationList[i];
-                break;
-              }
-            }
-          });
-        }
         if (params.hasOwnProperty('id')) {
             this.userService.get(+params['id']).subscribe((user: User) => {
               this.create = false;
               this.user = user;
+              if (this.authService.hasRole(["ROLE_SUPER_ADMIN"])) {
+                this.showFederationSelect = true;
+                this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+                  this.federationList = federationList.list;
+                  for (var i = 0; i < this.federationList.length; i++) {
+                    if (this.user.federation != null && this.federationList[i].id == this.user.federation.id) {
+                      this.user.federation = this.federationList[i];
+                      break;
+                    }
+                  }
+                });
+              }
             });
         } else {
           if (target == "edit") {
             this.userService.get(this.authService.currentUser.userDetails.id).subscribe((user: User) => {
               this.create = false;
               this.user = user;
+              if (this.authService.hasRole(["ROLE_SUPER_ADMIN"])) {
+                this.showFederationSelect = true;
+                this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+                  this.federationList = federationList.list;
+                  for (var i = 0; i < this.federationList.length; i++) {
+                    if (this.user.federation != null && this.federationList[i].id == this.user.federation.id) {
+                      this.user.federation = this.federationList[i];
+                      break;
+                    }
+                  }
+                });
+              }
             });
+          } else {
+            if (this.authService.hasRole(["ROLE_SUPER_ADMIN"])) {
+              this.showFederationSelect = true;
+              this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+                this.federationList = federationList.list;
+                for (var i = 0; i < this.federationList.length; i++) {
+                  if (this.user.federation != null && this.federationList[i].id == this.user.federation.id) {
+                    this.user.federation = this.federationList[i];
+                    break;
+                  }
+                }
+              });
+            }
           }
         }
       });

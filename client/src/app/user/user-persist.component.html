@@ -38,34 +38,29 @@
                 </mat-form-field>
             </div>
           <div *ngIf="showFederationSelect" class="fieldcontain required">
-            <label for="federation">Federation
-              <span class="required-indicator">*</span>
-            </label>
-            <select required="" name="federation" id="federation" [(ngModel)]="user.federation">
-              <option [ngValue]="undefined" disabled> Select a Federation </option>
-              <option *ngFor="let federation of federationList" [ngValue]="federation" [selected]="user.federation?.id == federation.id">{{federation.name}}</option>
-            </select>
+            <mat-form-field floatPlaceholder="always">
+              <mat-select placeholder="Select a Federation" [(ngModel)]="user.federation" name="federation">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let federation of federationList" [value]="federation" >{{federation.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
           <div class="fieldcontain">
-            <label for="accountLocked">Account Locked</label>
-            <input name="accountLocked" id="accountLocked" [(ngModel)]="user.accountLocked" type="checkbox" />
+            <mat-checkbox name="accountLocked" [(ngModel)]="user.accountLocked">Account Locked</mat-checkbox>
           </div>
           <div class="fieldcontain">
-            <label for="accountExpired">Account Expired</label>
-            <input name="accountExpired" id="accountExpired" [(ngModel)]="user.accountExpired" type="checkbox" />
+            <mat-checkbox name="accountExpired" [(ngModel)]="user.accountExpired">Account Expired</mat-checkbox>
           </div>
           <div class="fieldcontain">
-            <label for="passwordExpired">Password Expired</label>
-            <input name="passwordExpired" id="passwordExpired" [(ngModel)]="user.passwordExpired" type="checkbox" />
+            <mat-checkbox name="passwordExpired" [(ngModel)]="user.passwordExpired">Password Expired</mat-checkbox>
           </div>
           <div class="fieldcontain">
-            <label for="enabled">Enabled</label>
-            <input name="enabled" id="enabled" [(ngModel)]="user.enabled" type="checkbox" />
+            <mat-checkbox name="enabled" [(ngModel)]="user.enabled">Enabled</mat-checkbox>
           </div>
         </fieldset>
         <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
+            <button mat-raised-button color="primary">{{create ? 'Save' : 'Update'}}</button>
         </fieldset>
     </form>
 </div>
