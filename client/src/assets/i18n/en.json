@@ -10,6 +10,10 @@
       "incomplete": {
         "data": "Incomplete Data"
       }
+    },
+    "forms": {
+      "create": "Create",
+      "update": "Update"
     }
   },
   "toast": {
