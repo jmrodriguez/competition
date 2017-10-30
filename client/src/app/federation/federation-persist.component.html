@@ -10,7 +10,7 @@
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
 
-    <form name="save{className}" (ngSubmit)="save()">
+    <form #federationPersist="ngForm" name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
             <div class="fieldcontain required">
                 <mat-form-field>
@@ -18,10 +18,12 @@
                 </mat-form-field>
             </div>
             <div class="fieldcontain">
-                <label for="logo">Logo</label>
-                <select name="logo" id="logo" [(ngModel)]="federation.logo">
-                    <option *ngFor="let federationLogo of federationLogoList" [value]="federationLogo.id" [selected]="federation.logo?.id == federationLogo.id">{{federationLogo.toString()}}</option>
-                </select>
+                <mat-form-field floatPlaceholder="always">
+                    <mat-select placeholder="Select a Logo" [(ngModel)]="federation.logo" name="logo">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let federationLogo of federationLogoList" [value]="federationLogo.id" >{{federationLogo.toString()}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
                 <mat-form-field>
@@ -29,16 +31,15 @@
                 </mat-form-field>
             </div>
             <div class="fieldcontain required">
-                <label for="country">Country
-                    <span class="required-indicator">*</span>
-                </label>
-                <select required="" name="country" id="country" [(ngModel)]="federation.country">
-                    <option *ngFor="let country of countryList" [value]="country.id" [selected]="federation.country?.id == country.id">{{country.name}}</option>
-                </select>
+                <mat-form-field floatPlaceholder="always">
+                    <mat-select required placeholder="Select a Country" [(ngModel)]="federation.country" name="country">
+                        <mat-option *ngFor="let country of countryList" [value]="country" >{{country.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </fieldset>
         <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
+            <button mat-raised-button color="primary" [disabled]="!federationPersist.form.valid"><span translate>{{create ? 'general.forms.create' : 'general.forms.update'}}</span></button>
         </fieldset>
     </form>
 </div>
