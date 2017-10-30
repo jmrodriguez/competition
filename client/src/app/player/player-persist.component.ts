@@ -20,6 +20,7 @@ export class PlayerPersistComponent implements OnInit {
   federationList: Federation[];
   showFederationSelect:boolean;
   selectedFederation: Federation;
+  genderList: String[] = ["M", "F"];
 
   constructor(private route: ActivatedRoute,
               private playerService: PlayerService,
