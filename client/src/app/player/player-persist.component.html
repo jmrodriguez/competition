@@ -39,7 +39,9 @@
             </div>
             <div class="fieldcontain required">
                 <mat-form-field>
-                    <input matInput required="" name="birth" id="birth" type="date" placeholder="MM-DD-YYYY" [ngModel]="player.birth | date:'MM-dd-yyyy'" (ngModelChange)="player.birth = $event" />
+                    <input matInput required name="birth" [matDatepicker]="picker" placeholder="Birth Date" [ngModel]="player.birth" (ngModelChange)="birthChanged($event)" >
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
             </div>
             <div class="fieldcontain required">

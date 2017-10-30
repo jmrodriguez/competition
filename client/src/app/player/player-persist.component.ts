@@ -7,6 +7,7 @@ import { FederationService } from '../federation/federation.service';
 import { Federation } from '../federation/federation';
 import {AuthService} from "../services/auth.service";
 import {ListResult} from "../helpers/list-result.interface";
+import * as moment from 'moment';
 
 @Component({
   selector: 'player-persist',
@@ -59,5 +60,19 @@ export class PlayerPersistComponent implements OnInit {
         this.errors = json._embedded.errors;
       }
     });
+  }
+
+  birthChanged(event: any) {
+    console.log("NEW DATE");
+    console.log(event);
+    // create the right date object for the birth
+    try {
+      this.player.birth = moment(event).toDate();
+    } catch(e) {
+      console.log("fecha mala");
+    }
+    console.log("aca");
+    console.log(this.player);
+
   }
 }

@@ -14,7 +14,9 @@ import {MatInputModule,
         MatSortModule,
         MatSelectModule,
         MatCheckboxModule,
-        MatButtonModule } from "@angular/material";
+        MatButtonModule,
+        MatDatepickerModule,
+        MatNativeDateModule} from "@angular/material";
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import {MatInputModule,
                     MatSortModule,
                     MatSelectModule,
                     MatCheckboxModule,
-                    MatButtonModule ],
+                    MatButtonModule,
+                    MatDatepickerModule,
+                    MatNativeDateModule ],
     declarations: [ ],
     exports:      [ CommonModule,
                     FormsModule,
@@ -41,7 +45,9 @@ import {MatInputModule,
                     MatSortModule,
                     MatSelectModule,
                     MatCheckboxModule,
-                    MatButtonModule ],
+                    MatButtonModule,
+                    MatDatepickerModule,
+                    MatNativeDateModule ],
     providers: [
         ToastCommunicationService,
         DragDropService,
