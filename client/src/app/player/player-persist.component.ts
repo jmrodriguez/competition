@@ -20,7 +20,6 @@ export class PlayerPersistComponent implements OnInit {
   errors: any[];
   federationList: Federation[];
   showFederationSelect:boolean;
-  selectedFederation: Federation;
   genderList: String[] = ["M", "F"];
 
   constructor(private route: ActivatedRoute,
@@ -30,25 +29,29 @@ export class PlayerPersistComponent implements OnInit {
               private federationService: FederationService) {}
 
   ngOnInit() {
-    this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
-    if(this.showFederationSelect){
-      this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
-        this.federationList = federationList.list;
-      });
-    }
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.playerService.get(+params['id']).subscribe((player: Player) => {
           this.create = false;
           this.player = player;
+          if (this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"])) {
+            this.showFederationSelect = true;
+            this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+              this.federationList = federationList.list;
+              for (var i = 0; i < this.federationList.length; i++) {
+                if (this.player.federation != null && this.federationList[i].id == this.player.federation.id) {
+                  this.player.federation = this.federationList[i];
+                  break;
+                }
+              }
+            });
+          }
         });
       }
     });
   }
 
   save() {
-    console.log(this.selectedFederation);
-    this.player.federation = this.selectedFederation;
     console.log(this.player);
     this.playerService.save(this.player).subscribe((player: Player) => {
       this.router.navigate(['/player', 'show', player.id]);
@@ -63,16 +66,12 @@ export class PlayerPersistComponent implements OnInit {
   }
 
   birthChanged(event: any) {
-    console.log("NEW DATE");
-    console.log(event);
     // create the right date object for the birth
     try {
       this.player.birth = moment(event).toDate();
     } catch(e) {
-      console.log("fecha mala");
+      //console.log("fecha mala");
     }
-    console.log("aca");
-    console.log(this.player);
 
   }
 }

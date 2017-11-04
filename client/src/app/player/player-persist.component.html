@@ -53,7 +53,7 @@
             </div>
             <div *ngIf="showFederationSelect" class="fieldcontain required">
                 <mat-form-field floatPlaceholder="always">
-                    <mat-select required placeholder="Select a Federation" [(ngModel)]="selectedFederation" name="federation">
+                    <mat-select required placeholder="Select a Federation" [(ngModel)]="player.federation" name="federation">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let federation of federationList" [value]="federation" >{{federation.name}}</mat-option>
                     </mat-select>
