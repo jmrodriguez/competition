@@ -10,35 +10,31 @@
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
 
-    <form name="save{className}" (ngSubmit)="save()">
+    <form #categoryPersist="ngForm" name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
             <fieldset class="form">
                 <div class="fieldcontain required">
-                    <label for="name">Name
-                        <span class="required-indicator">*</span>
-                    </label>
-                    <input required="" name="name" id="name" [(ngModel)]="category.name" type="text"/>
+                    <mat-form-field>
+                        <input matInput placeholder="Name" required="" name="name" id="name" [(ngModel)]="category.name" type="text" />
+                    </mat-form-field>
                 </div>
                 <div class="fieldcontain required">
-                    <label for="minAge">Min Age
-                        <span class="required-indicator">*</span>
-                    </label>
-                    <input required="" name="minAge" id="minAge" [(ngModel)]="category.minAge" type="number"/>
+                    <mat-form-field>
+                        <input matInput placeholder="Minimum Age" required="" name="minAge" id="minAge" [(ngModel)]="category.minAge" type="number" />
+                    </mat-form-field>
                 </div>
                 <div class="fieldcontain required">
-                    <label for="maxAge">Max Age
-                        <span class="required-indicator">*</span>
-                    </label>
-                    <input required="" name="maxAge" id="maxAge" [(ngModel)]="category.maxAge" type="number"/>
+                    <mat-form-field>
+                        <input matInput placeholder="Maximum Age" required="" name="maxAge" id="maxAge" [(ngModel)]="category.maxAge" type="number" />
+                    </mat-form-field>
                 </div>
                 <div class="fieldcontain">
-                    <label for="youthCategory">Youth Category</label>
-                    <input name="youthCategory" id="youthCategory" [(ngModel)]="category.youthCategory" type="checkbox" />
+                    <mat-checkbox name="youthCategory" [(ngModel)]="category.youthCategory">Youth Category</mat-checkbox>
                 </div>
             </fieldset>
         </fieldset>
         <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'"/>
+            <button mat-raised-button color="primary" [disabled]="!categoryPersist.form.valid"><span translate>{{create ? 'general.forms.create' : 'general.forms.update'}}</span></button>
         </fieldset>
     </form>
 </div>
