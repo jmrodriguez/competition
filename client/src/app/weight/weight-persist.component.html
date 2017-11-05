@@ -10,25 +10,23 @@
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
 
-    <form name="save{className}" (ngSubmit)="save()">
+    <form #weightPersist="ngForm" name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
             <fieldset class="form">
-  <div class="fieldcontain required">
-    <label for="name">Name
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="name" id="name" [(ngModel)]="weight.name" type="text" />
-  </div>
-  <div class="fieldcontain required">
-    <label for="factor">Factor
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="factor" id="factor" [(ngModel)]="weight.factor" type="number" step="any" />
-  </div>
-</fieldset>
+                <div class="fieldcontain required">
+                    <mat-form-field>
+                        <input matInput placeholder="Name" required="" name="name" id="name" [(ngModel)]="weight.name"/>
+                    </mat-form-field>
+                </div>
+                <div class="fieldcontain required">
+                    <mat-form-field>
+                        <input matInput placeholder="Factor" required="" name="factor" id="factor" [(ngModel)]="weight.factor" type="number" step="any"/>
+                    </mat-form-field>
+                </div>
+            </fieldset>
         </fieldset>
         <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
+            <button mat-raised-button color="primary" [disabled]="!weightPersist.form.valid"><span translate>{{create ? 'general.forms.create' : 'general.forms.update'}}</span></button>
         </fieldset>
     </form>
 </div>

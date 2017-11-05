@@ -10,6 +10,7 @@ import {WeightShowComponent} from './weight-show.component';
 import {WeightListComponent} from './weight-list.component';
 import {WeightPersistComponent} from './weight-persist.component';
 import {SharedModule} from "../shared/shared.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {SharedModule} from "../shared/shared.module";
     SharedModule,
     CommonModule,
     FormsModule,
+    TranslateModule,
     WeightRoutingModule
   ],
   providers: [
