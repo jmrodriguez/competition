@@ -4,6 +4,7 @@ import {TournamentMatch} from "../tournamentMatch/tournamentMatch";
 import {TournamentGroup} from "../tournamentGroup/tournamentGroup";
 import {Category} from "../category/category";
 import {Player} from "../player/player";
+import {PointsRange} from "../pointsRange/pointsRange";
 
 export class Tournament {
   id: number;
@@ -25,6 +26,7 @@ export class Tournament {
   groups: TournamentGroup[];
   tournament: Tournament;
   category: Category;
+  pointsRange: PointsRange;
 
   constructor (object?: any) {
     if (object) {
@@ -52,6 +54,11 @@ export class Tournament {
       if (object.hasOwnProperty('category')) {
         this.category = new Category(object['category']);
         delete object['category'];
+      }
+
+      if (object.hasOwnProperty('pointsRange')) {
+        this.pointsRange = new PointsRange(object['pointsRange']);
+        delete object['pointsRange'];
       }
 
       for (var prop in object) {

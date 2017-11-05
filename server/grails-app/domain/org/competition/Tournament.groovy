@@ -14,6 +14,7 @@ class  Tournament {
     String bracketInfo
     String seedOrder
     Category category
+    PointsRange pointsRange
 
     static hasMany = [players:Player, byes:Player, bracketMatches:TournamentMatch, groups:TournamentGroup]
 
@@ -30,6 +31,7 @@ class  Tournament {
         draw blank:true, nullable:true
         bracketInfo blank:true, nullable:true
         seedOrder blank:true, nullable:true
+        pointsRange nullable: true, blank: true
     }
 
     static mapping = {

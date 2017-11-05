@@ -20,6 +20,7 @@
             <th>Gender</th>
             <th>Federation</th>
             <th>Category</th>
+            <th>Points Range</th>
         </tr>
         </thead>
         <tbody>
@@ -47,6 +48,9 @@
                 </td>
                 <td>
                     <span *ngIf="tournament.category">{{tournament.category.name}}</span>
+                </td>
+                <td>
+                    <span *ngIf="tournament.pointsRange">{{tournament.pointsRange.name}} ({{tournament.pointsRange.min}} - {{tournament.pointsRange.max}})</span>
                 </td>
             </tr>
         </tbody>

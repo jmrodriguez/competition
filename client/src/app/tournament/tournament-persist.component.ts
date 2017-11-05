@@ -12,6 +12,8 @@ import {CategoryService} from "../category/category.service";
 import {Category} from "../category/category";
 import {ListResult} from "../helpers/list-result.interface";
 import * as moment from 'moment';
+import {PointsRangeService} from "../pointsRange/pointsRange.service";
+import {PointsRange} from "../pointsRange/pointsRange";
 
 @Component({
   selector: 'tournament-persist',
@@ -25,6 +27,7 @@ export class TournamentPersistComponent implements OnInit {
   weightList: Weight[];
   federationList: Federation[];
   categoryList: Category[];
+  pointsRangeList : PointsRange[];
   showFederationSelect:boolean;
   genderList: String[] = ["M", "F"];
 
@@ -34,6 +37,7 @@ export class TournamentPersistComponent implements OnInit {
               private weightService: WeightService,
               private federationService: FederationService,
               private categoryService: CategoryService,
+              private pointsRangeService: PointsRangeService,
               private authService: AuthService) {}
 
   ngOnInit() {
@@ -70,6 +74,16 @@ export class TournamentPersistComponent implements OnInit {
             }
           });
 
+          this.pointsRangeService.list().subscribe((pointsRangeList: ListResult<PointsRange>) => {
+            this.pointsRangeList = pointsRangeList.list;
+            for (var i = 0; i < this.pointsRangeList.length; i++) {
+              if (this.tournament.pointsRange != null && this.pointsRangeList[i].id == this.tournament.pointsRange.id) {
+                this.tournament.pointsRange = this.pointsRangeList[i];
+                break;
+              }
+            }
+          });
+
           if (this.showFederationSelect) {
             this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
               this.federationList = federationList.list;
@@ -92,6 +106,10 @@ export class TournamentPersistComponent implements OnInit {
         this.categoryService.list().subscribe((categoryList: ListResult<Category>) => {
           this.categoryList = categoryList.list;
           this.tournament.category = this.categoryList[0];
+        });
+
+        this.pointsRangeService.list().subscribe((pointsRangeList: ListResult<PointsRange>) => {
+          this.pointsRangeList = pointsRangeList.list;
         });
 
         if (this.showFederationSelect) {
