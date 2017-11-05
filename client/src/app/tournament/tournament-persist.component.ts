@@ -11,6 +11,7 @@ import {AuthService} from "../services/auth.service";
 import {CategoryService} from "../category/category.service";
 import {Category} from "../category/category";
 import {ListResult} from "../helpers/list-result.interface";
+import * as moment from 'moment';
 
 @Component({
   selector: 'tournament-persist',
@@ -25,6 +26,7 @@ export class TournamentPersistComponent implements OnInit {
   federationList: Federation[];
   categoryList: Category[];
   showFederationSelect:boolean;
+  genderList: String[] = ["M", "F"];
 
   constructor(private route: ActivatedRoute,
               private tournamentService: TournamentService,
@@ -113,5 +115,15 @@ export class TournamentPersistComponent implements OnInit {
         this.errors = json._embedded.errors;
       }
     });
+  }
+
+  dateChanged(event: any) {
+    // create the right date object for the birth
+    try {
+      this.tournament.date = moment(event).toDate();
+    } catch(e) {
+      //console.log("fecha mala");
+    }
+
   }
 }

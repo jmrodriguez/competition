@@ -29,13 +29,13 @@ export class PlayerPersistComponent implements OnInit {
               private federationService: FederationService) {}
 
   ngOnInit() {
+    this.showFederationSelect = this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"]);
     this.route.params.subscribe((params: Params) => {
       if (params.hasOwnProperty('id')) {
         this.playerService.get(+params['id']).subscribe((player: Player) => {
           this.create = false;
           this.player = player;
-          if (this.authService.hasRole(["ROLE_SUPER_ADMIN", "ROLE_GENERAL_ADMIN"])) {
-            this.showFederationSelect = true;
+          if (this.showFederationSelect) {
             this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
               this.federationList = federationList.list;
               for (var i = 0; i < this.federationList.length; i++) {
@@ -47,12 +47,17 @@ export class PlayerPersistComponent implements OnInit {
             });
           }
         });
+      } else {
+        if (this.showFederationSelect) {
+          this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
+            this.federationList = federationList.list;
+          });
+        }
       }
     });
   }
 
   save() {
-    console.log(this.player);
     this.playerService.save(this.player).subscribe((player: Player) => {
       this.router.navigate(['/player', 'show', player.id]);
     }, (res: Response) => {

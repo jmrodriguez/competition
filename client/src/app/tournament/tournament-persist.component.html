@@ -10,7 +10,7 @@
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
 
-    <form name="save{className}" (ngSubmit)="save()">
+    <form #tournamentPersist="ngForm" name="save{className}" (ngSubmit)="save()">
         <fieldset class="form">
             <div class="fieldcontain required">
                 <mat-form-field>
@@ -19,81 +19,67 @@
             </div>
             <div class="fieldcontain required">
                 <mat-form-field>
-                    <input matInput required="" name="date" id="date" type="date" placeholder="MM-DD-YYYY"
-                           [value]="tournament.date | date:'y-MM-dd'"
-                           (change)="tournament.date = $event.target.valueAsDate"/>
+                    <input matInput required name="date" [matDatepicker]="picker" placeholder="Tournament Date" [ngModel]="tournament.date" (ngModelChange)="dateChanged($event)" >
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
             </div>
             <div class="fieldcontain required">
-                <label for="weight">Weight
-                    <span class="required-indicator">*</span>
-                </label>
-                <select required="" name="weight" id="weight" [(ngModel)]="tournament.weight">
-                    <option *ngFor="let weight of weightList" [ngValue]="weight"
-                            [selected]="tournament.weight?.id == weight.id">{{weight.name}} ({{weight.factor}})
-                    </option>
-                </select>
+                <mat-form-field floatPlaceholder="always">
+                    <mat-select required placeholder="Select a Weight" [(ngModel)]="tournament.weight" name="weight">
+                        <mat-option *ngFor="let weight of weightList" [value]="weight" >{{weight.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div class="fieldcontain">
-                <label for="genderRestricted">Gender Restricted</label>
-                <input name="genderRestricted" id="genderRestricted" [(ngModel)]="tournament.genderRestricted"
-                       type="checkbox"/>
+                <mat-checkbox name="genderRestricted" [(ngModel)]="tournament.genderRestricted">Gender Restricted</mat-checkbox>
             </div>
             <div class="fieldcontain">
-                <label for="gender">Gender</label>
-                <select name="gender" id="gender" [(ngModel)]="tournament.gender">
-                    <option value="M">M</option>
-                    <option value="F">F</option>
-                </select>
+                <mat-form-field floatPlaceholder="always">
+                    <mat-select [disabled]="!tournament.genderRestricted" placeholder="Select a Gender" [(ngModel)]="tournament.gender" name="gender">
+                        <mat-option *ngFor="let gender of genderList" [value]="gender" >{{gender}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
-                <label for="bestOf">Best Of
-                    <span class="required-indicator">*</span>
-                </label>
-                <select name="bestOf" id="bestOf" [(ngModel)]="tournament.bestOf">
-                    <option value="3">3 sets</option>
-                    <option value="5">5 sets</option>
-                    <option value="7">7 sets</option>
-                </select>
+                <mat-form-field floatPlaceholder="always">
+                    <mat-select required placeholder="Best Of" [(ngModel)]="tournament.bestOf" name="bestOf">
+                        <mat-option [value]="3" >3 sets</mat-option>
+                        <mat-option [value]="5" >5 sets</mat-option>
+                        <mat-option [value]="7" >7 sets</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div class="fieldcontain required">
-                <label for="groupsOf">Groups Of
-                    <span class="required-indicator">*</span>
-                </label>
-                <select name="groupsOf" id="groupsOf" [(ngModel)]="tournament.groupsOf">
-                    <option value="3">3 players</option>
-                    <option value="4">4 players</option>
-                    <option value="5">5 players</option>
-                </select>
+                <mat-form-field floatPlaceholder="always">
+                    <mat-select required placeholder="Groups Of" [(ngModel)]="tournament.groupsOf" name="groupsOf">
+                        <mat-option [value]="3" >3 players</mat-option>
+                        <mat-option [value]="4" >4 players</mat-option>
+                        <mat-option [value]="5" >5 players</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div class="fieldcontain">
-                <label for="includeGroupPhase">Include Group Phase</label>
-                <input name="includeGroupPhase" id="includeGroupPhase"
-                       [(ngModel)]="tournament.includeGroupPhase" type="checkbox"/>
+                <mat-checkbox name="includeGroupPhase" [(ngModel)]="tournament.includeGroupPhase">Include Group Phase</mat-checkbox>
             </div>
             <div class="fieldcontain required">
-                <label for="category">Category
-                    <span class="required-indicator">*</span>
-                </label>
-                <select required="" name="category" id="category" [(ngModel)]="tournament.category">
-                    <option *ngFor="let category of categoryList" [ngValue]="category"
-                            [selected]="tournament.category?.id == category.id">{{category.name}}
-                    </option>
-                </select>
+                <mat-form-field floatPlaceholder="always">
+                    <mat-select required placeholder="Select a Category" [(ngModel)]="tournament.category" name="category">
+                        <mat-option *ngFor="let category of categoryList" [value]="category" >{{category.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div *ngIf="showFederationSelect" class="fieldcontain required">
-                <label for="federation">Federation
-                    <span class="required-indicator">*</span>
-                </label>
-                <select required="" name="federation" id="federation" [(ngModel)]="tournament.federation">
-                    <option *ngFor="let federation of federationList" [ngValue]="federation"
-                            [selected]="tournament.federation?.id == federation.id">{{federation.name}}
-                    </option>
-                </select>
+                <mat-form-field floatPlaceholder="always">
+                    <mat-select required placeholder="Select a Federation" [(ngModel)]="tournament.federation" name="federation">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let federation of federationList" [value]="federation" >{{federation.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </fieldset>
         <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'"/>
+            <button mat-raised-button color="primary" [disabled]="!tournamentPersist.form.valid"><span translate>{{create ? 'general.forms.create' : 'general.forms.update'}}</span></button>
         </fieldset>
     </form>
 </div>

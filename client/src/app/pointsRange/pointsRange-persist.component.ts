@@ -34,7 +34,6 @@ export class PointsRangePersistComponent implements OnInit {
         this.pointsRangeService.get(+params['id']).subscribe((pointsRange: PointsRange) => {
           this.create = false;
           this.pointsRange = pointsRange;
-
           if (this.showFederationSelect) {
             this.federationService.list().subscribe((federationList: ListResult<Federation>) => {
               this.federationList = federationList.list;
@@ -53,7 +52,6 @@ export class PointsRangePersistComponent implements OnInit {
             this.federationList = federationList.list;
           });
         }
-
       }
     });
   }
