@@ -9,7 +9,14 @@
     "labels": {
       "home": "Inicio",
       "name": "Nombre",
-      "id": "ID"
+      "id": "ID",
+      "ranking": "Ranking",
+      "country": "Pais",
+      "category": "Categoria",
+      "federation": "Federacion",
+      "user": "Usuario",
+      "player": "Jugador",
+      "tournament": "Torneo"
     },
     "nav": {
       "menu": {
@@ -77,6 +84,14 @@
       "expired": "Credenciales expiradas, por favor ingrese de nuevo"
     }
   },
+  "ranking": {
+    "labels" : {
+      "generalRanking": "Ranking General",
+      "playerRanking": "Ranking de Jugadores",
+      "ranking": "Ranking",
+      "points": "Puntos"
+    }
+  },
   "user": {
     "edit" : {
       "title": "Editar Usuario"
@@ -106,6 +121,16 @@
         "success" : "{{value}} jugadores creados con exito",
         "error" : "Hubo un error procesando el archivo de jugadores"
       }
+    },
+    "labels" : {
+      "name": "Nombre",
+      "id": "ID",
+      "firstName": "Primer Nombre",
+      "lastName": "Apellido",
+      "email": "email",
+      "dni": "dni",
+      "club": "club",
+      "birth": "Fecha Nacimiento"
     }
   },
   "pointsRange": {

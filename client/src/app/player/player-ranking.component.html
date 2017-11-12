@@ -1,22 +1,22 @@
 <div class="nav" role="navigation">
     <ul>
-        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/index']" class="home">{{ 'general.labels.home' | translate }}</a></li>
     </ul>
 </div>
 <div id="list-player" class="content scaffold-list" role="main">
     <div *ngIf="showFederationSelect" class="fieldcontain required">
-        <label for="federation">Federation
+        <label for="federation">{{ 'general.labels.federation' | translate }}
             <span class="required-indicator">*</span>
         </label>
         <select required="" name="federation" id="federation" [(ngModel)]="selectedFederation" (ngModelChange)="onFederationChange($event)">
-            <option [ngValue]="undefined"> General Ranking </option>
+            <option [ngValue]="undefined"> {{ 'ranking.labels.generalRanking' | translate }} </option>
             <option *ngFor="let fed of federationList" [ngValue]="fed">
                 {{fed.name}}
             </option>
         </select>
     </div>
     <div class="fieldcontain required">
-        <label for="category">Category
+        <label for="category">{{ 'general.labels.category' | translate }}
             <span class="required-indicator">*</span>
         </label>
         <select required="" name="category" id="category" [(ngModel)]="selectedCategory" (ngModelChange)="onCategoryChange($event)">
@@ -35,7 +35,7 @@
     </div>-->
 
 
-    <h1>Player Ranking ({{playerDatasource.total | async}})</h1>
+    <h1>{{ 'ranking.labels.playerRanking' | translate }} ({{playerDatasource.total | async}})</h1>
 
     <mat-table #table [dataSource]="playerDatasource" matSort>
 
@@ -44,19 +44,19 @@
 
         <!-- Ranking -->
         <ng-container matColumnDef="ranking">
-            <mat-header-cell *matHeaderCellDef> {{rankingField}} </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'ranking.labels.ranking' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row[rankingField]}} </mat-cell>
         </ng-container>
 
         <!-- Points -->
         <ng-container matColumnDef="points">
-            <mat-header-cell *matHeaderCellDef> {{pointsField}} </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'ranking.labels.points' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row[pointsField]}} </mat-cell>
         </ng-container>
 
         <!-- ID Column -->
         <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'player.labels.id' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <a [routerLink]="['/player','show',row.id]">{{row.id}}</a>
             </mat-cell>
@@ -64,37 +64,37 @@
 
         <!-- First Name -->
         <ng-container matColumnDef="firstName">
-            <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'player.labels.firstName' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.firstName}} </mat-cell>
         </ng-container>
 
         <!-- Last Name -->
         <ng-container matColumnDef="lastName">
-            <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'player.labels.lastName' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
         </ng-container>
 
         <!-- Email Column -->
         <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'player.labels.email' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
         </ng-container>
 
         <!-- DNI Column -->
         <ng-container matColumnDef="dni">
-            <mat-header-cell *matHeaderCellDef> DNI </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'player.labels.dni' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.dni}} </mat-cell>
         </ng-container>
 
         <!-- Club Column -->
         <ng-container matColumnDef="club">
-            <mat-header-cell *matHeaderCellDef> Club </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'player.labels.club' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.club}} </mat-cell>
         </ng-container>
 
         <!-- Birth Column -->
         <ng-container matColumnDef="birth">
-            <mat-header-cell *matHeaderCellDef> Birth </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{ 'player.labels.birth' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.birth | date:'yyyy-MM-dd'}} </mat-cell>
         </ng-container>
 

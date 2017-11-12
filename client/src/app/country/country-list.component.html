@@ -23,7 +23,7 @@
 
         <!-- ID Column -->
         <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general.labels.id' | translate }} </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'player.labels.id' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <a [routerLink]="['/country','show',row.id]">{{row.id}}</a>
             </mat-cell>
@@ -31,7 +31,7 @@
 
         <!-- Name -->
         <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general.labels.name' | translate }} </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'player.labels.name' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
         </ng-container>
 

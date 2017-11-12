@@ -9,7 +9,14 @@
     "labels": {
       "home": "Home",
       "name": "Name",
-      "id": "ID"
+      "id": "ID",
+      "ranking": "Ranking",
+      "country": "Country",
+      "category": "Category",
+      "federation": "Federation",
+      "user": "User",
+      "player": "Player",
+      "tournament": "Tournament"
     },
     "nav": {
       "menu": {
@@ -77,6 +84,14 @@
       "expired": "Expired credentials, please login again"
     }
   },
+  "ranking": {
+    "labels" : {
+      "generalRanking": "General Ranking",
+      "playerRanking": "Player Ranking",
+      "ranking": "Ranking",
+      "points": "Points"
+    }
+  },
   "user": {
     "edit" : {
       "title": "Edit User"
@@ -107,6 +122,16 @@
         "success" : "Successfully created {{value}} players",
         "error" : "There was an error processing the players file"
       }
+    },
+    "labels" : {
+      "name": "Name",
+      "id": "ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "email",
+      "dni": "dni",
+      "club": "club",
+      "birth": "Birth"
     }
   },
   "pointsRange": {
