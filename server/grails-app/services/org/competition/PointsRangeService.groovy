@@ -72,4 +72,24 @@ class PointsRangeService {
 
         return [pointsRanges, pointsRangesCount]
     }
+
+    /**
+     * Gets the default points ranges for new federations
+     * @return
+     */
+    Object[] listDefaultPointsRanges(Map metaParams) {
+        ArrayList pointsRanges
+        Map parameters = [:]
+        long pointsRangesCount
+        String selectQuery
+        String countQuery
+
+        selectQuery = "from PointsRange t where t.federation is null"
+        countQuery = "select count(t) from PointsRange t where t.federation is null"
+
+        pointsRanges = Tournament.executeQuery(selectQuery, parameters, metaParams)
+        pointsRangesCount = Tournament.executeQuery(countQuery, parameters)[0].toString() as Long
+
+        return [pointsRanges, pointsRangesCount]
+    }
 }

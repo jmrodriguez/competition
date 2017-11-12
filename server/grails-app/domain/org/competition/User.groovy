@@ -12,7 +12,7 @@ class User implements Serializable {
 	transient springSecurityService
 
 	String email
-	String password = "tempPassword"
+	String password = "password"
 	boolean enabled = true
 	boolean accountExpired
 	boolean accountLocked

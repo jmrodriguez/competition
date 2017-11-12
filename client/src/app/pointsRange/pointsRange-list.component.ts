@@ -4,6 +4,7 @@ import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
 import {MatPaginator, MatSort} from "@angular/material";
 import {PointsRangeDataSource} from "./pointsRange.datasource";
+import {AuthService} from "../services/auth.service";
 
 
 @Component({
@@ -12,7 +13,7 @@ import {PointsRangeDataSource} from "./pointsRange.datasource";
 })
 export class PointsRangeListComponent implements OnInit {
 
-  displayedColumns = ['id', 'name', 'min', 'max'];
+  displayedColumns = ['id', 'name', 'min', 'max', 'federation'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -24,7 +25,8 @@ export class PointsRangeListComponent implements OnInit {
   private initStream = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute,
-              private pointsRangeService: PointsRangeService) {
+              private pointsRangeService: PointsRangeService,
+              private authService: AuthService) {
   }
 
   ngOnInit() {

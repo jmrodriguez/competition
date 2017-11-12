@@ -1,7 +1,7 @@
-import org.competition.Tournament
+import org.competition.PointsRange
 
 model {
-    Tournament tournament
+    PointsRange pointsRange
 }
 
-json g.render(tournament, [expand: ['weight', 'federation', 'category', 'pointsRange'], excludes:['players', 'byes', 'groups', 'bracketMatches']])
+json g.render(pointsRange, [expand: ['federation']])

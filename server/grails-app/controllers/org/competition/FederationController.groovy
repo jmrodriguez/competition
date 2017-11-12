@@ -2,12 +2,16 @@ package org.competition
 
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
+import grails.transaction.Transactional
+
+import static org.springframework.http.HttpStatus.CREATED
 
 @Secured(['ROLE_SUPER_ADMIN', 'ROLE_GENERAL_ADMIN'])
 class FederationController extends RestfulController {
     static responseFormats = ['json', 'xml']
 
     def federationService
+    def pointsRangeService
 
     FederationController() {
         super(Federation)
@@ -31,5 +35,39 @@ class FederationController extends RestfulController {
         result.put("total", results[1])
 
         respond result
+    }
+
+    @Transactional
+    def save(Federation federationInstance) {
+        if (federationInstance == null) {
+            notFound()
+            return
+        }
+
+        federationInstance.clearErrors()
+        federationInstance.validate()
+
+        if (federationInstance.hasErrors()) {
+            respond federationInstance.errors, view:'create', model:[]
+            return
+        }
+
+        // create the default point ranges for the new federation
+
+        Object[] defaultPointsRanges = pointsRangeService.listDefaultPointsRanges(params)
+
+        defaultPointsRanges[0].each { pointsRange ->
+            PointsRange newPointsRange = new PointsRange(pointsRange.properties)
+            federationInstance.addToPointsRanges(newPointsRange)
+        }
+
+        federationInstance.save flush:true
+
+        respond federationInstance, [status: CREATED]
+    }
+
+    def show(Federation federationInstance) {
+
+        respond federationInstance
     }
 }
