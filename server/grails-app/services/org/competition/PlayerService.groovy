@@ -14,6 +14,8 @@ class PlayerService {
      */
     Object[] listPlayers(Federation federation, Tournament tournament, Category category, String textFilter, Integer playerType, Map metaParams) {
 
+        PointsRange pointsRange = tournament.getPointsRange()
+
         def currentYear = Calendar.instance.get(Calendar.YEAR)
         Integer lowerLimit
         Integer upperLimit
@@ -40,21 +42,67 @@ class PlayerService {
 
             Set<Player> unsignedPlayers = federation.players.findAll {
 
-                Calendar cal = Calendar.getInstance()
-                cal.setTime(it.birth)
-                int year = cal.get(Calendar.YEAR)
+                Calendar playerBirth = Calendar.getInstance()
+                playerBirth.setTime(it.birth)
+                int playerBirthYear = playerBirth.get(Calendar.YEAR)
 
                 if (tournament.genderRestricted) {
                     if (lowerLimit && upperLimit) {
-                        year >= lowerLimit && year <= upperLimit && it.gender == tournament.gender && !(it in players)
+                        if (pointsRange) {
+                            if (tournament.federation) {
+                                it.pointsFed >= pointsRange.min && it.pointsFed <= pointsRange.max &&
+                                        playerBirthYear >= lowerLimit && playerBirthYear <= upperLimit &&
+                                        it.gender == tournament.gender && !(it in players)
+                            } else {
+                                it.points >= pointsRange.min && it.points <= pointsRange.max &&
+                                        playerBirthYear >= lowerLimit && playerBirthYear <= upperLimit &&
+                                        it.gender == tournament.gender && !(it in players)
+                            }
+                        } else {
+                            playerBirthYear >= lowerLimit && playerBirthYear <= upperLimit &&
+                                    it.gender == tournament.gender && !(it in players)
+                        }
                     } else {
-                        it.gender == tournament.gender && !(it in players)
+                        if (pointsRange) {
+                            if (tournament.federation) {
+                                it.pointsFed >= pointsRange.min && it.pointsFed <= pointsRange.max &&
+                                        it.gender == tournament.gender && !(it in players)
+                            } else {
+                                it.points >= pointsRange.min && it.points <= pointsRange.max &&
+                                        it.gender == tournament.gender && !(it in players)
+                            }
+                        } else {
+                            it.gender == tournament.gender && !(it in players)
+                        }
                     }
                 } else {
                     if (lowerLimit && upperLimit) {
-                        year >= lowerLimit && year <= upperLimit && !(it in players)
+                        if (pointsRange) {
+                            if (tournament.federation) {
+                                it.pointsFed >= pointsRange.min && it.pointsFed <= pointsRange.max &&
+                                        playerBirthYear >= lowerLimit && playerBirthYear <= upperLimit &&
+                                        !(it in players)
+                            } else {
+                                it.points >= pointsRange.min && it.points <= pointsRange.max &&
+                                        playerBirthYear >= lowerLimit && playerBirthYear <= upperLimit &&
+                                        !(it in players)
+                            }
+                        } else {
+                            playerBirthYear >= lowerLimit && playerBirthYear <= upperLimit &&
+                                    !(it in players)
+                        }
                     } else {
-                        !(it in players)
+                        if (pointsRange) {
+                            if (tournament.federation) {
+                                it.pointsFed >= pointsRange.min && it.pointsFed <= pointsRange.max &&
+                                        !(it in players)
+                            } else {
+                                it.points >= pointsRange.min && it.points <= pointsRange.max &&
+                                        !(it in players)
+                            }
+                        } else {
+                            !(it in players)
+                        }
                     }
                 }
             }
