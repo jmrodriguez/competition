@@ -14,7 +14,7 @@ class PlayerService {
      */
     Object[] listPlayers(Federation federation, Tournament tournament, Category category, String textFilter, Integer playerType, Map metaParams) {
 
-        PointsRange pointsRange = tournament.getPointsRange()
+        PointsRange pointsRange = tournament ? tournament.getPointsRange() : null
 
         def currentYear = Calendar.instance.get(Calendar.YEAR)
         Integer lowerLimit
