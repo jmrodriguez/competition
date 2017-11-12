@@ -6,6 +6,11 @@
         "list":"Filtrar lista"
       }
     },
+    "labels": {
+      "home": "Inicio",
+      "name": "Nombre",
+      "id": "ID"
+    },
     "errors": {
       "incomplete": {
         "data": "Informacion Incompleta"
@@ -49,6 +54,21 @@
     },
     "create" : {
       "title": "Crear Usuario"
+    }
+  },
+  "country": {
+    "edit" : {
+      "title": "Editar Pais"
+    },
+    "create" : {
+      "title": "Crear Pais",
+      "new": "Nuevo Pais"
+    },
+    "list" : {
+      "title": "Lista de Paises"
+    },
+    "labels" : {
+      "isoCode": "Codigo ISO"
     }
   },
   "player" : {

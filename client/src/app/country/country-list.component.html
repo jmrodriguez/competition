@@ -1,7 +1,7 @@
 <div class="nav" role="navigation">
     <ul>
-        <li><a [routerLink]="['/index']" class="home">Home</a></li>
-        <li><a [routerLink]="['/country','create']" class="create">New Country</a></li>
+        <li><a [routerLink]="['/index']" class="home">{{ 'general.labels.home' | translate }}</a></li>
+        <li><a [routerLink]="['/country','create']" class="create">{{ 'country.create.new' | translate }}</a></li>
     </ul>
 </div>
 <div id="list-country" class="content scaffold-list" role="main">
@@ -14,7 +14,7 @@
         </button>
     </div>
 
-    <h1>Country List ({{countryDatasource.total | async}})</h1>
+    <h1>{{ "country.list.title" | translate }} ({{countryDatasource.total | async}})</h1>
 
     <mat-table #table [dataSource]="countryDatasource" matSort>
 
@@ -23,7 +23,7 @@
 
         <!-- ID Column -->
         <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general.labels.id' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <a [routerLink]="['/country','show',row.id]">{{row.id}}</a>
             </mat-cell>
@@ -31,13 +31,13 @@
 
         <!-- Name -->
         <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general.labels.name' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
         </ng-container>
 
         <!-- ISO Code -->
         <ng-container matColumnDef="isoCode">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> ISO Code </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'country.labels.isoCode' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.isoCode}} </mat-cell>
         </ng-container>
 

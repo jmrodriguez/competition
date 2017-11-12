@@ -1,11 +1,11 @@
 <div class="nav" role="navigation">
     <ul>
-        <li><a [routerLink]="['/index']" class="home">Home</a></li>
-        <li><a [routerLink]="['/country','list']" class="list">Country List</a></li>
+        <li><a [routerLink]="['/index']" class="home">{{ 'general.labels.home' | translate }}</a></li>
+        <li><a [routerLink]="['/country','list']" class="list">{{ 'country.list.title' | translate }}</a></li>
     </ul>
 </div>
 <div id="persist-country" class="content scaffold-edit" role="main">
-    <h1>{{create ? "Create" : "Edit"}} Country</h1>
+    <h1 translate>{{create ? 'country.create.title' : 'country.edit.title'}}</h1>
     <ul class="errors" role="alert" *ngIf="errors">
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
@@ -14,13 +14,13 @@
         <fieldset class="form">
             <div class="fieldcontain required">
                 <mat-form-field>
-                    <input matInput placeholder="ISO Code" required name="isoCode" id="isoCode" [(ngModel)]="country.isoCode" type="text" #isoCode="ngModel"/>
+                    <input matInput placeholder="{{ 'country.labels.isoCode' | translate }}" required name="isoCode" id="isoCode" [(ngModel)]="country.isoCode" type="text" #isoCode="ngModel"/>
                 </mat-form-field>
             </div>
 
             <div class="fieldcontain required">
                 <mat-form-field>
-                    <input matInput placeholder="Name" required name="name" id="name" [(ngModel)]="country.name" type="text" #name="ngModel"/>
+                    <input matInput placeholder="{{ 'general.labels.name' | translate }}" required name="name" id="name" [(ngModel)]="country.name" type="text" #name="ngModel"/>
                 </mat-form-field>
             </div>
         </fieldset>

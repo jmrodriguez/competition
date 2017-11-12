@@ -6,6 +6,11 @@
         "list":"Filter list"
       }
     },
+    "labels": {
+      "home": "Home",
+      "name": "Name",
+      "id": "ID"
+    },
     "errors": {
       "incomplete": {
         "data": "Incomplete Data"
@@ -49,6 +54,22 @@
     },
     "create" : {
       "title": "Create User"
+    }
+  },
+  "country": {
+    "edit" : {
+      "title": "Edit Country"
+    },
+    "create" : {
+      "title": "Create Country",
+      "new": "New Country"
+    },
+    "list" : {
+      "title": "Country List"
+    },
+    "labels" : {
+      "isoCode": "ISO Code",
+      "listTitle": "country List"
     }
   },
   "player" : {
