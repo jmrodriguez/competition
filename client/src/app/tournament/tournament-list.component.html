@@ -91,6 +91,12 @@
             <mat-cell *matCellDef="let row">{{row.category.name}}</mat-cell>
         </ng-container>
 
+        <!-- Points Range -->
+        <ng-container matColumnDef="pointsRange">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Points Range </mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.pointsRange ? row.pointsRange.name + " (" + row.pointsRange.min + "-" + row.pointsRange.max + ")" : ''}}</mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>

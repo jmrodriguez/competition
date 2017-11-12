@@ -11,7 +11,7 @@ import {TournamentDataSource} from "./tournament.datasource";
 })
 export class TournamentListComponent implements OnInit {
 
-  displayedColumns = ['id', 'name', 'date', 'weight', 'genderRestricted', 'gender', 'federation', 'bestOf', 'groupsOf', 'includeGroupPhase', 'category'];
+  displayedColumns = ['id', 'name', 'date', 'weight', 'genderRestricted', 'gender', 'federation', 'bestOf', 'groupsOf', 'includeGroupPhase', 'category', 'pointsRange'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
