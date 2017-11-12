@@ -10,67 +10,67 @@
   <div class="collapse navbar-collapse " id="exCollapsingNavbar2" [ngbCollapse]="!navExpanded">
     <ul class="navbar-nav ml-auto">
       <li>
-        <a class="nav-link" [routerLink]="['/player', 'ranking']">Rankings</a>
+        <a class="nav-link" [routerLink]="['/player', 'ranking']">{{ 'general.nav.menu.rankings' | translate }}</a>
       </li>
       <li *ngIf="authService.isSuperAdmin()" class="nav-item" ngbDropdown>
-        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Countries<span class="caret"></span></a>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{ 'general.nav.menu.countries' | translate }}<span class="caret"></span></a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" [routerLink]="['/country']">List</a>
-          <a class="dropdown-item" [routerLink]="['/country', 'create']">Create New</a>
+          <a class="dropdown-item" [routerLink]="['/country']">{{ 'general.nav.items.list' | translate }}</a>
+          <a class="dropdown-item" [routerLink]="['/country', 'create']">{{ 'general.nav.items.createNew' | translate }}</a>
         </div>
       </li>
       <li *ngIf="authService.isSuperAdmin()" class="nav-item" ngbDropdown>
-        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Federation<span class="caret"></span></a>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{ 'general.nav.menu.federation' | translate }}<span class="caret"></span></a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" [routerLink]="['/federation']">List</a>
-          <a class="dropdown-item" [routerLink]="['/federation', 'create']">Create New</a>
+          <a class="dropdown-item" [routerLink]="['/federation']">{{ 'general.nav.items.list' | translate }}</a>
+          <a class="dropdown-item" [routerLink]="['/federation', 'create']">{{ 'general.nav.items.createNew' | translate }}</a>
         </div>
       </li>
       <li *ngIf="authService.isSuperAdmin()" class="nav-item" ngbDropdown>
-        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Users<span class="caret"></span></a>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{ 'general.nav.menu.users' | translate }}<span class="caret"></span></a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" [routerLink]="['/user']">List</a>
-          <a class="dropdown-item" [routerLink]="['/user', 'create']">Create New</a>
+          <a class="dropdown-item" [routerLink]="['/user']">{{ 'general.nav.items.list' | translate }}</a>
+          <a class="dropdown-item" [routerLink]="['/user', 'create']">{{ 'general.nav.items.createNew' | translate }}</a>
         </div>
       </li>
       <li *ngIf="authService.isAuthenticated()" class="nav-item" ngbDropdown>
-        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Players<span class="caret"></span></a>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{ 'general.nav.menu.players' | translate }}<span class="caret"></span></a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" [routerLink]="['/player']">List</a>
-          <a class="dropdown-item" [routerLink]="['/player', 'create']">Create New</a>
+          <a class="dropdown-item" [routerLink]="['/player']">{{ 'general.nav.items.list' | translate }}</a>
+          <a class="dropdown-item" [routerLink]="['/player', 'create']">{{ 'general.nav.items.createNew' | translate }}</a>
         </div>
       </li>
       <li *ngIf="authService.isAuthenticated()" class="nav-item" ngbDropdown>
-        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Tournament<span class="caret"></span></a>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{ 'general.nav.menu.tournament' | translate }}<span class="caret"></span></a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" [routerLink]="['/tournament']">List</a>
-          <a class="dropdown-item" [routerLink]="['/tournament', 'create']">Create New</a>
+          <a class="dropdown-item" [routerLink]="['/tournament']">{{ 'general.nav.items.list' | translate }}</a>
+          <a class="dropdown-item" [routerLink]="['/tournament', 'create']">{{ 'general.nav.items.createNew' | translate }}</a>
         </div>
       </li>
       <li class="nav-item" ngbDropdown>
-        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Application Status <span class="caret"></span></a>
+        <a class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{ 'general.nav.menu.appStatus' | translate }}<span class="caret"></span></a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Environment: {{applicationData?.environment}}</a>
-          <a class="dropdown-item" href="#">App profile: {{applicationData?.appprofile}}</a>
-          <a class="dropdown-item" href="#">App version: {{applicationData?.appversion}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.environment' | translate }} {{applicationData?.environment}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.appProfile' | translate }} {{applicationData?.appprofile}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.appVersion' | translate }} {{applicationData?.appversion}}</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Grails version: {{applicationData?.grailsversion}}</a>
-          <a class="dropdown-item" href="#">Groovy version: {{applicationData?.groovyversion}}</a>
-          <a class="dropdown-item" href="#">JVM version: {{applicationData?.jvmversion}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.grailsVersion' | translate }} {{applicationData?.grailsversion}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.groovyVersion' | translate }} {{applicationData?.groovyversion}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.jvmVersion' | translate }} {{applicationData?.jvmversion}}</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Reloading active: {{applicationData?.reloadingagentenabled}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.reloadingActive' | translate }} {{applicationData?.reloadingagentenabled}}</a>
         </div>
       </li>
       <li class="nav-item" ngbDropdown>
-        <a href="#" class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Artefacts <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{ 'general.nav.menu.artifacts' | translate }} <span class="caret"></span></a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Controllers: {{applicationData?.artefacts?.controllers}}</a>
-          <a class="dropdown-item" href="#">Domains: {{applicationData?.artefacts?.domains}}</a>
-          <a class="dropdown-item" href="#">Services: {{applicationData?.artefacts?.services}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.controllers' | translate }} {{applicationData?.artefacts?.controllers}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.domains' | translate }} {{applicationData?.artefacts?.domains}}</a>
+          <a class="dropdown-item" href="#">{{ 'general.nav.items.services' | translate }} {{applicationData?.artefacts?.services}}</a>
         </div>
       </li>
       <li class="nav-item" ngbDropdown>
-        <a href="#" class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">Installed Plugins <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle nav-link" ngbDropdownToggle role="button" aria-haspopup="true" aria-expanded="false">{{ 'general.nav.menu.plugins' | translate }} <span class="caret"></span></a>
         <div class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" *ngFor="let plugin of applicationData?.plugins">{{plugin.name}} - {{plugin.version}}</a>
         </div>
@@ -82,13 +82,13 @@
         </div>
       </li>
       <li *ngIf="!authService.isAuthenticated()">
-        <a class="nav-link" (click)="login()">Log In</a>
+        <a class="nav-link" (click)="login()">{{ 'login.login' | translate }}</a>
       </li>
       <li *ngIf="authService.isAuthenticated()">
         <a class="nav-link" [routerLink]="['/user','edit']">{{authService.currentUser.username}}</a>
       </li>
       <li *ngIf="authService.isAuthenticated()">
-        <a class="nav-link" (click)="authService.logout()">Log Out</a>
+        <a class="nav-link" (click)="authService.logout()">{{ 'login.logout' | translate }}</a>
       </li>
     </ul>
   </div>

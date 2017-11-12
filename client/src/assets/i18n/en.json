@@ -11,6 +11,33 @@
       "name": "Name",
       "id": "ID"
     },
+    "nav": {
+      "menu": {
+        "rankings": "Rankings",
+        "countries": "Countries",
+        "federation": "Federation",
+        "users": "Users",
+        "players": "Players",
+        "tournament": "Tournament",
+        "appStatus": "Application Status",
+        "artifacts": "Artifacts",
+        "plugins": "Plugins"
+      },
+      "items": {
+        "list": "List",
+        "createNew": "Create New",
+        "environment": "Environment: ",
+        "appProfile": "App Profile: ",
+        "appVersion": "App Version: ",
+        "grailsVersion": "Grails Version: ",
+        "groovyVersion": "Groovy Version: ",
+        "jvmVersion": "JVM Version: ",
+        "reloadingActive": "Reloading Active:" ,
+        "controllers": "Controllers: ",
+        "domains": "Domains: ",
+        "services": "Services: "
+      }
+    },
     "errors": {
       "incomplete": {
         "data": "Incomplete Data"
@@ -41,7 +68,9 @@
     "title": "Hello Angular with ngx-translate!"
   },
   "login": {
-    "failed": "Authentication failed"
+    "failed": "Authentication failed",
+    "login": "Log In",
+    "logout": "Log Out"
   },
   "auth": {
     "token" : {

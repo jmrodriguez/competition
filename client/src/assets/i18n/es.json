@@ -11,6 +11,33 @@
       "name": "Nombre",
       "id": "ID"
     },
+    "nav": {
+      "menu": {
+        "rankings": "Rankings",
+        "countries": "Paises",
+        "federation": "Federacion",
+        "users": "Usuarios",
+        "players": "Jugadores",
+        "tournament": "Torneos",
+        "appStatus": "Estado Aplicacion",
+        "artifacts": "Artefactos",
+        "plugins": "Plugins"
+      },
+      "items": {
+        "list": "Listar",
+        "createNew": "Crear Nuevo",
+        "environment": "Ambiente: ",
+        "appProfile": "Perfil: ",
+        "appVersion": "Version: ",
+        "grailsVersion": "Version Grails: ",
+        "groovyVersion": "Version Groovy: ",
+        "jvmVersion": "Version JVM: ",
+        "reloadingActive": "Recarga Activa: ",
+        "controllers": "Controladores: ",
+        "domains": "Dominios: ",
+        "services": "Servicios: "
+      }
+    },
     "errors": {
       "incomplete": {
         "data": "Informacion Incompleta"
@@ -41,7 +68,9 @@
     "title": "Hola angular con ngx-translate!"
   },
   "login": {
-    "failed": "Autenticacion fallida"
+    "failed": "Autenticacion fallida",
+    "login": "Entrar",
+    "logout": "Salir"
   },
   "auth": {
     "token" : {
