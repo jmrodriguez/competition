@@ -49,6 +49,7 @@ grails.plugin.springsecurity.rest.token.generation.useUUID=false
 grails.plugin.springsecurity.rest.token.validation.active=true
 grails.plugin.springsecurity.rest.token.validation.endpointUrl='/api/validate'
 grails.plugin.springsecurity.rest.token.storage.jwt.expiration=99999
+grails.plugin.springsecurity.rest.token.storage.jwt.secret='e2b02703-d2cf-4e81-9106-e3f971254a86'
 
 grails {
 	plugin {
