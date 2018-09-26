@@ -2,7 +2,7 @@ package org.competition
 
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 
 import static org.springframework.http.HttpStatus.CREATED
 

@@ -3,7 +3,7 @@ package org.competition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 import org.apache.poi.ss.usermodel.DataFormatter
 import org.apache.poi.ss.util.CellReference
 import org.apache.poi.xssf.usermodel.XSSFRow

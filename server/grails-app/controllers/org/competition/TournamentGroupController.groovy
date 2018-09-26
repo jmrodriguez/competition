@@ -3,7 +3,7 @@ package org.competition
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.OK
@@ -89,6 +89,7 @@ class TournamentGroupController extends RestfulController {
                 SpringSecurityUtils.ifAnyGranted("ROLE_SUPER_ADMIN, ROLE_GENERAL_ADMIN")){
 
             tournament.groups.clear()
+            tournament.bracketMatches.clear()
 
             tournament.bracketInfo = null
 

@@ -1,0 +1,78 @@
+Admin
+Create User/Admin
+List Users (filter by first name and/or last name)
+Edit User/Admin
+Delete User
+Create School
+Edit School
+List Schools (filter by name)
+Delete School
+Assign User to School (n to m)
+
+User
+List Schools user belongs to
+Select School to perform actions
+Create player (assigned to selected school)
+Upload player list (assigned to selected school): xls file with pre-defined format
+List players (filter by first name and/or last name)
+Edit player
+Delete player
+Create tournament (gender restricted or not)
+List tournaments in date range
+Edit tournament
+Delete tournament
+Add player to tournament (check gender restrictions). List players providing birth date range
+List players in tournament
+Remove player from tournament
+Seed players (for group draw): user can select how many to seed (4, 8, 16, 32)
+Generate groups and draw. User can select:
+    best of 3/best of 5
+    groups of 3/groups of 4
+    category to be played (sub W, sub X, sub Y, sub Z, open)
+    Generates an xls file the user downloads. Groups are NOT stored in DB
+
+Common Tasks
+Login/Logout
+Control access to pages based on role
+Edit Profile
+
+NOTES:
+categories are stored in a DB table. Having an interface to manage them is low priority. Categories specify a max. age for the players in a tournament.
+
+
+
+SISTEMA DE TORNEOS
+
+ADMIN
+* crear lista de paises (ver lo de las banderitas si hay alguna forma de sacarlas de algun lugar facil y ya sea linkearlas en los src de los img o guardarlas en la BD)
+* CRUD federaciones (con logo). Ver si la federacion la crea el admin o la crea el usuario cuando se registra. Un pais puede tener varias federaciones?
+* CRUD categorias de edad. Las categorias aplican para todos los torneos de todas las federaciones. Hay una categoria "open" que no tiene rango de edad
+
+REGISTRO
+* usuario crea federacion cuando se registra? admin la crea? como se manejaria el cobro?
+* CRUD usuarios creadores de torneos (admin puede tambien). Usuario queda asociado a 1 federacion (1 a 1)
+
+ADMIN DE FEDERACION
+* CRUD jugadores (en lote usando plantilla excel o individual). Filtros por nombre, apellido o categorias (falta categoria). Ordenar x ranking dependiendo de categoria seleccionada
+* Pantalla para listar jugadores X ranking por categoria
+* CRUD torneo. Puede tener restriccion de genero
+* Agregar jugadores a torneo (aplicando restricciones). Reutilizar filtro nombre, apellido y categorias. Agregar varios de un solo o uno por uno
+* Listar jugadores inscritos. Reutilizar filtros
+* Remover jugadores de torneo. Quitar varios de un solo o uno por uno
+* Organizar torneo (x categoria, mejor de X sets [3, 5, 7], grupos de X [3, 4])
+    * CRUD grupos
+        * En la vista de grupo, permitir ingresar resultados. CRUD partida (jugador A, jugador B, ganador, resultado?)
+        * Generar pantalla de partida para tablet, que carga los jugadores y permite guardar el resultado. Se cargaria por ID de partida
+    * CRUD rifa de llave (torneo->categoria->llave). Dejar al usuario re-generar la rifa de la llave cuantas veces quiera
+
+
+
+NOTAS
+* jugadores tienen ranking ordenado por puntos. Todos tienen un ranking general y puntos generales (para torneos abiertos), un ranking de liga menor y puntos de liga menor (para torneos por categoria de edad)
+
+* crear tabla de rangos de puntos para definir "categorias" por puntos
+    * cuando se crea una federacion, se le crean una lista de rangos "default" para esa federacion
+    * a la hora de crear un evento, dicha federacion puede escoger que el evento sea con jugadores que esten en uno de los rangos, o ninguno de los rangos, en cuyo caso van todos
+    * en la pantalla de inscripcion, deben salir solo los jugadores que estan en el rango de puntos del torneo
+
+
