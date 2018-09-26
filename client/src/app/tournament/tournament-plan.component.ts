@@ -319,6 +319,7 @@ export class TournamentPlanComponent implements OnInit {
         this._updateGroupWinners();
       } else {
         match = new TournamentMatch();
+        match.tournament = groupList[tournamentGroup - 1].tournament;
         match.points = finalPointsString;
         match.player1 = new Player();
         match.player1.id = p1Id;

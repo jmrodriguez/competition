@@ -21,7 +21,7 @@ class TournamentMatch {
         winner blank:false, nullable:false
         sets blank:false, nullable:false
         points blank:true, nullable:true
-        tournament blank:true, nullable:true
+        tournament blank:false, nullable:false
         tournamentGroup blank:true, nullable:true
     }
 }
