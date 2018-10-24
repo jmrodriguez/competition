@@ -16,71 +16,19 @@ class TournamentGroupService {
 	 */
 	List generateGroups(Tournament tournament) {
 
-		List<Player> players = tournament.players.asList()
-
-		// sort players by their ranking depending on the type of tournament
-		if (tournament.federation == null) {
-			if (tournament.genderRestricted && tournament.gender.equals("F")) {
-				players = players.sort {x,y->
-					if(x.rankingFem == y.rankingFem) {
-						x.id <=> y.id
-					} else {
-						x.rankingFem <=> y.rankingFem
-					}
-				}
-			} else {
-				if (tournament.category.youthCategory) {
-					players = players.sort {x,y->
-						if(x.rankingLm == y.rankingLm) {
-							x.id <=> y.id
-						} else {
-							x.rankingLm <=> y.rankingLm
-						}
-					}
-				} else {
-					players = players.sort {x,y->
-						if(x.ranking == y.ranking) {
-							x.id <=> y.id
-						} else {
-							x.ranking <=> y.ranking
-						}
-					}
-				}
-
-			}
-		} else {
-			if (tournament.genderRestricted && tournament.gender.equals("F")) {
-				players = players.sort {x,y->
-					if(x.rankingFemFed == y.rankingFemFed) {
-						x.id <=> y.id
-					} else {
-						x.rankingFemFed <=> y.rankingFemFed
-					}
-				}
-			} else {
-				if (tournament.category.youthCategory) {
-					players = players.sort {x,y->
-						if(x.rankingLmFed == y.rankingLmFed) {
-							x.id <=> y.id
-						} else {
-							x.rankingLmFed <=> y.rankingLmFed
-						}
-					}
-				} else {
-					players = players.sort {x,y->
-						if(x.rankingFed == y.rankingFed) {
-							x.id <=> y.id
-						} else {
-							x.rankingFed <=> y.rankingFed
-						}
-					}
-				}
-			}
-		}
+		List<Player> players = sortTournamentPlayers(tournament, tournament.players.asList())
 
 		int groupCount = getGroupCount(players.size(), tournament.groupsOf)
 
 		List<TournamentGroup> groups = applySnake(groupCount, players)
+
+		// here we can generate the group matches so we can use the tablet app
+		// to update the match result
+		// for each group, sort players, based on the tournament settings
+		groups.each {group ->
+			group.groupMatches = getGroupMatches(tournament, groups, group)
+		}
+
 		return [groups, groups.size()]
 	}
 
@@ -182,6 +130,147 @@ class TournamentGroupService {
 		}
 
 		return groupsOf3 + groupsOf4 + groupsOf5
+	}
+
+	/**
+	 * Sorts the players for a given tournament
+	 * @param tournament the tournament be used for players sorting
+	 * @param players the list of players to be sorted
+	 * @return the sorted list of players
+	 */
+	private List<Player> sortTournamentPlayers(Tournament tournament, List<Player> players) {
+		// sort players by their ranking depending on the type of tournament
+		if (tournament.federation == null) {
+			if (tournament.genderRestricted && tournament.gender.equals("F")) {
+				players = players.sort {x,y->
+					if(x.rankingFem == y.rankingFem) {
+						x.id <=> y.id
+					} else {
+						x.rankingFem <=> y.rankingFem
+					}
+				}
+			} else {
+				if (tournament.category.youthCategory) {
+					players = players.sort {x,y->
+						if(x.rankingLm == y.rankingLm) {
+							x.id <=> y.id
+						} else {
+							x.rankingLm <=> y.rankingLm
+						}
+					}
+				} else {
+					players = players.sort {x,y->
+						if(x.ranking == y.ranking) {
+							x.id <=> y.id
+						} else {
+							x.ranking <=> y.ranking
+						}
+					}
+				}
+
+			}
+		} else {
+			if (tournament.genderRestricted && tournament.gender.equals("F")) {
+				players = players.sort {x,y->
+					if(x.rankingFemFed == y.rankingFemFed) {
+						x.id <=> y.id
+					} else {
+						x.rankingFemFed <=> y.rankingFemFed
+					}
+				}
+			} else {
+				if (tournament.category.youthCategory) {
+					players = players.sort {x,y->
+						if(x.rankingLmFed == y.rankingLmFed) {
+							x.id <=> y.id
+						} else {
+							x.rankingLmFed <=> y.rankingLmFed
+						}
+					}
+				} else {
+					players = players.sort {x,y->
+						if(x.rankingFed == y.rankingFed) {
+							x.id <=> y.id
+						} else {
+							x.rankingFed <=> y.rankingFed
+						}
+					}
+				}
+			}
+		}
+		return players
+	}
+
+	/**
+	 * Generates the empty records for the group matches
+	 * @param tournament the tournament to generate the group matches
+	 * @param groupList the list of groups for the given tournament
+	 * @param group the group to generate its matches
+	 * @return the generated empty group matches
+	 */
+	private List<TournamentMatch> getGroupMatches(Tournament tournament, List<TournamentGroup> groupList, TournamentGroup group) {
+
+		int [][] matchOrderArray = this.getMatchOrder(group.players.size())
+		List<Player> sortedPlayers = this.sortTournamentPlayers(tournament, group.players.asList())
+
+		List<TournamentMatch> matches = new ArrayList<>()
+
+		for (int i = 0; i < matchOrderArray.length; i++) {
+			int[] matchOrder = matchOrderArray[i]
+			TournamentMatch match = new TournamentMatch()
+			match.tournament = tournament
+			match.player1 = sortedPlayers.get(matchOrder[0] - 1)
+			match.player2 = sortedPlayers.get(matchOrder[1] - 1)
+			match.matchNumber = getMatchNumber(group.number - 1, i + 1, groupList)
+
+			matches.add(match)
+		}
+
+		return matches
+	}
+
+	/**
+	 * Return the matches order for a group depending on the number of players
+	 * @param groupOf the number of players in the group
+	 */
+	private int[][] getMatchOrder(int groupOf) {
+		int[][] matchOrder = [[1,3], [1,2], [2,3]]
+		switch(groupOf) {
+			case 3:
+				matchOrder = [[1,3], [1,2], [2,3]]
+				break
+			case 4:
+				matchOrder = [[1,3], [4,2], [1,2], [3,4], [1,4], [2,3]]
+				break
+			case 5:
+				matchOrder = [[1,4], [5,3], [1,3], [4,2], [1,2], [4,5], [2,5], [3,4], [1,5], [2,3]]
+				break
+		}
+
+		return matchOrder
+	}
+
+	/**
+	 * Get the consecutive number for a match considering its group number, match order and group list
+	 * @param tournamentGroupNumber the number of the group
+	 * @param matchOrder the order of the match within the group
+	 * @param groupList the list of groups in the tournament
+	 */
+	private int getMatchNumber(int tournamentGroupNumber, int matchOrder, List<TournamentGroup> groupList) {
+		int matchNumber = 0
+		for (int i = 0; i < groupList.size(); i++) {
+			if (i < tournamentGroupNumber) {
+				matchNumber += getMatchOrder(groupList.get(i).players.size()).length
+			} else {
+				if (i == tournamentGroupNumber) {
+					matchNumber += matchOrder
+				} else {
+					break
+				}
+			}
+
+		}
+		return matchNumber
 	}
 
 

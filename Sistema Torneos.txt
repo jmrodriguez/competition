@@ -56,7 +56,7 @@ ADMIN DE FEDERACION
 * CRUD jugadores (en lote usando plantilla excel o individual). Filtros por nombre, apellido o categorias (falta categoria). Ordenar x ranking dependiendo de categoria seleccionada
 * Pantalla para listar jugadores X ranking por categoria
 * CRUD torneo. Puede tener restriccion de genero
-* Agregar jugadores a torneo (aplicando restricciones). Reutilizar filtro nombre, apellido y categorias. Agregar varios de un solo o uno por uno
+* Agregar jugadores a torneo (aplicando restricciones). Reutilizar filtro nombre, apellido y categorias. Agregar varios de un solo o uno por uno. Desplegar lista de inscritos ordenado x puntos x categoria y mostrar puntos en lista
 * Listar jugadores inscritos. Reutilizar filtros
 * Remover jugadores de torneo. Quitar varios de un solo o uno por uno
 * Organizar torneo (x categoria, mejor de X sets [3, 5, 7], grupos de X [3, 4])

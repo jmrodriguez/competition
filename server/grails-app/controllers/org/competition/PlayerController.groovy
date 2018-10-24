@@ -74,6 +74,8 @@ class PlayerController extends RestfulController {
         } else {
             if (federationId != null) {
                 federation = Federation.findById(federationId)
+            } else {
+                federation = tournament.getFederation()
             }
         }
         if (isRankingView != null && isRankingView){

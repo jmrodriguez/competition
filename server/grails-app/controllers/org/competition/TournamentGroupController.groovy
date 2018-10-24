@@ -97,27 +97,13 @@ class TournamentGroupController extends RestfulController {
 
             Object[] results = tournamentGroupService.generateGroups(tournament)
 
-            List<TournamentGroup> groups = results[0].sort{
-                it.number
+            List<TournamentGroup> groups = results[0]
+
+            groups.each { group ->
+                tournament.addToGroups(group)
             }
 
-            // for each group, sort players, based on the tournament settings
-            groups.each {group ->
-                group.players = group.players.sort {x,y->
-                    if(x.ranking == y.ranking) {
-                        x.id <=> y.id
-                    } else {
-                        x.ranking <=> y.ranking
-                    }
-                }
-            }
-
-            groups.each {
-                tournament.addToGroups(it)
-                it.groupMatches = new ArrayList<TournamentMatch>()
-            }
-
-            tournament.save flush:true
+            tournament.save flush: true
 
             //respond result
             Map result = new HashMap()
