@@ -77,9 +77,9 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div *ngIf="showFederationSelect" class="fieldcontain required">
+            <div *ngIf="showFederationSelect" class="fieldcontain">
                 <mat-form-field floatPlaceholder="always">
-                    <mat-select required placeholder="Select a Federation" [(ngModel)]="tournament.federation" name="federation">
+                    <mat-select placeholder="Select a Federation" [(ngModel)]="tournament.federation" name="federation">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let federation of federationList" [value]="federation" >{{federation.name}}</mat-option>
                     </mat-select>

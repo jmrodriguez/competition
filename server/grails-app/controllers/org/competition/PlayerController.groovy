@@ -74,19 +74,12 @@ class PlayerController extends RestfulController {
         } else {
             if (federationId != null) {
                 federation = Federation.findById(federationId)
-            } else {
+            } else if (tournament != null) {
                 federation = tournament.getFederation()
             }
         }
-        if (isRankingView != null && isRankingView){
-            def rankingColumn = "ranking"
-            if(category.id != 1){ // NOT OPEN
-                rankingColumn = rankingColumn.concat("Lm")
-            }
-            if(federation != null){ //FED RANKING
-                rankingColumn = rankingColumn.concat("Fed")
-            }
-            params.sort = rankingColumn
+        if ((isRankingView != null && isRankingView) || sort.equals("ranking")){
+            params.sort = getRankingSortColumn(tournament, category, federation)
         }
         Object[] results = [new ArrayList<Player>(), 0]
         results = playerService.listPlayers(federation, tournament, category, textFilter, playerType, params)
@@ -206,5 +199,27 @@ class PlayerController extends RestfulController {
             render status: BAD_REQUEST
         }
 
+    }
+
+    def getRankingSortColumn(Tournament tournament, Category category, Federation federation) {
+        def rankingColumn = "ranking"
+        if(category.id != 1){ // NOT OPEN
+            rankingColumn = rankingColumn.concat("Lm")
+        }
+
+        if (tournament != null && tournament.genderRestricted && tournament.gender.equals("F")) {
+            rankingColumn = rankingColumn.concat("Fem")
+        }
+
+        if(federation != null){ //FED RANKING
+            rankingColumn = rankingColumn.concat("Fed")
+        }
+
+        // no such thing as rankingLmFem for now, so we overwrite to use rankingLm
+        if (rankingColumn.equals("rankingLmFem")) {
+            rankingColumn = "rankingLm"
+        }
+
+        return rankingColumn
     }
 }

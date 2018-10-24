@@ -40,7 +40,10 @@ class PlayerService {
         // retrieve unsigned players
         if (playerType != null && playerType.intValue() == 1) {
 
-            Set<Player> unsignedPlayers = federation.players.findAll {
+            // if this is a Lat event list, we use the entire list of users. Otherwise, we use the federation list
+            Set<Player> baseList = federation == null ? Player.findAll() : federation.players
+
+            Set<Player> unsignedPlayers = baseList.findAll {
 
                 Calendar playerBirth = Calendar.getInstance()
                 playerBirth.setTime(it.birth)
@@ -154,8 +157,12 @@ class PlayerService {
         if (metaParams.sort) {
             String sort = metaParams.sort
             String order = metaParams.order
-            players.sort {
-                it.getProperty(sort)
+            players.sort {x,y->
+                if (x.getProperty(sort) == y.getProperty(sort)) {
+                    x.id <=> y.id
+                } else {
+                    x.getProperty(sort) <=> y.getProperty(sort)
+                }
             }
             if (order != null && order == "desc") {
                 players.reverse(true)
@@ -191,63 +198,6 @@ class PlayerService {
         }
 
         return [players, total]
-
-        /*ArrayList players
-        Map parameters = [:]
-        long playersCount
-        String selectQuery
-        String countQuery
-
-        if (federation) {
-            selectQuery = "select p from Player p where p.federation = :federation"
-            countQuery = "select count(p) from Player p where p.federation = :federation"
-            parameters = [federation: federation]
-
-            if (textFilter) {
-                selectQuery = selectQuery +
-                        " and (" +
-                        "p.firstName like :textFilter or " +
-                        "p.lastName like :textFilter or " +
-                        "p.email like :textFilter or " +
-                        "p.club like :textFilter" +
-                        ")"
-                countQuery = countQuery +
-                        " and (" +
-                        "p.firstName like :textFilter or " +
-                        "p.lastName like :textFilter or " +
-                        "p.email like :textFilter or " +
-                        "p.club like :textFilter" +
-                        ")"
-                parameters.put("textFilter", "%${textFilter}%")
-            }
-
-        } else {
-            selectQuery = "from Player p"
-            countQuery = "select count(p) from Player p"
-
-            if (textFilter) {
-                selectQuery = selectQuery +
-                        " where (" +
-                        "p.firstName like :textFilter or " +
-                        "p.lastName like :textFilter or " +
-                        "p.email like :textFilter or " +
-                        "p.club like :textFilter" +
-                        ")"
-                countQuery = countQuery +
-                        " where (" +
-                        "p.firstName like :textFilter or " +
-                        "p.lastName like :textFilter or " +
-                        "p.email like :textFilter or " +
-                        "p.club like :textFilter" +
-                        ")"
-                parameters = ["textFilter": "%${textFilter}%"]
-            }
-        }
-
-        players = Player.executeQuery(selectQuery, parameters, metaParams)
-        playersCount = Player.executeQuery(countQuery, parameters)[0].toString() as Long
-
-        return [players, playersCount]*/
     }
 
     /**

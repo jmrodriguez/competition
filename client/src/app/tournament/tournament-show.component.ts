@@ -18,7 +18,7 @@ import {Federation} from "../federation/federation";
 })
 export class TournamentShowComponent implements OnInit {
 
-  displayedColumns = ['id', 'firstName', 'lastName', 'email', 'dni', 'club', 'birth'];
+  displayedColumns = ['id', 'firstName', 'lastName', 'ranking', 'email', 'dni', 'club', 'birth'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 

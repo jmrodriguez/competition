@@ -16,8 +16,11 @@ export class Player {
   rankingFed: any;
   pointsLm: any;
   pointsLmFed: any;
+  pointsLmFemFed: any;
   rankingLm: any;
+  rankingLmFem: any;
   rankingLmFed: any;
+  rankingLmFemFed: any;
   pointsFem: any;
   pointsFemFed: any;
   rankingFem: any;
@@ -28,9 +31,11 @@ export class Player {
   fixedPointsLm: any;
   fixedPointsFemFed: any;
   fixedPointsFem: any;
+  fixedPointsLmFem: any;
   fixedPoints: any;
   federation: Federation;
   fixedPointsLmFed: any;
+  fixedPointsLmFemFed: any;
 
   constructor (object?: any) {
     if (object) {

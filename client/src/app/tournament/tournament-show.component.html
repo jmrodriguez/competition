@@ -103,6 +103,66 @@
             <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
         </ng-container>
 
+        <!-- Ranking Column -->
+        <ng-container matColumnDef="ranking">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Ranking </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <!-- federation tournament -->
+                <ng-container *ngIf="tournament.federation; else latTournament">
+                    <!-- open tournament -->
+                    <ng-container *ngIf="tournament.category && tournament.category.id == 1; else lmTournament">
+                        <ng-container *ngIf="!tournament.genderRestricted || (tournament.genderRestricted && tournament.gender == 'M'); else femTournament">
+                            {{row.rankingFed}}
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #lmTournament>
+                        <!-- youth tournament -->
+                        <ng-container *ngIf="!tournament.genderRestricted || (tournament.genderRestricted && tournament.gender == 'M'); else femTournament">
+                            {{row.rankingLmFed}}
+                        </ng-container>
+                    </ng-template>
+
+                    <ng-template #femTournament>
+                        <!-- Fem tournament -->
+                        {{row.rankingFemFed}}
+                    </ng-template>
+
+                    <ng-template #lmFemTournament>
+                        <!-- youth Fem tournament -->
+                        {{row.rankingLmFemFed}}
+                    </ng-template>
+                </ng-container>
+
+                <!-- General tournament -->
+                <ng-template #latTournament>
+                    <!-- open tournament -->
+                    <ng-container *ngIf="tournament.category && tournament.category.id == 1; else latLmTournament">
+                        <ng-container *ngIf="!tournament.genderRestricted || (tournament.genderRestricted && tournament.gender == 'F'); else latLmFemTournament">
+                            {{row.ranking}}
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #latLmTournament>
+                        <!-- youth tournament -->
+                        <ng-container *ngIf="!tournament.genderRestricted || (tournament.genderRestricted && tournament.gender == 'M'); else latFemTournament">
+                            {{row.rankingLm}}
+                        </ng-container>
+                    </ng-template>
+
+                    <ng-template #latFemTournament>
+                        <!-- Fem tournament -->
+                        {{row.rankingFem}}
+                    </ng-template>
+
+                    <ng-template #latLmFemTournament>
+                        <!-- youth Fem tournament -->
+                        {{row.rankingLmFem}}
+                    </ng-template>
+                </ng-template>
+            </mat-cell>
+        </ng-container>
+
         <!-- Email Column -->
         <ng-container matColumnDef="email">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
