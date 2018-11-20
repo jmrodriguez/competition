@@ -68,11 +68,11 @@ ADMIN DE FEDERACION
 
 
 NOTAS
-* jugadores tienen ranking ordenado por puntos. Todos tienen un ranking general y puntos generales (para torneos abiertos), un ranking de liga menor y puntos de liga menor (para torneos por categoria de edad)
+* jugadores tienen ranking ordenado por puntos. Todos tienen un ranking general y puntos generales (para torneos abiertos), un ranking de liga menor y puntos de liga menor (para torneos por categoria de edad) (listo)
 
-* crear tabla de rangos de puntos para definir "categorias" por puntos
-    * cuando se crea una federacion, se le crean una lista de rangos "default" para esa federacion
-    * a la hora de crear un evento, dicha federacion puede escoger que el evento sea con jugadores que esten en uno de los rangos, o ninguno de los rangos, en cuyo caso van todos
-    * en la pantalla de inscripcion, deben salir solo los jugadores que estan en el rango de puntos del torneo
+* crear tabla de rangos de puntos para definir "categorias" por puntos (listo)
+    * cuando se crea una federacion, se le crean una lista de rangos "default" para esa federacion (listo)
+    * a la hora de crear un evento, dicha federacion puede escoger que el evento sea con jugadores que esten en uno de los rangos, o ninguno de los rangos, en cuyo caso van todos (listo)
+    * en la pantalla de inscripcion, deben salir solo los jugadores que estan en el rango de puntos del torneo (listo)
 
 

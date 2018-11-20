@@ -14,6 +14,7 @@ import {ToastCommunicationService} from "../shared/toast-communication.service";
 import {PlayerService} from "app/player/player.service";
 import {DialogsService} from "../shared/dialog/dialogs.service";
 import {TranslateService} from "@ngx-translate/core";
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'tournament-plan',
@@ -43,6 +44,7 @@ export class TournamentPlanComponent implements OnInit {
   bracketIsFull: boolean;
 
   constructor(private route: ActivatedRoute,
+              private authService: AuthService,
               private tournamentService: TournamentService,
               private tournamentGroupService: TournamentGroupService,
               private playerService: PlayerService,
@@ -442,6 +444,8 @@ export class TournamentPlanComponent implements OnInit {
             // add club or country info, depending on if it is a federation tournament or regional one
             if (this.tournament.federation != null) {
               bracketEntry["club"] = playerInfo.club;
+            } else {
+              bracketEntry["club"] = playerInfo.federation.country.isoCode.toUpperCase();
             }
             bracketEntry["flag"] = playerInfo.federation.country.isoCode.toLowerCase();
           }

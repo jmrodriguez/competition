@@ -7,6 +7,7 @@ import {Response} from '@angular/http';
 import {Tournament} from "../tournament/tournament";
 import {TournamentService} from "../tournament/tournament.service";
 import {Observable} from "rxjs/Observable";
+import {AuthService} from '../services/auth.service';
 
 declare var $: any;
 
@@ -22,6 +23,7 @@ export class BracketDirective {
     @Output() notifyBracketChange: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(private el: ElementRef,
+                private authService: AuthService,
                 private tournamentService: TournamentService) {
     }
 
@@ -34,18 +36,31 @@ export class BracketDirective {
             if (initData == null) {
                 $(this.el.nativeElement).empty();
             } else {
-                $(this.el.nativeElement).bracket({
-                    init: initData,
-                    skipConsolationRound: true,
-                    centerConnectors: true,
-                    disableToolbar: true,
-                    disableTeamEdit: true,
-                    userData: this,
-                    save: this.saveFn, /* without save() labels are disabled */
-                    decorator: {edit: this.edit_fn,
-                        render: this.render_fn},
-                    teamWidth: 300
-                });
+                if (this.authService.isAuthenticated()) {
+                    $(this.el.nativeElement).bracket({
+                        init: initData,
+                        skipConsolationRound: true,
+                        centerConnectors: true,
+                        disableToolbar: true,
+                        disableTeamEdit: true,
+                        userData: this,
+                        save: this.saveFn, /* without save() labels are disabled */
+                        decorator: {edit: this.edit_fn,
+                            render: this.render_fn},
+                        teamWidth: 300
+                    });
+                } else {
+                    $(this.el.nativeElement).bracket({
+                        init: initData,
+                        skipConsolationRound: true,
+                        centerConnectors: true,
+                        userData: this,
+                        decorator: {edit: this.edit_fn,
+                            render: this.render_fn},
+                        teamWidth: 300
+                    });
+                }
+
             }
         });
     }

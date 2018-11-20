@@ -20,6 +20,7 @@ class TournamentGroupController extends RestfulController {
         super(TournamentGroup)
     }
 
+    @Secured(["permitAll"])
     def groups(Integer tournamentId) {
         if (tournamentId == null) {
             notFound()
@@ -32,43 +33,37 @@ class TournamentGroupController extends RestfulController {
             return
         }
 
-        User currentUser = springSecurityService.currentUser
-        if((SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN") && currentUser.federation.id == tournament.federation.id) ||
-            SpringSecurityUtils.ifAnyGranted("ROLE_SUPER_ADMIN, ROLE_GENERAL_ADMIN")){
-            List<TournamentGroup> groups = TournamentGroup.findAllByTournament(tournament).sort{
-                it.number
-            }
-
-            // for each group, sort players, based on the tournament settings
-            groups.each {group ->
-                group.players = group.players.sort {x,y->
-                    if(x.ranking == y.ranking) {
-                        x.id <=> y.id
-                    } else {
-                        x.ranking <=> y.ranking
-                    }
-                }
-            }
-
-            // for each group, sort matches, by their number
-            groups.each {group ->
-                group.groupMatches = group.groupMatches.sort {x,y->
-                    if(x.matchNumber == y.matchNumber) {
-                        x.id <=> y.id
-                    } else {
-                        x.matchNumber <=> y.matchNumber
-                    }
-                }
-            }
-
-            Map result = new HashMap()
-            result.put("list", groups)
-            result.put("total", groups.size())
-
-            respond result
-        } else {
-            render status: UNAUTHORIZED
+        List<TournamentGroup> groups = TournamentGroup.findAllByTournament(tournament).sort{
+            it.number
         }
+
+        // for each group, sort players, based on the tournament settings
+        groups.each {group ->
+            group.players = group.players.sort {x,y->
+                if(x.ranking == y.ranking) {
+                    x.id <=> y.id
+                } else {
+                    x.ranking <=> y.ranking
+                }
+            }
+        }
+
+        // for each group, sort matches, by their number
+        groups.each {group ->
+            group.groupMatches = group.groupMatches.sort {x,y->
+                if(x.matchNumber == y.matchNumber) {
+                    x.id <=> y.id
+                } else {
+                    x.matchNumber <=> y.matchNumber
+                }
+            }
+        }
+
+        Map result = new HashMap()
+        result.put("list", groups)
+        result.put("total", groups.size())
+
+        respond result
     }
 
     @Transactional

@@ -33,9 +33,13 @@ export class TournamentService {
     }
     if (sort) {
       params.set('sort', String(sort))
+    } else {
+        params.set('sort', "date")
     }
     if (order) {
       params.set('order', String(order))
+    } else {
+        params.set('order', "desc")
     }
 
     return this.http.get('tournament', { search: params }).map(res => res.json())

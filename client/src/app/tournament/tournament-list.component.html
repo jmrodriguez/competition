@@ -1,4 +1,4 @@
-<div class="nav" role="navigation">
+<div class="nav" role="navigation" *ngIf="authService.isAuthenticated()">
     <ul>
         <li><a [routerLink]="['/index']" class="home">Home</a></li>
         <li><a [routerLink]="['/tournament','create']" class="create">New Tournament</a></li>
@@ -25,7 +25,9 @@
         <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <a [routerLink]="['/tournament','show',row.id]">{{row.id}}</a>
+                <div *ngIf="authService.isAuthenticated(); then admin else guest"></div>
+                <ng-template #admin><a [routerLink]="['/tournament','show',row.id]">{{row.id}}</a></ng-template>
+                <ng-template #guest><a [routerLink]="['/tournament','gameplan',row.id]">{{row.id}}</a></ng-template>
             </mat-cell>
         </ng-container>
 
@@ -63,7 +65,9 @@
         <ng-container matColumnDef="federation">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Federation </mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <a *ngIf="row.federation" [routerLink]="['/federation','show', row.federation.id]">{{row.federation.name}}</a>
+                <div *ngIf="authService.isAuthenticated(); then admin else guest"></div>
+                <ng-template #admin><a *ngIf="row.federation" [routerLink]="['/federation','show', row.federation.id]">{{row.federation.name}}</a></ng-template>
+                <ng-template #guest><span *ngIf="row.federation">{{row.federation.name}}</span></ng-template>
             </mat-cell>
         </ng-container>
 

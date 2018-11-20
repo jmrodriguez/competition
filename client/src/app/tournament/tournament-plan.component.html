@@ -54,14 +54,16 @@
             </tr>
         </tbody>
     </table>
-    <a class="edit" [routerLink]="['/tournament', 'edit', tournament.id]">Edit</a>
-    <a class="show" [routerLink]="['/tournament', 'show', tournament.id]">Show</a>
-    <button *ngIf="tournament.includeGroupPhase" type="button" (click)="confirmGenerateGroups()" class="btn btn-success btn-s">
-        <span class="fa fa-users"></span> Generar Grupos
-    </button>
-    <button type="button" (click)="confirmGenerateDraw()" class="btn btn-success btn-s">
-        <span class="fa fa-filter"></span> Generar Llave
-    </button>
+    <div *ngIf="authService.isAuthenticated()">
+        <a class="edit" [routerLink]="['/tournament', 'edit', tournament.id]">Edit</a>
+        <a class="show" [routerLink]="['/tournament', 'show', tournament.id]">Show</a>
+        <button *ngIf="tournament.includeGroupPhase" type="button" (click)="confirmGenerateGroups()" class="btn btn-success btn-s">
+            <span class="fa fa-users"></span> Generar Grupos
+        </button>
+        <button type="button" (click)="confirmGenerateDraw()" class="btn btn-success btn-s">
+            <span class="fa fa-filter"></span> Generar Llave
+        </button>
+    </div>
 </div>
 
 <div *ngIf="groupsAvailable" id="list-group" class="content scaffold-list" role="main">
@@ -115,7 +117,7 @@
                                     <td>{{tm[0]}}</td>
                                     <td>{{player1.firstName}} {{player1.lastName}}</td>
                                     <td *ngFor="let item of setArray">
-                                        <input id="{{tournamentGroup.number + '#' + i + '#' + item + '#' + player1.id}}" type="number" min="0" class="match-set-value" value="{{tournamentGroup.groupMatches[i]?.points | matchResult:item-1:0}}" (keypress)="_keyPress($event)" (change)="onInputChange($event)"/>
+                                        <input [disabled]="!authService.isAuthenticated()" id="{{tournamentGroup.number + '#' + i + '#' + item + '#' + player1.id}}" type="number" min="0" class="match-set-value" value="{{tournamentGroup.groupMatches[i]?.points | matchResult:item-1:0}}" (keypress)="_keyPress($event)" (change)="onInputChange($event)"/>
                                     </td>
                                     <td rowspan="2" [ngClass]="{'match-number-odd': odd,'match-number-even': even}">
                                         <span *ngIf="tournamentGroup.groupMatches[i]?.winner?.id == player1.id">{{tm[0]}}</span>
@@ -126,7 +128,7 @@
                                     <td>{{tm[1]}}</td>
                                     <td>{{player2.firstName}} {{player2.lastName}}</td>
                                     <td *ngFor="let item of setArray">
-                                        <input id="{{tournamentGroup.number + '#' + i + '#' + item + '#' + player2.id}}" type="number" min="0" class="match-set-value" value="{{tournamentGroup.groupMatches[i]?.points | matchResult:item-1:1}}" (keypress)="_keyPress($event)" (change)="onInputChange($event)"/>
+                                        <input [disabled]="!    authService.isAuthenticated()" id="{{tournamentGroup.number + '#' + i + '#' + item + '#' + player2.id}}" type="number" min="0" class="match-set-value" value="{{tournamentGroup.groupMatches[i]?.points | matchResult:item-1:1}}" (keypress)="_keyPress($event)" (change)="onInputChange($event)"/>
                                     </td>
                                 </tr>
                             </ng-container>
@@ -135,7 +137,7 @@
                     </tbody>
                 </table>
             </div>
-            <div>
+            <div *ngIf="authService.isAuthenticated()">
                 <button type="button" (click)="saveGroupChanges()" class="btn btn-success btn-s">
                     <span class="fa fa-floppy-o"></span> Guardar Cambios
                 </button>
@@ -145,7 +147,7 @@
             <div>
                 <div id="finalBracket" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)" (notifyBracketChange)="onNotifyBracketChange($event)">Empty Final Bracket</div>
             </div>
-            <div>
+            <div *ngIf="authService.isAuthenticated()">
                 <button [disabled]="!bracketIsFull" type="button" (click)="finishTournament()" class="btn btn-success btn-s">
                     <span class="fa fa-floppy-o"></span> Aplicar Resultados y Finalizar Torneo
                 </button>
@@ -177,7 +179,7 @@
             <div>
                 <div id="finalBracketNoGroups" finalBracket [initData]="initData" [tournament]="tournament" (notifyBracketError)="onNotifyBracketError($event)" (notifyBracketChange)="onNotifyBracketChange($event)">Empty Final Bracket</div>
             </div>
-            <div>
+            <div *ngIf="authService.isAuthenticated()">
                 <button type="button" (click)="finishTournament()" class="btn btn-success btn-s">
                     <span class="fa fa-floppy-o"></span> Aplicar Resultados y Finalizar Torneo
                 </button>

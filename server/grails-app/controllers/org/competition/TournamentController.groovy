@@ -19,6 +19,12 @@ class TournamentController extends RestfulController {
         super(Tournament)
     }
 
+    @Secured(["permitAll"])
+    def show(Tournament tournamentInstance) {
+        respond tournamentInstance
+    }
+
+    @Secured(["permitAll"])
     def index(Integer max, Integer page) {
         params.max = Math.min(max ?: 5, 10)
         if (page == null) {

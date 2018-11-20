@@ -4,6 +4,7 @@ import {Subject} from "rxjs/Subject";
 import {ActivatedRoute} from "@angular/router";
 import {MatPaginator, MatSort} from "@angular/material";
 import {TournamentDataSource} from "./tournament.datasource";
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'tournament-list',
@@ -23,6 +24,7 @@ export class TournamentListComponent implements OnInit {
   private initStream = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute,
+              private authService: AuthService,
               private tournamentService: TournamentService) {
   }
 
