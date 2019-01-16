@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+import {FileUploadModule} from 'ng2-file-upload';
 import { TranslateModule } from '@ngx-translate/core';
 import {PlayerService} from './player.service';
 
@@ -19,11 +19,10 @@ import { FederationModule } from '../federation/federation.module';
     PlayerRankingComponent,
     PlayerPersistComponent,
     PlayerShowComponent,
-    FileSelectDirective,
-    FileDropDirective
   ],
   imports: [
     SharedModule,
+    FileUploadModule,
     TranslateModule,
     PlayerRoutingModule,
     TournamentModule,

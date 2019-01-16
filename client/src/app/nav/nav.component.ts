@@ -15,13 +15,15 @@ import {AuthService} from '../services/auth.service';
 export class NavComponent implements OnInit {
 
   applicationData: any;
+  navExpanded: boolean;
 
   constructor(private navService: NavService,
-              private authService: AuthService,
+              public authService: AuthService,
               private router: Router,
-              private translateService: TranslateService) { }
+              public translateService: TranslateService) { }
 
   ngOnInit(): void {
+    this.navExpanded = false;
     this.navService.getNavData().subscribe(res => this.applicationData = res);
 
   }

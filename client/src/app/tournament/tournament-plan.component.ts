@@ -44,7 +44,7 @@ export class TournamentPlanComponent implements OnInit {
   bracketIsFull: boolean;
 
   constructor(private route: ActivatedRoute,
-              private authService: AuthService,
+              public authService: AuthService,
               private tournamentService: TournamentService,
               private tournamentGroupService: TournamentGroupService,
               private playerService: PlayerService,

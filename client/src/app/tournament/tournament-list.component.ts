@@ -24,7 +24,7 @@ export class TournamentListComponent implements OnInit {
   private initStream = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute,
-              private authService: AuthService,
+              public authService: AuthService,
               private tournamentService: TournamentService) {
   }
 

@@ -6,6 +6,7 @@ import {Response} from "@angular/http";
 import { CountryService } from '../country/country.service';
 import { Country } from '../country/country';
 import {ListResult} from "../helpers/list-result.interface";
+import {FederationLogo} from "../federationLogo/federationLogo";
 
 @Component({
   selector: 'federation-persist',
@@ -17,6 +18,7 @@ export class FederationPersistComponent implements OnInit {
   create = true;
   errors: any[];
   countryList: Country[];
+  federationLogoList: FederationLogo[];
 
   constructor(private route: ActivatedRoute, private federationService: FederationService, private router: Router, private countryService: CountryService) {}
 

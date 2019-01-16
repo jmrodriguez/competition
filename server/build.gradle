@@ -65,3 +65,6 @@ bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
     addResources = true
 }
+
+String env = System.getProperty('grails.env') ?: 'prod'
+war.baseName "${rootProject.name}-${env}"
