@@ -1,6 +1,10 @@
 
 grails.databinding.dateFormats = ['yyyy-MM-dd HH:mm:ss.SSS ZZZZ','yyyy-MM-dd']
 
+grails.gorm.default.mapping = {
+	autowire true
+}
+
 grails.plugin.springsecurity.password.algorithm ='bcrypt'
 grails.plugin.springsecurity.password.bcrypt.logrounds = 15
 

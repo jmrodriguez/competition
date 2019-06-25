@@ -16,4 +16,8 @@ class Federation {
         description nullable:true, blank:true
     }
 
+    static mapping = {
+        pointsRanges cascade: "all-delete-orphan"
+    }
+
 }
