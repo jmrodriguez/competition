@@ -15,6 +15,7 @@ class  Tournament {
     String seedOrder
     Category category
     PointsRange pointsRange
+    Boolean finished = false
 
     static hasMany = [players:Player, byes:Player, bracketMatches:TournamentMatch, groups:TournamentGroup]
 
@@ -32,9 +33,11 @@ class  Tournament {
         bracketInfo blank:true, nullable:true
         seedOrder blank:true, nullable:true
         pointsRange nullable: true, blank: true
+        finished nullable:false, blank: false
     }
 
     static mapping = {
+        players cascade: "save-update"
         groups cascade: "all-delete-orphan"
         bracketMatches cascade: "all-delete-orphan"
         bracketInfo sqlType:'LONGTEXT'

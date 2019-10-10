@@ -18,6 +18,7 @@ class PointsRangeController extends RestfulController {
         super(PointsRange)
     }
 
+    @Secured(["permitAll"])
     def index(Integer max, Integer page) {
         params.max = Math.min(max ?: 5, 10)
         if (page == null) {

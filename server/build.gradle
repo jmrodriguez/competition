@@ -53,7 +53,7 @@ dependencies {
     compile 'org.apache.poi:poi:3.16'
     compile 'org.apache.poi:poi-ooxml:3.16'
     profile "org.grails.profiles:angular"
-    runtime 'mysql:mysql-connector-java:5.1.37'
+    runtime 'mysql:mysql-connector-java:8.0.17'
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-datastore-rest-client"

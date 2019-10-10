@@ -83,8 +83,11 @@ class TournamentGroupController extends RestfulController {
         if((SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN") && currentUser.federation.id == tournament.federation.id) ||
                 SpringSecurityUtils.ifAnyGranted("ROLE_SUPER_ADMIN, ROLE_GENERAL_ADMIN")){
 
+            TournamentMatch.findAllByTournament(tournament).each { match ->
+                match.delete(flush:true, failOnError:true)
+            }
+
             tournament.groups.clear()
-            tournament.bracketMatches.clear()
 
             tournament.bracketInfo = null
 

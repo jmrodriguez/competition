@@ -75,33 +75,37 @@ class TournamentController extends RestfulController {
     }
 
     @Transactional
-    def signUp(Tournament tournamentInstance, Integer playerId) {
-        if (tournamentInstance == null || playerId == null) {
+    def signUp(Integer tournamentId, Integer playerId) {
+        if (tournamentId == null || playerId == null) {
             notFound()
             return
         }
 
+        Tournament tournament = Tournament.lock(tournamentId)
+
         Player player = Player.findById(playerId)
 
-        tournamentInstance.addToPlayers(player)
+        tournament.addToPlayers(player)
 
-        tournamentInstance.save flush:true
+        tournament.save flush:true
 
         render status: CREATED
     }
 
     @Transactional
-    def signOff(Tournament tournamentInstance, Integer playerId) {
-        if (tournamentInstance == null || playerId == null) {
+    def signOff(Integer tournamentId , Integer playerId) {
+        if (tournamentId == null || playerId == null) {
             notFound()
             return
         }
 
+        Tournament tournament = Tournament.lock(tournamentId)
+
         Player player = Player.findById(playerId)
 
-        tournamentInstance.removeFromPlayers(player)
+        tournament.removeFromPlayers(player)
 
-        tournamentInstance.save flush:true
+        tournament.save flush:true
 
         render status: CREATED
     }
@@ -139,7 +143,16 @@ class TournamentController extends RestfulController {
             return
         }
 
-        tournament.save flush: true
+        // update the tournament matches list by getting the matches currently stored
+        // and appending the ones from the bracket so they stored ones are not considered
+        // orphans and deleted by the bracketMatches constraints
+        List<TournamentMatch> tournamentMatches = TournamentMatch.findAllByTournament(tournament)
+
+        tournamentMatches.each { match ->
+            tournament.addToBracketMatches(match)
+        }
+
+        tournament.save flush:true
 
         respond tournament, [status: CREATED]
     }
@@ -163,7 +176,8 @@ class TournamentController extends RestfulController {
         // re-arrange positions
         playerService.updateRankings(tournament)
 
-        //tournament.save flush: true
+        tournament.finished = true
+        tournament.save flush: true
 
         respond tournament, [status: CREATED]
     }
