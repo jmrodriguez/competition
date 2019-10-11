@@ -26,7 +26,10 @@ class TournamentGroupService {
 		// to update the match result
 		// for each group, sort players, based on the tournament settings
 		groups.each {group ->
-			group.groupMatches = getGroupMatches(tournament, groups, group)
+			List<TournamentMatch> groupMatches = getGroupMatches(tournament, groups, group)
+			groupMatches.each {groupMatch ->
+				group.addToGroupMatches(groupMatch)
+			}
 		}
 
 		return [groups, groups.size()]
