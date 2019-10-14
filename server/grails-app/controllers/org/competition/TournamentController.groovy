@@ -146,7 +146,14 @@ class TournamentController extends RestfulController {
         // update the tournament matches list by getting the matches currently stored
         // and appending the ones from the bracket so they stored ones are not considered
         // orphans and deleted by the bracketMatches constraints
-        List<TournamentMatch> tournamentMatches = TournamentMatch.findAllByTournament(tournament)
+        List<TournamentMatch> tournamentMatches = TournamentMatch.findAllByTournament(tournament, [sort: "matchNumber", order: "desc"])
+
+        int matchNumberBase = tournamentMatches != null && tournamentMatches.size() > 0 ? tournamentMatches.get(0).matchNumber : 0
+
+        // add matchNumbers to the bracket matches
+        tournament.bracketMatches.eachWithIndex { match, i ->
+            match.setMatchNumber(matchNumberBase + match.getMatchNumber())
+        }
 
         tournamentMatches.each { match ->
             tournament.addToBracketMatches(match)
@@ -166,13 +173,14 @@ class TournamentController extends RestfulController {
 
         // set base points
         playerService.setBasePoints(tournament)
-
-        //throw new Exception("exception")
         // apply penalties to players who didn't play the tournament (if applicable)
+        playerService.applyPenalties(tournament)
         // apply byes
         playerService.applyByes(tournament)
         // apply matches
         tournamentService.processMatches(tournament)
+        // apply bonuses to first 8 places in tournament
+        playerService.applyBonuses(tournament)
         // re-arrange positions
         playerService.updateRankings(tournament)
 

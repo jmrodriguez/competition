@@ -1,11 +1,19 @@
 package org.competition
 
+import grails.converters.JSON
 import grails.gorm.transactions.Transactional
+import org.grails.web.json.JSONObject
+import org.grails.web.json.JSONArray
 
 @Transactional
 class PlayerService {
 
     int BYE = 10
+    int UNSUBSCRIBED_PENALTY = 20
+    int FIRST = 40
+    int SECOND = 30
+    int THIRD = 20
+    int FIFTH = 10
 
     /**
      * Gets the players related to a given federation (if any)
@@ -154,7 +162,7 @@ class PlayerService {
 
         int total = players.size()
 
-        if (metaParams.sort) {
+        if (metaParams != null && metaParams.sort) {
             String sort = metaParams.sort
             String order = metaParams.order
             players.sort {x,y->
@@ -191,7 +199,7 @@ class PlayerService {
             players = orderedPlayers
         }
 
-        if (metaParams.max != null) {
+        if (metaParams != null && metaParams.max != null) {
             int to = metaParams.offset + metaParams.max
             to = to > total ? total : to
             players = players.subList(metaParams.offset, to)
@@ -328,6 +336,307 @@ class PlayerService {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Applies penalties to the players in the given tournament
+     * @param tournament the tournament for penalties to be applied
+     */
+    void applyPenalties(Tournament tournament) {
+        // a penalty for not playing the event
+        List<Player> unsubscribedPlayers = listPlayers(tournament.federation, tournament, tournament.category, "", 1, null)[0];
+
+        if (tournament.federation == null) {
+            // general points
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    unsubscribedPlayers.each { player ->
+                        player.pointsFem -= UNSUBSCRIBED_PENALTY
+                        player.save flush: true
+                    }
+                } else {
+                    unsubscribedPlayers.each { player ->
+                        player.points -= UNSUBSCRIBED_PENALTY
+                        player.save flush: true
+                    }
+                }
+            } else {
+                // this is a under-X tournament
+                unsubscribedPlayers.each { player ->
+                    player.pointsLm -= UNSUBSCRIBED_PENALTY
+                    player.save flush: true
+                }
+            }
+        } else {
+            // federation tournament
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    unsubscribedPlayers.each { player ->
+                        player.pointsFemFed -= UNSUBSCRIBED_PENALTY
+                        player.save flush: true
+                    }
+                } else {
+                    unsubscribedPlayers.each { player ->
+                        player.pointsFed -= UNSUBSCRIBED_PENALTY
+                        player.save flush: true
+                    }
+                }
+            } else {
+                // this is a under-X tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    unsubscribedPlayers.each { player ->
+                        player.pointsLmFemFed -= UNSUBSCRIBED_PENALTY
+                        player.save flush: true
+                    }
+                } else {
+                    unsubscribedPlayers.each { player ->
+                        player.pointsLmFed -= UNSUBSCRIBED_PENALTY
+                        player.save flush: true
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Applies bonuses to the first 8 players in the given tournament
+     * @param tournament the tournament for penalties to be applied
+     */
+    void applyBonuses(Tournament tournament) {
+        JSONObject bracketInfoObj = JSON.parse(tournament.bracketInfo)
+
+        List<List<TournamentMatch>> bracketMatchesList = new ArrayList();
+
+        JSONArray teams = (JSONArray) bracketInfoObj.getJSONArray("teams")
+
+        List<TournamentMatch> roundMatches = new ArrayList()
+        for (int i = 0; i < teams.size(); i++) {
+            JSONArray pair = teams.getJSONArray(i)
+            Player p1 = null
+            Player p2 = null
+
+            JSONObject p1Obj = pair.optJSONObject(0)
+            JSONObject p2Obj = pair.optJSONObject(1)
+
+            if (p1Obj != null) {
+                p1 = new Player()
+                p1.setId(p1Obj.getLong("id"))
+            }
+            if (p2Obj != null) {
+                p2 = new Player()
+                p2.setId(p2Obj.getLong("id"))
+            }
+
+            TournamentMatch match = new TournamentMatch()
+
+            match.setPlayer1(p1)
+            match.setPlayer2(p2)
+            roundMatches.add(match)
+        }
+
+        bracketMatchesList.add(roundMatches)
+
+        JSONArray results = bracketInfoObj.getJSONArray("results")
+
+        JSONArray round = results.getJSONArray(0)
+
+        for (int i = 0; i < round.size(); i++) {
+            roundMatches = bracketMatchesList.get(i)
+
+            List<TournamentMatch> nextRoundMatches = new ArrayList()
+            // set round matches winners
+            JSONArray roundResults = round.getJSONArray(i)
+
+            TournamentMatch nextRoundMatch = null
+            for (int j = 0; j < roundResults.size(); j++) {
+                TournamentMatch match = roundMatches.get(j)
+                JSONArray resultArray = roundResults.getJSONArray(j)
+                int p1Sets = resultArray.optInt(0, 0)
+                int p2Sets = resultArray.optInt(1, 0)
+                if (p1Sets == 0 && p2Sets == 0) {
+                    // this is a bye, set as winner the player in the match (there must be one player and one null)
+                    if (match.player1 != null) {
+                        match.winner = match.player1
+                    }
+                    if (match.player2 != null) {
+                        match.winner = match.player2
+                    }
+                } else {
+                    if (p1Sets > p2Sets) {
+                        match.winner = match.player1
+                    } else {
+                        match.winner = match.player2
+                    }
+                }
+
+                if (roundResults.size() > 1) { // only if we are not in the final round
+                    if (j % 2 == 0) { // even index we create next round match and set player1
+                        nextRoundMatch = new TournamentMatch()
+                        nextRoundMatch.setPlayer1(match.winner)
+                    } else { // odd we set player2 and add the match to the next round list
+                        nextRoundMatch.setPlayer2(match.winner)
+                        nextRoundMatches.add(nextRoundMatch)
+                    }
+                }
+            }
+            if (!nextRoundMatches.isEmpty()) {
+                bracketMatchesList.add(nextRoundMatches)
+            }
+        }
+
+        List<Player> firstEight = new ArrayList()
+        for (int i = bracketMatchesList.size() - 1; i >=0; i--) {
+            if (firstEight.size() == 8) {
+                break
+            } else {
+                roundMatches = bracketMatchesList.get(i)
+
+                for (int j = 0; j < roundMatches.size(); j++) {
+                    TournamentMatch match = roundMatches.get(j)
+                    if (!firstEight.contains(match.winner)) {
+                        firstEight.add(match.winner)
+                    }
+
+                    if (match.player1 != null && !firstEight.contains(match.player1)) {
+                        firstEight.add(match.player1)
+                    }
+
+                    if (match.player2 != null && !firstEight.contains(match.player2)) {
+                        firstEight.add(match.player2)
+                    }
+                }
+            }
+        }
+
+        // load the players from the DB to attach them to the hibernate session so we can update and save them
+        List<Player> dbPlayers = new ArrayList<>();
+        for(int i = 0; i < firstEight.size(); i++) {
+            Player player = firstEight.get(i)
+            dbPlayers.add(Player.findById(player.id))
+        }
+
+        firstEight = dbPlayers
+
+        if (tournament.federation == null) {
+            // general points
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    for(int i = 0; i < firstEight.size(); i++) {
+                        Player player = firstEight.get(i)
+                        if (i == 0) {
+                            player.pointsFem += FIRST
+                        } else if (i == 1) {
+                            player.pointsFem += SECOND
+                        } else if (i >= 2 && i < 4) {
+                            player.pointsFem += THIRD
+                        } else {
+                            player.pointsFem += FIFTH
+                        }
+                    }
+                } else {
+                    for(int i = 0; i < firstEight.size(); i++) {
+                        Player player = firstEight.get(i)
+                        if (i == 0) {
+                            player.points += FIRST
+                        } else if (i == 1) {
+                            player.points += SECOND
+                        } else if (i >= 2 && i < 4) {
+                            player.points += THIRD
+                        } else {
+                            player.points += FIFTH
+                        }
+                    }
+                }
+            } else {
+                // this is a under-X tournament
+                for(int i = 0; i < firstEight.size(); i++) {
+                    Player player = firstEight.get(i)
+                    if (i == 0) {
+                        player.pointsLm += FIRST
+                    } else if (i == 1) {
+                        player.pointsLm += SECOND
+                    } else if (i >= 2 && i < 4) {
+                        player.pointsLm += THIRD
+                    } else {
+                        player.pointsLm += FIFTH
+                    }
+                }
+            }
+        } else {
+            // federation tournament
+            if (tournament.category.name.toLowerCase().equals("open")) {
+                // this is an open tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    for(int i = 0; i < firstEight.size(); i++) {
+                        Player player = firstEight.get(i)
+                        if (i == 0) {
+                            player.pointsFemFed += FIRST
+                        } else if (i == 1) {
+                            player.pointsFemFed += SECOND
+                        } else if (i >= 2 && i < 4) {
+                            player.pointsFemFed += THIRD
+                        } else {
+                            player.pointsFemFed += FIFTH
+                        }
+                    }
+                } else {
+                    for(int i = 0; i < firstEight.size(); i++) {
+                        Player player = firstEight.get(i)
+                        if (i == 0) {
+                            player.pointsFed += FIRST
+                        } else if (i == 1) {
+                            player.pointsFed += SECOND
+                        } else if (i >= 2 && i < 4) {
+                            player.pointsFed += THIRD
+                        } else {
+                            player.pointsFed += FIFTH
+                        }
+                    }
+                }
+            } else {
+                // this is a under-X tournament
+                if (tournament.genderRestricted && tournament.gender.equals("F")) {
+                    // this is a ladies event
+                    for(int i = 0; i < firstEight.size(); i++) {
+                        Player player = firstEight.get(i)
+                        if (i == 0) {
+                            player.pointsLmFemFed += FIRST
+                        } else if (i == 1) {
+                            player.pointsLmFemFed += SECOND
+                        } else if (i >= 2 && i < 4) {
+                            player.pointsLmFemFed += THIRD
+                        } else {
+                            player.pointsLmFemFed += FIFTH
+                        }
+                    }
+                } else {
+                    for(int i = 0; i < firstEight.size(); i++) {
+                        Player player = firstEight.get(i)
+                        if (i == 0) {
+                            player.pointsLmFed += FIRST
+                        } else if (i == 1) {
+                            player.pointsLmFed += SECOND
+                        } else if (i >= 2 && i < 4) {
+                            player.pointsLmFed += THIRD
+                        } else {
+                            player.pointsLmFed += FIFTH
+                        }
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i < firstEight.size(); i++) {
+            Player player = firstEight.get(i)
+            player.save flush: true, failOnError:true
         }
     }
 
