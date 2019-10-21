@@ -1,5 +1,6 @@
 import org.competition.Country
 import org.competition.Federation
+import org.competition.FederationSettings
 import org.competition.Role
 import org.competition.User
 import org.competition.UserRole
@@ -10,6 +11,7 @@ class BootStrap {
 
     Role rolSysadmin, rolFederacionAdmin, rolGeneralAdmin
     Federation fecoteme
+    FederationSettings fecotemeSettings
 
     def init = { servletContext ->
 
@@ -64,6 +66,8 @@ class BootStrap {
     private void addFederations() {
         if(!Federation.count()) {
             fecoteme = new Federation(name: "FECOTEME", description: "Descripcion FECOTEME", country: Country.findById(1))
+            fecotemeSettings = new FederationSettings()
+            fecoteme.setFederationSettings(fecotemeSettings)
             fecoteme.save(failOnError:true)
         }
     }

@@ -4,6 +4,7 @@ class UrlMappings {
 
     static mappings = {
 
+        "/api/federationSettings"(resources:"federationSettings")
         "/api/federation"(resources:"federation")
         "/api/country"(resources:"country")
         "/api/tournament"(resources:"tournament")

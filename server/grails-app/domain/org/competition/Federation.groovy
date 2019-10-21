@@ -6,7 +6,7 @@ class Federation {
 
     static belongsTo = [country: Country]
 
-    static hasOne = [logo:FederationLogo]
+    static hasOne = [logo:FederationLogo, federationSettings:FederationSettings]
 
     static hasMany = [players:Player, pointsRanges:PointsRange]
 
