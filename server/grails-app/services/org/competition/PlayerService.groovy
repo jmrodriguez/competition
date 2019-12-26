@@ -131,7 +131,11 @@ class PlayerService {
             Set<Player> tempPlayers = players.findAll {
 
                 Calendar cal = Calendar.getInstance()
-                cal.setTime(it.birth)
+                if (it.birth != null) {
+                    cal.setTime(it.birth)
+                } else {
+                    cal.set(1900, 1, 1)
+                }
                 int year = cal.get(Calendar.YEAR)
 
                 if (tournament != null && tournament.genderRestricted) {

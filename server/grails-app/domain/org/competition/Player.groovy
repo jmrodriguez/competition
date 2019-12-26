@@ -30,6 +30,7 @@ class Player {
     String club
     String email
     String gender
+    String phone
 
     Federation federation
 
@@ -39,10 +40,10 @@ class Player {
     static constraints = {
         firstName blank:false, nullable:false
         lastName blank:false, nullable:false
-        email blank:false, nullable:false, unique: true
+        email blank:true, nullable:true
         dni blank:true, nullable:true
         club blank:false, nullable:false
-        birth blank:false, nullable:false
+        birth blank:true, nullable:true
         points blank:true, nullable:true
         pointsFed blank:true, nullable:true
         ranking blank:true, nullable:true
@@ -58,6 +59,7 @@ class Player {
         rankingFemFed blank:true, nullable:true
         rankingLmFemFed blank:true, nullable:true
         gender nullable:false, blank: false, inList: ["M", "F"]
+        phone blank:true, nullable:true
         federation blank:false, nullable:false
     }
 
