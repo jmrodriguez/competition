@@ -133,8 +133,8 @@ class PlayerService {
                     unsignedPlayers = unsignedPlayers.findAll {
                         it.firstName.toLowerCase().contains(textFilter) ||
                                 it.lastName.toLowerCase().contains(textFilter) ||
-                                it.email.toLowerCase().contains(textFilter) ||
-                                it.club.toLowerCase().contains(textFilter)
+                                (it.email != null && it.email.toLowerCase().contains(textFilter)) ||
+                                (it.club != null && it.club.toLowerCase().contains(textFilter))
                     }
                 }
             }
@@ -166,11 +166,17 @@ class PlayerService {
             }
 
             if (textFilter != null && !textFilter.isEmpty()) {
-                tempPlayers = tempPlayers.findAll {
-                    it.firstName.toLowerCase().contains(textFilter) ||
-                            it.lastName.toLowerCase().contains(textFilter) ||
-                            (it.email != null && it.email.toLowerCase().contains(textFilter)) ||
-                            (it.club != null && it.club.toLowerCase().contains(textFilter))
+                if (NumberUtils.isNumber(textFilter)) {
+                    tempPlayers = tempPlayers.findAll {
+                        it.id == Long.parseLong(textFilter)
+                    }
+                } else {
+                    tempPlayers = tempPlayers.findAll {
+                        it.firstName.toLowerCase().contains(textFilter) ||
+                                it.lastName.toLowerCase().contains(textFilter) ||
+                                (it.email != null && it.email.toLowerCase().contains(textFilter)) ||
+                                (it.club != null && it.club.toLowerCase().contains(textFilter))
+                    }
                 }
             }
             players = tempPlayers.toList()
