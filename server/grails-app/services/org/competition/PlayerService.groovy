@@ -2,6 +2,7 @@ package org.competition
 
 import grails.converters.JSON
 import grails.gorm.transactions.Transactional
+import org.apache.commons.lang.math.NumberUtils
 import org.grails.web.json.JSONObject
 import org.grails.web.json.JSONArray
 
@@ -54,7 +55,12 @@ class PlayerService {
             Set<Player> unsignedPlayers = baseList.findAll {
 
                 Calendar playerBirth = Calendar.getInstance()
-                playerBirth.setTime(it.birth)
+                if (it.birth != null) {
+                    playerBirth.setTime(it.birth)
+                } else {
+                    playerBirth.set(1900, 1, 1)
+                }
+
                 int playerBirthYear = playerBirth.get(Calendar.YEAR)
 
                 if (tournament.genderRestricted) {
@@ -119,11 +125,17 @@ class PlayerService {
             }
 
             if (textFilter != null && !textFilter.isEmpty()) {
-                unsignedPlayers = unsignedPlayers.findAll {
-                    it.firstName.toLowerCase().contains(textFilter) ||
-                            it.lastName.toLowerCase().contains(textFilter) ||
-                            it.email.toLowerCase().contains(textFilter) ||
-                            it.club.toLowerCase().contains(textFilter)
+                if (NumberUtils.isNumber(textFilter)) {
+                    unsignedPlayers = unsignedPlayers.findAll {
+                        it.id == Long.parseLong(textFilter)
+                    }
+                } else {
+                    unsignedPlayers = unsignedPlayers.findAll {
+                        it.firstName.toLowerCase().contains(textFilter) ||
+                                it.lastName.toLowerCase().contains(textFilter) ||
+                                it.email.toLowerCase().contains(textFilter) ||
+                                it.club.toLowerCase().contains(textFilter)
+                    }
                 }
             }
             players = unsignedPlayers.toList()
@@ -741,7 +753,11 @@ class PlayerService {
         Set<Player> tempPlayers = players.findAll {
 
             Calendar cal = Calendar.getInstance()
-            cal.setTime(it.birth)
+            if (it.birth != null) {
+                cal.setTime(it.birth)
+            } else {
+                cal.set(1900, 1, 1)
+            }
             int year = cal.get(Calendar.YEAR)
 
             if (tournament.genderRestricted) {
