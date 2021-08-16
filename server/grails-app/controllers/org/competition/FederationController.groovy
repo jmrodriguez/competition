@@ -44,6 +44,10 @@ class FederationController extends RestfulController {
             return
         }
 
+        FederationSettings federationSettings = new FederationSettings()
+        federationSettings.setFederation(federationInstance)
+        federationInstance.setFederationSettings(federationSettings)
+
         federationInstance.clearErrors()
         federationInstance.validate()
 

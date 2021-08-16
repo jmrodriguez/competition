@@ -305,4 +305,17 @@ class TournamentService {
 
         return [winnerPoints, loserPoints]
     }
+
+    boolean signUpPlayerToTournament(Integer playerId, Integer tournamentId) {
+        Tournament tournament = Tournament.lock(tournamentId)
+
+        Player player = Player.findById(playerId)
+
+        if (tournament != null && player != null) {
+            tournament.addToPlayers(player)
+            tournament.save flush:true
+            return true;
+        }
+        return false;
+    }
 }

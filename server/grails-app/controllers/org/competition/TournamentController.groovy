@@ -4,8 +4,17 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 import grails.gorm.transactions.Transactional
+import groovy.json.JsonBuilder
+import org.apache.commons.lang.StringUtils
+import org.apache.poi.ss.usermodel.DataFormatter
+import org.apache.poi.ss.util.CellReference
+import org.apache.poi.xssf.usermodel.XSSFRow
+import org.apache.poi.xssf.usermodel.XSSFSheet
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST
 import static org.springframework.http.HttpStatus.CREATED
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 
 @Secured(['ROLE_SUPER_ADMIN', 'ROLE_FEDERATION_ADMIN', 'ROLE_GENERAL_ADMIN'])
 class TournamentController extends RestfulController {
@@ -56,7 +65,7 @@ class TournamentController extends RestfulController {
             return
         }
 
-        if(SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN")){
+        if (SpringSecurityUtils.ifAllGranted("ROLE_FEDERATION_ADMIN")){
             Federation federation = springSecurityService.currentUser.federation
             tournamentInstance.federation = federation
         }
@@ -76,21 +85,22 @@ class TournamentController extends RestfulController {
 
     @Transactional
     def signUp(Integer tournamentId, Integer playerId) {
+
         if (tournamentId == null || playerId == null) {
             notFound()
             return
         }
 
-        Tournament tournament = Tournament.lock(tournamentId)
+        boolean success = tournamentService.signUpPlayerToTournament(playerId, tournamentId)
 
-        Player player = Player.findById(playerId)
-
-        tournament.addToPlayers(player)
-
-        tournament.save flush:true
-
-        render status: CREATED
+        if (success) {
+            render status: CREATED
+        } else {
+            render status: INTERNAL_SERVER_ERROR
+        }
     }
+
+
 
     @Transactional
     def signOff(Integer tournamentId , Integer playerId) {
@@ -188,5 +198,104 @@ class TournamentController extends RestfulController {
         tournament.save flush: true
 
         respond tournament, [status: CREATED]
+    }
+
+    @Transactional
+    def bulkSignup(){
+
+        def playersFile = request.getFile('file')
+
+        String tournamentIdString = request.getParameter('tournamentId')
+
+        if (['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'].contains(playersFile.getContentType()) && tournamentIdString != null) {
+
+            Integer tournamentId = Integer.parseInt(tournamentIdString)
+
+            DataFormatter dataFormatter = new DataFormatter()
+
+            // process the uploaded file
+            XSSFWorkbook book = new XSSFWorkbook(playersFile.inputStream)
+
+            XSSFSheet sheet = book.getSheetAt(0)
+
+            User currentUser = springSecurityService.currentUser
+
+            Map bulkSignupResult = new HashMap()
+            int signedUpPlayers = 0
+            List<String> failedSignupIds = new ArrayList()
+            List<String> errors = new ArrayList()
+
+            // iterate through players
+            for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++){
+                XSSFRow row = sheet.getRow(i)
+
+                String playerIdString = dataFormatter.formatCellValue(row.getCell( CellReference.convertColStringToIndex("H") ))
+                Integer playerId
+
+                boolean skipSignUpForErrors = false
+
+                if (StringUtils.isBlank(playerIdString)) {
+                    // if player id is not present, that means we need to create the player first (new registration)
+                    // then perform the signup
+                    String firstName = dataFormatter.formatCellValue(row.getCell( CellReference.convertColStringToIndex("A") ))
+                    String lastName = dataFormatter.formatCellValue(row.getCell( CellReference.convertColStringToIndex("B") ))
+                    String email = dataFormatter.formatCellValue(row.getCell( CellReference.convertColStringToIndex("C") ))
+                    String dni = dataFormatter.formatCellValue(row.getCell( CellReference.convertColStringToIndex("D") ))
+                    String club = dataFormatter.formatCellValue(row.getCell( CellReference.convertColStringToIndex("E") ))
+                    Date birth = row.getCell(CellReference.convertColStringToIndex("F")).getDateCellValue()
+                    String gender = dataFormatter.formatCellValue(row.getCell( CellReference.convertColStringToIndex("G") ))
+
+                    // check if the user already exists
+
+                    Player player = Player.findByEmail(email)
+
+                    if (player == null) {
+                        player = new Player(
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                dni: dni,
+                                club: club,
+                                birth: birth,
+                                gender: gender,
+                                federation: currentUser.federation
+                        )
+                    }
+
+                    player.clearErrors()
+                    player.validate()
+
+                    if (player.hasErrors()) {
+                        // add to errors array
+                        errors.add('Error creating player with data: ' + new JsonBuilder(player).toPrettyString())
+                        skipSignUpForErrors = true
+                    } else {
+                        // create player
+                        player.save flush:true
+                        playerId = player.id
+                    }
+                } else {
+                    playerId = Integer.parseInt(playerIdString)
+                }
+
+                if (!skipSignUpForErrors) {
+                    boolean signupSuccess = tournamentService.signUpPlayerToTournament(playerId, tournamentId)
+
+                    if (signupSuccess) {
+                        signedUpPlayers++
+                    } else {
+                        failedSignupIds.add(playerId)
+                    }
+                }
+            }
+
+            bulkSignupResult.put('signedUpPlayers', signedUpPlayers)
+            bulkSignupResult.put('failedSignupIds', failedSignupIds.join(','))
+            bulkSignupResult.put('failedNewPlayerCreations', errors.join(','))
+
+            respond(bulkSignupResult, status: CREATED)
+        } else {
+            render status: BAD_REQUEST
+        }
     }
 }
