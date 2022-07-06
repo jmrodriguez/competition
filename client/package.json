@@ -33,7 +33,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "jquery-bracket": "^0.11.0",
-    "moment": "^2.19.1",
+    "moment": "^2.29.4",
     "ng2-dnd": "^4.2.0",
     "ng2-file-upload": "^1.2.1",
     "ng2-toasty": "^4.0.3",
